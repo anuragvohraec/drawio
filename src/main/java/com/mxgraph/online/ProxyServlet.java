@@ -11,9 +11,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
+import java.net.InetAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -71,6 +73,7 @@ public class ProxyServlet extends HttpServlet
 			// build the UML source from the compressed request parameter
 			String ref = request.getHeader("referer");
 			String ua = request.getHeader("User-Agent");
+			String auth = request.getHeader("Authorization");
 			String dom = getCorsDomain(ref, ua);
 
 			try(OutputStream out = response.getOutputStream())
@@ -87,6 +90,12 @@ public class ProxyServlet extends HttpServlet
 
 				// Workaround for 451 response from Iconfinder CDN
 				connection.setRequestProperty("User-Agent", "draw.io");
+				
+				//Forward auth header
+				if (auth  !=  null)
+				{
+					connection.setRequestProperty("Authorization", auth);
+				}
 
 				if (dom != null && dom.length() > 0)
 				{
@@ -107,7 +116,14 @@ public class ProxyServlet extends HttpServlet
 							&& (status == HttpURLConnection.HTTP_MOVED_PERM
 									|| status == HttpURLConnection.HTTP_MOVED_TEMP))
 					{
-						url = new URL(connection.getHeaderField("Location"));
+						String redirectUrl = connection.getHeaderField("Location");
+
+						if (!checkUrlParameter(redirectUrl))
+						{
+							break;
+						}
+
+						url = new URL(redirectUrl);
 						connection = url.openConnection();
 						((HttpURLConnection) connection)
 								.setInstanceFollowRedirects(true);
@@ -224,9 +240,62 @@ public class ProxyServlet extends HttpServlet
 	 */
 	public boolean checkUrlParameter(String url)
 	{
-		return url != null
-				&& (url.startsWith("http://") || url.startsWith("https://"))
-				&& !url.toLowerCase().contains("://metadata.google.internal/");
+		if (url != null)
+		{
+			try
+			{
+				URL parsedUrl = new URL(url);
+				String protocol = parsedUrl.getProtocol();
+				String host = parsedUrl.getHost();
+				InetAddress address = InetAddress.getByName(host);
+				String hostAddress = address.getHostAddress();
+				host = host.toLowerCase();
+
+				return (protocol.equals("http") || protocol.equals("https"))
+						&& !address.isAnyLocalAddress()
+						&& !address.isLoopbackAddress()
+						&& !host.endsWith(".internal") // Redundant
+						&& !host.endsWith(".local") // Redundant
+						&& !host.contains("localhost") // Redundant
+						&& !hostAddress.startsWith("0.") // 0.0.0.0/8 
+						&& !hostAddress.startsWith("10.") // 10.0.0.0/8
+						&& !hostAddress.startsWith("127.") // 127.0.0.0/8
+						&& !hostAddress.startsWith("169.254.") // 169.254.0.0/16
+						&& !hostAddress.startsWith("172.16.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("172.17.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("172.18.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("172.19.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("172.20.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("172.21.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("172.22.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("172.23.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("172.24.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("172.25.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("172.26.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("172.27.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("172.28.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("172.29.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("172.30.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("172.31.") // 172.16.0.0/12
+						&& !hostAddress.startsWith("192.0.0.") // 192.0.0.0/24
+						&& !hostAddress.startsWith("192.168.") // 192.168.0.0/16
+						&& !hostAddress.startsWith("198.18.") // 198.18.0.0/15
+						&& !hostAddress.startsWith("198.19.") // 198.18.0.0/15
+						&& !host.endsWith(".arpa"); // reverse domain (needed?)
+			}
+			catch (MalformedURLException e)
+			{
+				return false;
+			}
+			catch (UnknownHostException e)
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**

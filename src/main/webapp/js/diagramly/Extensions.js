@@ -8,18 +8,20 @@ LucidImporter = {};
 (function()
 {
 	// Global import transformation
-	var defaultFontSize = '11';
+	var defaultFontSize = '13';
 	var defaultLucidFont = 'Liberation Sans';
-	var scale = 0.6;
+	var scale = 0.75;
 	var dx = 0;
 	var dy = 0;
 	
 	var arcSize = 6;
 	var edgeStyle = 'html=1;jettySize=18;';
 	var vertexStyle = 'html=1;overflow=block;blockSpacing=1;whiteSpace=wrap;';
-	var labelStyle = 'text;html=1;resizable=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;';
+	var labelStyle = 'text;html=1;resizable=0;labelBackgroundColor=default;align=center;verticalAlign=middle;';
+	var containerStyle = 'container=1;pointerEvents=0;collapsible=0;recursiveResize=0;';
+	var groupStyle = 'group;dropTarget=0;pointerEvents=0;';
 	
-	var c = 'fillColor=#036897;strokeColor=#ffffff';
+	var c = 'verticalLabelPosition=bottom;verticalAlign=top;fillColor=#036897;strokeColor=#ffffff';
 	var s = 'shape=mxgraph.';
 	var ss = 'strokeColor=none;shape=mxgraph.';
 	var ssAzure = 'verticalLabelPosition=bottom;verticalAlign=top;' + ss;
@@ -84,6 +86,7 @@ LucidImporter = {};
 			'ImageSearchBlock2': 'shape=image',
 			'UserImage2Block': 'shape=image',
 			'ExtShapeBoxBlock': '',
+			'DefaultStickyNoteBlock': 'shadow=1',
 //Flowchart
 			'ProcessBlock': '',
 			'DecisionBlock': 'rhombus',
@@ -113,11 +116,11 @@ LucidImporter = {};
 //Containers
 			'AdvancedSwimLaneBlock': cs,
 			'AdvancedSwimLaneBlockRotated': cs,
-			'RectangleContainerBlock': 'container=1;collapsible=0',
-			'DiamondContainerBlock':  'shape=rhombus;container=1;collapsible=0',
-			'RoundedRectangleContainerBlock': 'container=1;rounded=1;absoluteArcSize=1;arcSize=24;collapsible=0',
-			'CircleContainerBlock': 'ellipse;container=1;collapsible=0',
-			'PillContainerBlock': 'shape=mxgraph.flowchart.terminator;container=1;collapsible=0',
+			'RectangleContainerBlock': containerStyle,
+			'DiamondContainerBlock':  'shape=rhombus;' + containerStyle,
+			'RoundedRectangleContainerBlock': 'rounded=1;absoluteArcSize=1;arcSize=24;' + containerStyle,
+			'CircleContainerBlock': 'ellipse;' + containerStyle,
+			'PillContainerBlock': 'shape=mxgraph.flowchart.terminator;' + containerStyle,
 			'BraceBlock': cs,
 			'BracketBlock': cs,
 			'BraceBlockRotated': cs,
@@ -134,6 +137,7 @@ LucidImporter = {};
 			'RightArrowBlock': cs,
 			'DoubleArrowBlock': cs,
 			'CalloutBlock': s + 'basic.rectangular_callout',
+			'CalloutSquareBlock': cs,
 			'ShapeCircleBlock': 'ellipse',
 			'ShapePolyStarBlock': s + 'basic.star',
 			'ShapeDiamondBlock': 'rhombus',
@@ -248,8 +252,8 @@ LucidImporter = {};
 //UML Use Case
 			'UMLActorBlock': 'shape=umlActor;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;whiteSpace=nowrap',
 			'UMLUseCaseBlock': 'ellipse',
-			'UMLCircleContainerBlock': 'ellipse;container=1',
-			'UMLRectangleContainerBlock': 'container=1',
+			'UMLCircleContainerBlock': 'ellipse;' + containerStyle,
+			'UMLRectangleContainerBlock': containerStyle,
 //UML State/Activity			
 			'UMLOptionLoopBlock' : s + 'sysml.package2;xSize=90;overflow=fill',
 			'UMLAlternativeBlock2' : s + 'sysml.package2;xSize=90;overflow=fill',
@@ -281,8 +285,8 @@ LucidImporter = {};
 //UML Component
 			'UMLComponentBlock' : 'shape=component;align=left;spacingLeft=36',
 			'UMLComponentBlockV2' : 'shape=component;align=left;spacingLeft=36',
-			'UMLNodeBlock' : 'shape=cube;size=12;flipH=1;verticalAlign=top;align=left;spacingTop=10;spacingLeft=5',
-			'UMLNodeBlockV2' : 'shape=cube;size=12;flipH=1;verticalAlign=top;align=left;spacingTop=10;spacingLeft=5',
+			'UMLNodeBlock' : 'shape=cube;size=20;flipH=1;verticalAlign=top;spacingTop=22;spacingLeft=5',
+			'UMLNodeBlockV2' : 'shape=cube;size=20;flipH=1;verticalAlign=top;spacingTop=22;spacingLeft=5',
 			'UMLComponentInterfaceBlock' : 'ellipse',
 			'UMLComponentInterfaceBlockV2' : 'ellipse',
 			'UMLComponentBoxBlock' : cs,
@@ -294,7 +298,7 @@ LucidImporter = {};
 			'UMLRequiredInterfaceBlock' : 'shape=requires;direction=north',
 			'UMLRequiredInterfaceBlockV2' : 'shape=requires;direction=north',
 			'UMLSwimLaneBlockV2': cs,
-			'UMLSwimLaneBlock': 'swimlane;startSize=25;container=1;collapsible=0;dropTarget=0;fontStyle=0',
+			'UMLSwimLaneBlock': 'swimlane;startSize=25;dropTarget=0;fontStyle=0' + containerStyle,
 //UML Deployment
 //UML Entity Relationship
 			'UMLEntityBlock' : '',
@@ -306,7 +310,7 @@ LucidImporter = {};
 //BPMN 2.0
 			'BPMNActivity' : cs,
 			'BPMNEvent' : cs,
-//			'BPMNChoreography' : cs, //TODO
+			'BPMNChoreography' : cs,
 			'BPMNConversation' : cs,
 			'BPMNGateway' : cs,
 			'BPMNData' : cs,
@@ -325,9 +329,9 @@ LucidImporter = {};
 			'GSDFDDataStoreBlock' : cs,
 			'GSDFDDataStoreBlock2' : 'shape=partialRectangle;right=0',
 //Org Chart
-			'OrgBlock' : '',
+			'OrgBlock' : cs,
 //Tables
-			'DefaultTableBlock' : cs, //TODO
+			'DefaultTableBlock' : cs,
 //Value Stream Mapping			
 //Processes
 			'VSMCustomerSupplierBlock' : s + 'lean_mapping.outside_sources',
@@ -359,7 +363,7 @@ LucidImporter = {};
 //Value Stream Mapping
 			'VSMKaizenBurstBlock' : s + 'lean_mapping.kaizen_lightening_burst',
 			'VSMOperatorBlock' : s + 'lean_mapping.operator;flipV=1',
-//			'VSMTimelineBlock' : cs, //TODO
+			'VSMTimelineBlock' : cs, //TODO Timeline shape
 			'VSMQualityProblemBlock' : s + 'lean_mapping.quality_problem',
 //Kanban
 			'VSMProductionKanbanSingleBlock' : 'shape=card;size=18;flipH=1;',
@@ -371,7 +375,7 @@ LucidImporter = {};
 //Arrows
 			'VSMShipmentArrow': 'shape=singleArrow;arrowWidth=0.5;arrowSize=0.13',
 			'VSMPushArrow' : s + 'lean_mapping.push_arrow',
-//			'VSMElectronicInformationArrow' : s + 'lean_mapping.electronic_info_flow_edge;', //TODO
+			'VSMElectronicInformationArrow' : cs,
 //EC2
 			'AWSElasticComputeCloudBlock2' : cs,
 //			'AWSElasticComputeCloudBlock2' : ss + 'aws3.ec2;verticalLabelPosition=bottom;align=center;verticalAlign=top',
@@ -395,7 +399,7 @@ LucidImporter = {};
 			'AWSDirectConnectBlock3' : ss + 'aws3.direct_connect;verticalLabelPosition=bottom;align=center;verticalAlign=top',
 			'AWSElasticNetworkBlock2' : ss + 'aws3.elastic_network_interface;verticalLabelPosition=bottom;align=center;verticalAlign=top',
 			'AWSRoute53Block2' : cs,
-			'AWSHostedZoneBlock2' : ss + 'aws3.hosted_zone;fontColor=#FFFFFF;fontStyle=1',
+			'AWSHostedZoneBlock2' : ss + 'aws3.hosted_zone;fontColor=#ffffff;fontStyle=1',
 			'AWSRouteTableBlock2' : ss + 'aws3.route_table;verticalLabelPosition=bottom;align=center;verticalAlign=top',
 			'AWSVPCBlock2' : ss + 'aws3.vpc;verticalLabelPosition=bottom;align=center;verticalAlign=top',
 			'AWSVPNConnectionBlock2' : ss + 'aws3.vpn_connection;verticalLabelPosition=bottom;align=center;verticalAlign=top',
@@ -636,6 +640,7 @@ LucidImporter = {};
 			'AWSSubnetBlock2' : ss + 'aws3.permissions;verticalLabelPosition=bottom;align=center;verticalAlign=top',
 //AWS Containers
 			'AWSRoundedRectangleContainerBlock2' : cs,
+			'AWSRoundedRectangleContainerBlock' : cs,
 //Azure Cloud
 			'ACAccessControlBlock' : ssAzure + 'azure.access_control',
 			'ACAPIAppsBlock' : ssAzure + 'mscae.cloud.api_app',
@@ -1364,7 +1369,7 @@ LucidImporter = {};
 //Cisco Basic
 			'Cisco_cisco_androgenous_person' : s + 'cisco.people.androgenous_person;' + c,
 			'Cisco_cisco_atm_switch' : s + 'cisco.switches.atm_switch;' + c,
-			'Cisco_cisco_cloud' : s + 'cisco.storage.cloud;strokeColor=#036897;fillColor=#ffffff',
+			'Cisco_cisco_cloud' : s + 'cisco.storage.cloud;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=#036897;fillColor=#ffffff',
 			'Cisco_cisco_fileserver' : s + 'cisco.servers.fileserver;' + c,
 			'Cisco_cisco_firewall' : s + 'cisco.security.firewall;' + c,
 			'Cisco_cisco_generic_building' : s + 'cisco.buildings.generic_building;' + c,
@@ -1458,7 +1463,7 @@ LucidImporter = {};
 			'Cisco_cisco_end_office' : s + 'cisco.buildings.end_office;' + c,
 			'Cisco_cisco_fax' : s + 'cisco.modems_and_phones.fax;' + c,
 			'Cisco_cisco_fc_storage' : s + 'cisco.storage.fc_storage;' + c,
-			'Cisco_cisco_fddi_ring' : s + 'cisco.misc.fddi_ring;strokeColor=#036897;',
+			'Cisco_cisco_fddi_ring' : s + 'cisco.misc.fddi_ring;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=#036897;',
 			'Cisco_cisco_fibre_channel_disk_subsystem' : s + 'cisco.storage.fibre_channel_disk_subsystem;' + c,
 			'Cisco_cisco_fibre_channel_fabric_switch' : s + 'cisco.switches.fibre_channel_fabric_switch;' + c,
 			'Cisco_cisco_file_cabinet' : s + 'cisco.storage.file_cabinet;' + c,
@@ -1552,7 +1557,7 @@ LucidImporter = {};
 			'Cisco_cisco_optical_transport' : s + 'cisco.misc.optical_transport;' + c,
 			'Cisco_cisco_pad' : s + 'cisco.misc.pad_2;' + c,
 			'Cisco_cisco_pad_x' : s + 'cisco.misc.pad_1;' + c,
-			'Cisco_cisco_page_icon' : s + 'cisco.misc.page_icon;strokeColor=#036897;',
+			'Cisco_cisco_page_icon' : s + 'cisco.misc.page_icon;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=#036897;',
 			'Cisco_cisco_pbx' : s + 'cisco.misc.pbx;' + c,
 			'Cisco_cisco_pbx_switch' : s + 'cisco.switches.pbx_switch;' + c,
 			'Cisco_cisco_pc_adapter_card' : s + 'cisco.computers_and_peripherals.pc_adapter_card;' + c,
@@ -1566,7 +1571,7 @@ LucidImporter = {};
 			'Cisco_cisco_programmable_switch' : s + 'cisco.switches.programmable_switch;' + c,
 			'Cisco_cisco_protocol_translator' : s + 'cisco.misc.protocol_translator;' + c,
 			'Cisco_cisco_pxf' : s + 'cisco.misc.pxf;' + c,
-			'Cisco_cisco_radio_tower' : s + 'cisco.wireless.radio_tower;strokeColor=#036897',
+			'Cisco_cisco_radio_tower' : s + 'cisco.wireless.radio_tower;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=#036897',
 			'Cisco_cisco_ratemux' : s + 'cisco.misc.ratemux;' + c,
 			'Cisco_cisco_repeater' : s + 'cisco.misc.repeater;' + c,
 			'Cisco_cisco_RF_modem' : s + 'cisco.modems_and_phones.rf_modem;' + c,
@@ -1619,7 +1624,7 @@ LucidImporter = {};
 			'Cisco_cisco_Telepresence_3200' : s + 'cisco.misc.telepresence;' + c,
 //			'Cisco_cisco_Telepresence_500' NA
 			'Cisco_cisco_terminal' : s + 'cisco.computers_and_peripherals.terminal;' + c,
-			'Cisco_cisco_token' : s + 'cisco.misc.token;strokeColor=#036897',
+			'Cisco_cisco_token' : s + 'cisco.misc.token;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=#036897',
 			'Cisco_cisco_TP_MCU' : s + 'cisco.misc.tp_mcu;' + c,
 			'Cisco_cisco_transpath' : s + 'cisco.misc.transpath;' + c,
 			'Cisco_cisco_truck' : s + 'cisco.misc.truck;' + c,
@@ -1717,7 +1722,7 @@ LucidImporter = {};
 			'NET_Camera' : s + 'signs.tech.camera_2;fillColor=#29AAE1;strokeColor=#ffffff;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;',
 //			'NET_VideoCamera' NA
 //Server Racks
-			'RackServerRack' : s + 'rackGeneral.container;container=1;collapsible=0;childLayout=rack;marginLeft=9;marginRight=9;marginTop=21;marginBottom=22;textColor=#000000;numDisp=off',
+			'RackServerRack' : s + 'rackGeneral.container;childLayout=rack;marginLeft=9;marginRight=9;marginTop=21;marginBottom=22;textColor=#000000;numDisp=off' + containerStyle,
 			'RackBlank' : s + 'rackGeneral.plate;strokeColor=#666666;labelPosition=left;align=right;spacingRight=15;fillColor=#e8e8e8',
 			'RackRaidArray' : s + 'rack.cisco.cisco_carrier_packet_transport_50;labelPosition=left;align=right;spacingRight=15',
 			'RackServer' : s + 'rack.oracle.sunfire_x4100;labelPosition=left;align=right;spacingRight=15',
@@ -2159,10 +2164,10 @@ LucidImporter = {};
 //Equation
 			'Equation' : cs,
 //Walls
-			'fpWall' : '',
+			'fpWall' : cs,
 //Rooms
 //Doors & Windows
-			'fpWindow' : s + 'floorplan.window',
+			'fpWindow' : s + 'floorplan.window;strokeWidth=3',
 			'fpOpening' : 'shape=rect',
 			'fpDoor' : cs,
 			'fpDoubleDoor' : cs,
@@ -2645,13 +2650,13 @@ LucidImporter = {};
 			'UI2HorizontalRadioBlock' : cs,
 			'UI2ColorPickerBlock' : s + 'mockup.forms.colorPicker;chosenColor=#aaddff',
 			'UI2TextInputBlock' : '',
-			'UI2SelectBlock' : s + 'mockup.forms.comboBox;strokeColor=#999999;fillColor=#ddeeff;align=left;fillColor2=#aaddff;mainText=;fontColor=#666666',
+			'UI2SelectBlock' : cs,
 			'UI2VSliderBlock' : cs,
 			'UI2HSliderBlock' : cs,
 			'UI2DatePickerBlock' : cs,
 			'UI2SearchBlock' : cs,
 			'UI2NumericStepperBlock' : cs,
-			'UI2TableBlock' : cs, //TODO
+			'UI2TableBlock' : cs,
 //UI Menus
 			'UI2ButtonBarBlock' : cs,
 			'UI2VerticalButtonBarBlock' : cs,
@@ -2793,95 +2798,95 @@ LucidImporter = {};
 
 			
 // AWS 17 - Analytics
-			'AmazonAthena2017' : 'shape=mxgraph.aws3.athena;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonCloudSearch2017' : 'shape=mxgraph.aws3.cloudsearch;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonCloudSearchsearchdocuments2017' : 'shape=mxgraph.aws3.search_documents;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEMR2017' : 'shape=mxgraph.aws3.emr;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEMRcluster2017' : 'shape=mxgraph.aws3.emr_cluster;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEMREMRengine2017' : 'shape=mxgraph.aws3.emr_engine;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEMREMRengineMapRM32017' : 'shape=mxgraph.aws3.emr_engine_mapr_m3;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEMREMRengineMapRM52017' : 'shape=mxgraph.aws3.emr_engine_mapr_m5;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEMREMRengineMapRM72017' : 'shape=mxgraph.aws3.emr_engine_mapr_m7;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEMRHDFScluster2017' : 'shape=mxgraph.aws3.hdfs_cluster;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonES2017' : 'shape=mxgraph.aws3.elasticsearch_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonKinesis2017' : 'shape=mxgraph.aws3.kinesis;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonKinesisAmazonKinesisAnalytics2017' : 'shape=mxgraph.aws3.kinesis_analytics;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonKinesisAmazonKinesisenabledapp2017' : 'shape=mxgraph.aws3.kinesis_enabled_app;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonKinesisAmazonKinesisFirehose2017' : 'shape=mxgraph.aws3.kinesis_firehose;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonKinesisAmazonKinesisStreams2017' : 'shape=mxgraph.aws3.kinesis_streams;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonQuickSight2017' : 'shape=mxgraph.aws3.quicksight;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRedshift2017' : 'shape=mxgraph.aws3.redshift;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRedshiftdensecomputenode2017' : 'shape=mxgraph.aws3.dense_compute_node;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRedshiftdensestoragenode2017' : 'shape=mxgraph.aws3.dense_storage_node;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSDataPipeline2017' : 'shape=mxgraph.aws3.data_pipeline;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSGlue2017' : 'shape=mxgraph.aws3.glue;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AmazonAthena2017' : 'shape=mxgraph.aws3.athena;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1;pointerEvents=1',
+			'AmazonCloudSearch2017' : 'shape=mxgraph.aws3.cloudsearch;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1;pointerEvents=1',
+			'AmazonCloudSearchsearchdocuments2017' : 'shape=mxgraph.aws3.search_documents;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEMR2017' : 'shape=mxgraph.aws3.emr;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEMRcluster2017' : 'shape=mxgraph.aws3.emr_cluster;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEMREMRengine2017' : 'shape=mxgraph.aws3.emr_engine;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEMREMRengineMapRM32017' : 'shape=mxgraph.aws3.emr_engine_mapr_m3;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEMREMRengineMapRM52017' : 'shape=mxgraph.aws3.emr_engine_mapr_m5;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEMREMRengineMapRM72017' : 'shape=mxgraph.aws3.emr_engine_mapr_m7;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEMRHDFScluster2017' : 'shape=mxgraph.aws3.hdfs_cluster;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonES2017' : 'shape=mxgraph.aws3.elasticsearch_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonKinesis2017' : 'shape=mxgraph.aws3.kinesis;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonKinesisAmazonKinesisAnalytics2017' : 'shape=mxgraph.aws3.kinesis_analytics;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonKinesisAmazonKinesisenabledapp2017' : 'shape=mxgraph.aws3.kinesis_enabled_app;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonKinesisAmazonKinesisFirehose2017' : 'shape=mxgraph.aws3.kinesis_firehose;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonKinesisAmazonKinesisStreams2017' : 'shape=mxgraph.aws3.kinesis_streams;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonQuickSight2017' : 'shape=mxgraph.aws3.quicksight;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRedshift2017' : 'shape=mxgraph.aws3.redshift;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRedshiftdensecomputenode2017' : 'shape=mxgraph.aws3.dense_compute_node;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRedshiftdensestoragenode2017' : 'shape=mxgraph.aws3.dense_storage_node;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSDataPipeline2017' : 'shape=mxgraph.aws3.data_pipeline;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSGlue2017' : 'shape=mxgraph.aws3.glue;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - Application Services			
-			'AmazonAPIGateway2017' : 'shape=mxgraph.aws3.api_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonAppStream22017' : 'shape=mxgraph.aws3.appstream;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonElasticTranscoder2017' : 'shape=mxgraph.aws3.elastic_transcoder;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonSWF2017' : 'shape=mxgraph.aws3.swf;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonSWFdecider2017' : 'shape=mxgraph.aws3.decider;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonSWFworker2017' : 'shape=mxgraph.aws3.worker;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSStepFunctions2017' : 'shape=mxgraph.aws3.step_functions;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AmazonAPIGateway2017' : 'shape=mxgraph.aws3.api_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonAppStream22017' : 'shape=mxgraph.aws3.appstream;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonElasticTranscoder2017' : 'shape=mxgraph.aws3.elastic_transcoder;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonSWF2017' : 'shape=mxgraph.aws3.swf;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonSWFdecider2017' : 'shape=mxgraph.aws3.decider;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonSWFworker2017' : 'shape=mxgraph.aws3.worker;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSStepFunctions2017' : 'shape=mxgraph.aws3.step_functions;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - Artificial Intelligence			
-			'AmazonLex2017' : 'shape=mxgraph.aws3.lex;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonMachineLearning2017' : 'shape=mxgraph.aws3.machine_learning;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonPolly2017' : 'shape=mxgraph.aws3.polly;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRekognition2017' : 'shape=mxgraph.aws3.rekognition;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AmazonLex2017' : 'shape=mxgraph.aws3.lex;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonMachineLearning2017' : 'shape=mxgraph.aws3.machine_learning;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonPolly2017' : 'shape=mxgraph.aws3.polly;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRekognition2017' : 'shape=mxgraph.aws3.rekognition;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - Business Productivity			
-			'AmazonChime2017' : 'shape=mxgraph.aws3.chime;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonWorkMail2017' : 'shape=mxgraph.aws3.workmail;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonWorkDocs2017' : 'shape=mxgraph.aws3.workdocs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AmazonChime2017' : 'shape=mxgraph.aws3.chime;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonWorkMail2017' : 'shape=mxgraph.aws3.workmail;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonWorkDocs2017' : 'shape=mxgraph.aws3.workdocs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - Compute			
-			'AmazonEC22017' : 'shape=mxgraph.aws3.ec2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2AMI2017' : 'shape=mxgraph.aws3.ami;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2AutoScaling2017' : 'shape=mxgraph.aws3.auto_scaling;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2DBoninstance2017' : 'shape=mxgraph.aws3.db_on_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2EC2rescue2017' : 'shape=mxgraph.aws3.rescue;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2ElasticIPaddress2017' : 'shape=mxgraph.aws3.elastic_ip;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2instance2017' : 'shape=mxgraph.aws3.instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2instances2017' : 'shape=mxgraph.aws3.instances;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2instancewithCloudWatch2017' : 'shape=mxgraph.aws3.instance_with_cloudwatch;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2optimizedinstance2017' : 'shape=mxgraph.aws3.optimized_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AmazonEC22017' : 'shape=mxgraph.aws3.ec2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2AMI2017' : 'shape=mxgraph.aws3.ami;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2AutoScaling2017' : 'shape=mxgraph.aws3.auto_scaling;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2DBoninstance2017' : 'shape=mxgraph.aws3.db_on_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2EC2rescue2017' : 'shape=mxgraph.aws3.rescue;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2ElasticIPaddress2017' : 'shape=mxgraph.aws3.elastic_ip;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2instance2017' : 'shape=mxgraph.aws3.instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2instances2017' : 'shape=mxgraph.aws3.instances;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2instancewithCloudWatch2017' : 'shape=mxgraph.aws3.instance_with_cloudwatch;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2optimizedinstance2017' : 'shape=mxgraph.aws3.optimized_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 //			'AmazonEC2SpotFleet2017' : composite,
-			'AmazonEC2SpotInstance2017' : 'shape=mxgraph.aws3.spot_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2X1instance2017' : 'shape=mxgraph.aws3.x1_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonECR2017' : 'shape=mxgraph.aws3.ecr;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonECRECRRegistry2017' : 'shape=mxgraph.aws3.ecr_registry;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonECS2017' : 'shape=mxgraph.aws3.ecs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonECSECScontainer2017' : 'shape=mxgraph.aws3.ec2_compute_container;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonECSECScontainerAlt12017' : 'shape=mxgraph.aws3.ec2_compute_container_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonECSECScontainerAlt22017' : 'shape=mxgraph.aws3.ec2_compute_container_3;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonLightsail2017' : 'shape=mxgraph.aws3.lightsail;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonVPC2017' : 'shape=mxgraph.aws3.vpc;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonVPCcustomergateway2017' : 'shape=mxgraph.aws3.customer_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonVPCelasticnetworkadapter2017' : 'shape=mxgraph.aws3.elastic_network_adapter;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonVPCelasticnetworkinterface2017' : 'shape=mxgraph.aws3.elastic_network_interface;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonVPCendpoints2017' : 'shape=mxgraph.aws3.endpoints;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonVPCflowlogs2017' : 'shape=mxgraph.aws3.flow_logs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonVPCInternetgateway2017' : 'shape=mxgraph.aws3.internet_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonVPCnetworkaccesscontrollist2017' : 'shape=mxgraph.aws3.network_access_controllist;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonVPCrouter2017' : 'shape=mxgraph.aws3.router;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonVPCVPCNATgateway2017' : 'shape=mxgraph.aws3.vpc_nat_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonVPCVPCpeering2017' : 'shape=mxgraph.aws3.vpc_peering;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonVPCVPNconnection2017' : 'shape=mxgraph.aws3.vpn_connection;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonVPCVPNgateway2017' : 'shape=mxgraph.aws3.vpn_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSBatch2017' : 'shape=mxgraph.aws3.batch;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSElasticBeanstalk2017' : 'shape=mxgraph.aws3.elastic_beanstalk;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSElasticBeanstalkapplication2017' : 'shape=mxgraph.aws3.application;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSElasticBeanstalkdeployment2017' : 'shape=mxgraph.aws3.deployment;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSLambda2017' : 'shape=mxgraph.aws3.lambda;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSLambdaLambdaFunction2017' : 'shape=mxgraph.aws3.lambda_function;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'ElasticLoadBalancing2017' : 'shape=mxgraph.aws3.elastic_load_balancing;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'ElasticLoadBalancingApplicationLoadBalancer2017' : 'shape=mxgraph.aws3.application_load_balancer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'ElasticLoadBalancingELLoadBalancer2017' : 'shape=mxgraph.aws3.classic_load_balancer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AmazonEC2SpotInstance2017' : 'shape=mxgraph.aws3.spot_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2X1instance2017' : 'shape=mxgraph.aws3.x1_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonECR2017' : 'shape=mxgraph.aws3.ecr;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonECRECRRegistry2017' : 'shape=mxgraph.aws3.ecr_registry;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonECS2017' : 'shape=mxgraph.aws3.ecs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonECSECScontainer2017' : 'shape=mxgraph.aws3.ec2_compute_container;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonECSECScontainerAlt12017' : 'shape=mxgraph.aws3.ec2_compute_container_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonECSECScontainerAlt22017' : 'shape=mxgraph.aws3.ec2_compute_container_3;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonLightsail2017' : 'shape=mxgraph.aws3.lightsail;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonVPC2017' : 'shape=mxgraph.aws3.vpc;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonVPCcustomergateway2017' : 'shape=mxgraph.aws3.customer_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonVPCelasticnetworkadapter2017' : 'shape=mxgraph.aws3.elastic_network_adapter;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonVPCelasticnetworkinterface2017' : 'shape=mxgraph.aws3.elastic_network_interface;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonVPCendpoints2017' : 'shape=mxgraph.aws3.endpoints;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonVPCflowlogs2017' : 'shape=mxgraph.aws3.flow_logs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonVPCInternetgateway2017' : 'shape=mxgraph.aws3.internet_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonVPCnetworkaccesscontrollist2017' : 'shape=mxgraph.aws3.network_access_controllist;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonVPCrouter2017' : 'shape=mxgraph.aws3.router;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonVPCVPCNATgateway2017' : 'shape=mxgraph.aws3.vpc_nat_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonVPCVPCpeering2017' : 'shape=mxgraph.aws3.vpc_peering;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonVPCVPNconnection2017' : 'shape=mxgraph.aws3.vpn_connection;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonVPCVPNgateway2017' : 'shape=mxgraph.aws3.vpn_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSBatch2017' : 'shape=mxgraph.aws3.batch;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSElasticBeanstalk2017' : 'shape=mxgraph.aws3.elastic_beanstalk;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSElasticBeanstalkapplication2017' : 'shape=mxgraph.aws3.application;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSElasticBeanstalkdeployment2017' : 'shape=mxgraph.aws3.deployment;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSLambda2017' : 'shape=mxgraph.aws3.lambda;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSLambdaLambdaFunction2017' : 'shape=mxgraph.aws3.lambda_function;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'ElasticLoadBalancing2017' : 'shape=mxgraph.aws3.elastic_load_balancing;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'ElasticLoadBalancingApplicationLoadBalancer2017' : 'shape=mxgraph.aws3.application_load_balancer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'ElasticLoadBalancingELLoadBalancer2017' : 'shape=mxgraph.aws3.classic_load_balancer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 
 // AWS 17 - Contact Center			
-			'AmazonConnect2017' : 'shape=mxgraph.aws3.connect;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AmazonConnect2017' : 'shape=mxgraph.aws3.connect;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - Containers			
 			'AutoScalingGroup2017' : 'rounded=1;arcSize=10;dashed=1;dashPattern=8 3 1 3;verticalAlign=bottom',
@@ -2897,810 +2902,810 @@ LucidImporter = {};
 			'CorporateDataCenterContainer2017' : cs,
 			
 // AWS 17 - Database			
-			'AmazonDynamoDB2017' : 'shape=mxgraph.aws3.dynamo_db;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonDynamoDBAccelerator2017' : 'shape=mxgraph.aws3.db_accelerator;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonDynamoDBattribute2017' : 'shape=mxgraph.aws3.attribute;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonDynamoDBattributes2017' : 'shape=mxgraph.aws3.attributes;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonDynamoDBglobalsecondaryindex2017' : 'shape=mxgraph.aws3.global_secondary_index;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonDynamoDBitem2017' : 'shape=mxgraph.aws3.item;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonDynamoDBitems2017' : 'shape=mxgraph.aws3.items;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonDynamoDBtable2017' : 'shape=mxgraph.aws3.table;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonElasticCache2017' : 'shape=mxgraph.aws3.elasticache;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonElasticCachecachenode2017' : 'shape=mxgraph.aws3.cache_node;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonElasticCacheMemcached2017' : 'shape=mxgraph.aws3.memcached;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonElasticCacheRedis2017' : 'shape=mxgraph.aws3.redis;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRDS2017' : 'shape=mxgraph.aws3.rds;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRDSDBinstance2017' : 'shape=mxgraph.aws3.rds_db_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRDSinstancereadreplica2017' : 'shape=mxgraph.aws3.rds_db_instance_read_replica;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRDSinstancestandby2017' : 'shape=mxgraph.aws3.rds_db_instance_standby_multi_az;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRDSMSSQLinstance2017' : 'shape=mxgraph.aws3.ms_sql_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRDSMSSQLinstancealternate2017' : 'shape=mxgraph.aws3.ms_sql_instance_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRDSMySQLDBinstance2017' : 'shape=mxgraph.aws3.ms_sql_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRDSMySQLinstancealternate2017' : 'shape=mxgraph.aws3.mysql_db_instance_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRDSoracleDBinstance2017' : 'shape=mxgraph.aws3.oracle_db_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRDSOracleDBinstancealternate2017' : 'shape=mxgraph.aws3.oracle_db_instance_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRDSPIOP2017' : 'shape=mxgraph.aws3.piop;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRDSPostgreSQLinstance2017' : 'shape=mxgraph.aws3.postgre_sql_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRDSSQLmaster2017' : 'shape=mxgraph.aws3.sql_master;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRDSSQLslave2017' : 'shape=mxgraph.aws3.sql_slave;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSDMS2017' : 'shape=mxgraph.aws3.database_migration_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSDMSdatabasemigrationworkflowjob2017' : 'shape=mxgraph.aws3.database_migration_workflow_job;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AmazonDynamoDB2017' : 'shape=mxgraph.aws3.dynamo_db;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonDynamoDBAccelerator2017' : 'shape=mxgraph.aws3.db_accelerator;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonDynamoDBattribute2017' : 'shape=mxgraph.aws3.attribute;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonDynamoDBattributes2017' : 'shape=mxgraph.aws3.attributes;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonDynamoDBglobalsecondaryindex2017' : 'shape=mxgraph.aws3.global_secondary_index;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonDynamoDBitem2017' : 'shape=mxgraph.aws3.item;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonDynamoDBitems2017' : 'shape=mxgraph.aws3.items;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonDynamoDBtable2017' : 'shape=mxgraph.aws3.table;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonElasticCache2017' : 'shape=mxgraph.aws3.elasticache;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonElasticCachecachenode2017' : 'shape=mxgraph.aws3.cache_node;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonElasticCacheMemcached2017' : 'shape=mxgraph.aws3.memcached;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonElasticCacheRedis2017' : 'shape=mxgraph.aws3.redis;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRDS2017' : 'shape=mxgraph.aws3.rds;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRDSDBinstance2017' : 'shape=mxgraph.aws3.rds_db_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRDSinstancereadreplica2017' : 'shape=mxgraph.aws3.rds_db_instance_read_replica;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRDSinstancestandby2017' : 'shape=mxgraph.aws3.rds_db_instance_standby_multi_az;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRDSMSSQLinstance2017' : 'shape=mxgraph.aws3.ms_sql_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRDSMSSQLinstancealternate2017' : 'shape=mxgraph.aws3.ms_sql_instance_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRDSMySQLDBinstance2017' : 'shape=mxgraph.aws3.ms_sql_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRDSMySQLinstancealternate2017' : 'shape=mxgraph.aws3.mysql_db_instance_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRDSoracleDBinstance2017' : 'shape=mxgraph.aws3.oracle_db_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRDSOracleDBinstancealternate2017' : 'shape=mxgraph.aws3.oracle_db_instance_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRDSPIOP2017' : 'shape=mxgraph.aws3.piop;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRDSPostgreSQLinstance2017' : 'shape=mxgraph.aws3.postgre_sql_instance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRDSSQLmaster2017' : 'shape=mxgraph.aws3.sql_master;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRDSSQLslave2017' : 'shape=mxgraph.aws3.sql_slave;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSDMS2017' : 'shape=mxgraph.aws3.database_migration_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSDMSdatabasemigrationworkflowjob2017' : 'shape=mxgraph.aws3.database_migration_workflow_job;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - Desktop App Straning			
-			'AmazonWorkSpaces2017' : 'shape=mxgraph.aws3.workspaces;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AmazonWorkSpaces2017' : 'shape=mxgraph.aws3.workspaces;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - Developer Tools			
-			'AWSCodeBuild2017' : 'shape=mxgraph.aws3.codebuild;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSCodeCommit2017' : 'shape=mxgraph.aws3.codecommit;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSCodeDeploy2017' : 'shape=mxgraph.aws3.codedeploy;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSCodePipeline2017' : 'shape=mxgraph.aws3.codepipeline;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSCodeStar2017' : 'shape=mxgraph.aws3.codestar;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSXRay2017' : 'shape=mxgraph.aws3.x_ray;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AWSCodeBuild2017' : 'shape=mxgraph.aws3.codebuild;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSCodeCommit2017' : 'shape=mxgraph.aws3.codecommit;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSCodeDeploy2017' : 'shape=mxgraph.aws3.codedeploy;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSCodePipeline2017' : 'shape=mxgraph.aws3.codepipeline;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSCodeStar2017' : 'shape=mxgraph.aws3.codestar;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSXRay2017' : 'shape=mxgraph.aws3.x_ray;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - Game Development			
-			'AmazonGameLift2017' : 'shape=mxgraph.aws3.gamelift;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AmazonGameLift2017' : 'shape=mxgraph.aws3.gamelift;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - General			
-			'AWScloud2017' : 'shape=mxgraph.aws3.cloud;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSManagementConsole2017' : 'shape=mxgraph.aws3.management_console;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'client2017' : 'shape=mxgraph.aws3.management_console;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'corporatedatacenter2017' : 'shape=mxgraph.aws3.corporate_data_center;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'disk2017' : 'shape=mxgraph.aws3.disk;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'forums2017' : 'shape=mxgraph.aws3.forums;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'genericdatabase2017' : 'shape=mxgraph.aws3.generic_database;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'Internet2017' : 'shape=mxgraph.aws3.internet;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'Internetalternate12017' : 'shape=mxgraph.aws3.internet_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'Internetalternate22017' : 'shape=mxgraph.aws3.internet_3;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'mobileclient2017' : 'shape=mxgraph.aws3.mobile_client;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'multimedia2017' : 'shape=mxgraph.aws3.multimedia;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'officebuilding2017' : 'shape=mxgraph.aws3.office_building;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'SAMLtoken2017' : 'shape=mxgraph.aws3.saml_token;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'SSLpadlock2017' : 'shape=mxgraph.aws3.ssl_padlock;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'tapestorage2017' : 'shape=mxgraph.aws3.tape_storage;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'traditionalserver2017' : 'shape=mxgraph.aws3.traditional_server;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'user2017' : 'shape=mxgraph.aws3.user;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'users2017' : 'shape=mxgraph.aws3.users;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'virtualprivatecloud2017' : 'shape=mxgraph.aws3.virtual_private_cloud;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AWScloud2017' : 'shape=mxgraph.aws3.cloud;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSManagementConsole2017' : 'shape=mxgraph.aws3.management_console;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'client2017' : 'shape=mxgraph.aws3.management_console;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'corporatedatacenter2017' : 'shape=mxgraph.aws3.corporate_data_center;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'disk2017' : 'shape=mxgraph.aws3.disk;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'forums2017' : 'shape=mxgraph.aws3.forums;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'genericdatabase2017' : 'shape=mxgraph.aws3.generic_database;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'Internet2017' : 'shape=mxgraph.aws3.internet;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'Internetalternate12017' : 'shape=mxgraph.aws3.internet_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'Internetalternate22017' : 'shape=mxgraph.aws3.internet_3;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'mobileclient2017' : 'shape=mxgraph.aws3.mobile_client;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'multimedia2017' : 'shape=mxgraph.aws3.multimedia;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'officebuilding2017' : 'shape=mxgraph.aws3.office_building;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'SAMLtoken2017' : 'shape=mxgraph.aws3.saml_token;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'SSLpadlock2017' : 'shape=mxgraph.aws3.ssl_padlock;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'tapestorage2017' : 'shape=mxgraph.aws3.tape_storage;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'traditionalserver2017' : 'shape=mxgraph.aws3.traditional_server;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'user2017' : 'shape=mxgraph.aws3.user;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'users2017' : 'shape=mxgraph.aws3.users;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'virtualprivatecloud2017' : 'shape=mxgraph.aws3.virtual_private_cloud;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - IoT			
-			'AWSIoTlambdafunction2017' : 'shape=mxgraph.aws3.lambda_function;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTfireTVstick2017' : 'shape=mxgraph.aws3.fire_tv_stick;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTfireTV2017' : 'shape=mxgraph.aws3.fire_tv;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTecho2017' : 'shape=mxgraph.aws3.echo;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTAVSenableddevice2017' : 'shape=mxgraph.aws3.alexa_enabled_device;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTalexavoiceservice2017' : 'shape=mxgraph.aws3.alexa_voice_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTalexasmarthomeskill2017' : 'shape=mxgraph.aws3.alexa_smart_home_skill;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTalexaskill2017' : 'shape=mxgraph.aws3.alexa_skill;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTHTTPprotocol2017' : 'shape=mxgraph.aws3.http_protocol;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTHTTP2protocol2017' : 'shape=mxgraph.aws3.http_2_protocol;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoThardwareboard2017' : 'shape=mxgraph.aws3.hardware_board;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTrule2017' : 'shape=mxgraph.aws3.rule;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTpolicy2017' : 'shape=mxgraph.aws3.policy;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTMQTTprotocol2017' : 'shape=mxgraph.aws3.mqtt_protocol;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTaction2017' : 'shape=mxgraph.aws3.action;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTtopic2017' : 'shape=mxgraph.aws3.topic;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTshadow2017' : 'shape=mxgraph.aws3.shadow;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTdesiredstate2017' : 'shape=mxgraph.aws3.desired_state;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTcertificate2017' : 'shape=mxgraph.aws3.certificate;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTreportedstate2017' : 'shape=mxgraph.aws3.reported_state;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTsimulator2017' : 'shape=mxgraph.aws3.simulator;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTservo2017' : 'shape=mxgraph.aws3.servo;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTsensor2017' : 'shape=mxgraph.aws3.sensor;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTactuator2017' : 'shape=mxgraph.aws3.actuator;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthingthermostat2017' : 'shape=mxgraph.aws3.thermostat;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthingmedicalemergency2017' : 'shape=mxgraph.aws3.medical_emergency;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthingtravel2017' : 'shape=mxgraph.aws3.travel;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthingcoffeepot2017' : 'shape=mxgraph.aws3.coffee_pot;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthingcart2017' : 'shape=mxgraph.aws3.cart;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthingcamera2017' : 'shape=mxgraph.aws3.camera;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthingpoliceemergency2017' : 'shape=mxgraph.aws3.police_emergency;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthingdoorlock2017' : 'shape=mxgraph.aws3.door_lock;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthingutility2017' : 'shape=mxgraph.aws3.utility;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthingcar2017' : 'shape=mxgraph.aws3.car;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthingbank2017' : 'shape=mxgraph.aws3.bank;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthingwindfarm2017' : 'shape=mxgraph.aws3.windfarm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthingbicycle2017' : 'shape=mxgraph.aws3.bicycle;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthinghouse2017' : 'shape=mxgraph.aws3.house;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthingfactory2017' : 'shape=mxgraph.aws3.factory;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthinglightbulb2017' : 'shape=mxgraph.aws3.lightbulb;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTthinggeneric2017' : 'shape=mxgraph.aws3.generic;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoTAWSGreengrass2017' : 'shape=mxgraph.aws3.greengrass;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSIoT2017' : 'shape=mxgraph.aws3.aws_iot;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AWSIoTlambdafunction2017' : 'shape=mxgraph.aws3.lambda_function;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTfireTVstick2017' : 'shape=mxgraph.aws3.fire_tv_stick;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTfireTV2017' : 'shape=mxgraph.aws3.fire_tv;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTecho2017' : 'shape=mxgraph.aws3.echo;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTAVSenableddevice2017' : 'shape=mxgraph.aws3.alexa_enabled_device;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTalexavoiceservice2017' : 'shape=mxgraph.aws3.alexa_voice_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTalexasmarthomeskill2017' : 'shape=mxgraph.aws3.alexa_smart_home_skill;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTalexaskill2017' : 'shape=mxgraph.aws3.alexa_skill;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTHTTPprotocol2017' : 'shape=mxgraph.aws3.http_protocol;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTHTTP2protocol2017' : 'shape=mxgraph.aws3.http_2_protocol;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoThardwareboard2017' : 'shape=mxgraph.aws3.hardware_board;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTrule2017' : 'shape=mxgraph.aws3.rule;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTpolicy2017' : 'shape=mxgraph.aws3.policy;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTMQTTprotocol2017' : 'shape=mxgraph.aws3.mqtt_protocol;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTaction2017' : 'shape=mxgraph.aws3.action;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTtopic2017' : 'shape=mxgraph.aws3.topic;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTshadow2017' : 'shape=mxgraph.aws3.shadow;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTdesiredstate2017' : 'shape=mxgraph.aws3.desired_state;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTcertificate2017' : 'shape=mxgraph.aws3.certificate;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTreportedstate2017' : 'shape=mxgraph.aws3.reported_state;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTsimulator2017' : 'shape=mxgraph.aws3.simulator;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTservo2017' : 'shape=mxgraph.aws3.servo;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTsensor2017' : 'shape=mxgraph.aws3.sensor;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTactuator2017' : 'shape=mxgraph.aws3.actuator;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthingthermostat2017' : 'shape=mxgraph.aws3.thermostat;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthingmedicalemergency2017' : 'shape=mxgraph.aws3.medical_emergency;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthingtravel2017' : 'shape=mxgraph.aws3.travel;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthingcoffeepot2017' : 'shape=mxgraph.aws3.coffee_pot;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthingcart2017' : 'shape=mxgraph.aws3.cart;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthingcamera2017' : 'shape=mxgraph.aws3.camera;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthingpoliceemergency2017' : 'shape=mxgraph.aws3.police_emergency;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthingdoorlock2017' : 'shape=mxgraph.aws3.door_lock;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthingutility2017' : 'shape=mxgraph.aws3.utility;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthingcar2017' : 'shape=mxgraph.aws3.car;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthingbank2017' : 'shape=mxgraph.aws3.bank;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthingwindfarm2017' : 'shape=mxgraph.aws3.windfarm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthingbicycle2017' : 'shape=mxgraph.aws3.bicycle;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthinghouse2017' : 'shape=mxgraph.aws3.house;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthingfactory2017' : 'shape=mxgraph.aws3.factory;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthinglightbulb2017' : 'shape=mxgraph.aws3.lightbulb;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTthinggeneric2017' : 'shape=mxgraph.aws3.generic;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoTAWSGreengrass2017' : 'shape=mxgraph.aws3.greengrass;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSIoT2017' : 'shape=mxgraph.aws3.aws_iot;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - Management			
-			'AmazonCloudWatch2017' : 'shape=mxgraph.aws3.cloudwatch;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonCloudWatchalarm2017' : 'shape=mxgraph.aws3.alarm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonCloudWatcheventeventbased2017' : 'shape=mxgraph.aws3.event_event_based;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonCloudWatcheventtimebased2017' : 'shape=mxgraph.aws3.event_time_based;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonCloudWatchrule2017' : 'shape=mxgraph.aws3.config_rule;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2SystemsManager2017' : 'shape=mxgraph.aws3.ec2_systems_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2SystemsManagerAutomation2017' : 'shape=mxgraph.aws3.automation;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2SystemsManagerdocuments2017' : 'shape=mxgraph.aws3.documents;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2SystemsManagerInventory2017' : 'shape=mxgraph.aws3.inventory;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2SystemsManagerMaintenanceWindow2017' : 'shape=mxgraph.aws3.maintenance_window;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2SystemsManagerParameterStore2017' : 'shape=mxgraph.aws3.parameter_store;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2SystemsManagerPatchManager2017' : 'shape=mxgraph.aws3.patch_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2SystemsManagerRunCommand2017' : 'shape=mxgraph.aws3.run_command;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2SystemsManagerStateManager2017' : 'shape=mxgraph.aws3.state_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSCloudFormation2017' : 'shape=mxgraph.aws3.cloudformation;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSCloudFormationchangeset2017' : 'shape=mxgraph.aws3.change_set;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSCloudFormationstack2017' : 'shape=mxgraph.aws3.stack_aws_cloudformation;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSCloudFormationtemplate2017' : 'shape=mxgraph.aws3.template;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSCloudTrail2017' : 'shape=mxgraph.aws3.cloudtrail;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSConfig2017' : 'shape=mxgraph.aws3.config;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSManagedServices2017' : 'shape=mxgraph.aws3.managed_services;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSOpsWorks2017' : 'shape=mxgraph.aws3.opsworks;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSOpsWorksapps2017' : 'shape=mxgraph.aws3.apps;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSOpsWorksdeployments2017' : 'shape=mxgraph.aws3.deployments;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSOpsWorksinstances2017' : 'shape=mxgraph.aws3.instances_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSOpsWorkslayers2017' : 'shape=mxgraph.aws3.layers;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSOpsWorksmonitoring2017' : 'shape=mxgraph.aws3.monitoring;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSOpsWorkspermissions2017' : 'shape=mxgraph.aws3.permissions;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSOpsWorksresources2017' : 'shape=mxgraph.aws3.resources;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSOpsWorksstack2017' : 'shape=mxgraph.aws3.stack_aws_opsworks;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSServiceCatalog2017' : 'shape=mxgraph.aws3.service_catalog;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSTrustedAdvisor2017' : 'shape=mxgraph.aws3.trusted_advisor;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSTrustedAdvisorchecklist2017' : 'shape=mxgraph.aws3.checklist;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSTrustedAdvisorchecklistcost2017' : 'shape=mxgraph.aws3.checklist_cost;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSTrustedAdvisorchecklistfaulttolerance2017' : 'shape=mxgraph.aws3.checklist_fault_tolerance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSTrustedAdvisorchecklistperformance2017' : 'shape=mxgraph.aws3.checklist_performance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSTrustedAdvisorchecklistsecurity2017' : 'shape=mxgraph.aws3.checklist_security;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AmazonCloudWatch2017' : 'shape=mxgraph.aws3.cloudwatch;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonCloudWatchalarm2017' : 'shape=mxgraph.aws3.alarm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonCloudWatcheventeventbased2017' : 'shape=mxgraph.aws3.event_event_based;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonCloudWatcheventtimebased2017' : 'shape=mxgraph.aws3.event_time_based;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonCloudWatchrule2017' : 'shape=mxgraph.aws3.config_rule;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2SystemsManager2017' : 'shape=mxgraph.aws3.ec2_systems_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2SystemsManagerAutomation2017' : 'shape=mxgraph.aws3.automation;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2SystemsManagerdocuments2017' : 'shape=mxgraph.aws3.documents;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2SystemsManagerInventory2017' : 'shape=mxgraph.aws3.inventory;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2SystemsManagerMaintenanceWindow2017' : 'shape=mxgraph.aws3.maintenance_window;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2SystemsManagerParameterStore2017' : 'shape=mxgraph.aws3.parameter_store;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2SystemsManagerPatchManager2017' : 'shape=mxgraph.aws3.patch_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2SystemsManagerRunCommand2017' : 'shape=mxgraph.aws3.run_command;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2SystemsManagerStateManager2017' : 'shape=mxgraph.aws3.state_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSCloudFormation2017' : 'shape=mxgraph.aws3.cloudformation;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSCloudFormationchangeset2017' : 'shape=mxgraph.aws3.change_set;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSCloudFormationstack2017' : 'shape=mxgraph.aws3.stack_aws_cloudformation;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSCloudFormationtemplate2017' : 'shape=mxgraph.aws3.template;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSCloudTrail2017' : 'shape=mxgraph.aws3.cloudtrail;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSConfig2017' : 'shape=mxgraph.aws3.config;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSManagedServices2017' : 'shape=mxgraph.aws3.managed_services;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSOpsWorks2017' : 'shape=mxgraph.aws3.opsworks;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSOpsWorksapps2017' : 'shape=mxgraph.aws3.apps;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSOpsWorksdeployments2017' : 'shape=mxgraph.aws3.deployments;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSOpsWorksinstances2017' : 'shape=mxgraph.aws3.instances_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSOpsWorkslayers2017' : 'shape=mxgraph.aws3.layers;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSOpsWorksmonitoring2017' : 'shape=mxgraph.aws3.monitoring;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSOpsWorkspermissions2017' : 'shape=mxgraph.aws3.permissions;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSOpsWorksresources2017' : 'shape=mxgraph.aws3.resources;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSOpsWorksstack2017' : 'shape=mxgraph.aws3.stack_aws_opsworks;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSServiceCatalog2017' : 'shape=mxgraph.aws3.service_catalog;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSTrustedAdvisor2017' : 'shape=mxgraph.aws3.trusted_advisor;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSTrustedAdvisorchecklist2017' : 'shape=mxgraph.aws3.checklist;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSTrustedAdvisorchecklistcost2017' : 'shape=mxgraph.aws3.checklist_cost;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSTrustedAdvisorchecklistfaulttolerance2017' : 'shape=mxgraph.aws3.checklist_fault_tolerance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSTrustedAdvisorchecklistperformance2017' : 'shape=mxgraph.aws3.checklist_performance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSTrustedAdvisorchecklistsecurity2017' : 'shape=mxgraph.aws3.checklist_security;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - Messaging			
-			'AmazonPinpoint2017' : 'shape=mxgraph.aws3.pinpoint;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonSES2017' : 'shape=mxgraph.aws3.ses;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonSESemail2017' : 'shape=mxgraph.aws3.email;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonSNS2017' : 'shape=mxgraph.aws3.sns;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonSNSemailnotification2017' : 'shape=mxgraph.aws3.email_notification;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonSNSHTTPnotification2017' : 'shape=mxgraph.aws3.http_notification;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonSNStopic2017' : 'shape=mxgraph.aws3.topic_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonSQS2017' : 'shape=mxgraph.aws3.sqs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonSQSmessage2017' : 'shape=mxgraph.aws3.message;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonSQSqueue2017' : 'shape=mxgraph.aws3.queue;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AmazonPinpoint2017' : 'shape=mxgraph.aws3.pinpoint;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonSES2017' : 'shape=mxgraph.aws3.ses;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonSESemail2017' : 'shape=mxgraph.aws3.email;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonSNS2017' : 'shape=mxgraph.aws3.sns;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonSNSemailnotification2017' : 'shape=mxgraph.aws3.email_notification;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonSNSHTTPnotification2017' : 'shape=mxgraph.aws3.http_notification;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonSNStopic2017' : 'shape=mxgraph.aws3.topic_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonSQS2017' : 'shape=mxgraph.aws3.sqs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonSQSmessage2017' : 'shape=mxgraph.aws3.message;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonSQSqueue2017' : 'shape=mxgraph.aws3.queue;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - Migration			
-			'AWSApplicationDiscoveryService2017' : 'shape=mxgraph.aws3.application_discovery_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSMigrationHub2017' : 'shape=mxgraph.aws3.migration_hub_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSSMS2017' : 'shape=mxgraph.aws3.server_migration_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSSnowball2017' : 'shape=mxgraph.aws3.snowball;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSSnowballimportexport2017' : 'shape=mxgraph.aws3.import_export;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AWSApplicationDiscoveryService2017' : 'shape=mxgraph.aws3.application_discovery_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSMigrationHub2017' : 'shape=mxgraph.aws3.migration_hub_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSSMS2017' : 'shape=mxgraph.aws3.server_migration_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSSnowball2017' : 'shape=mxgraph.aws3.snowball;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSSnowballimportexport2017' : 'shape=mxgraph.aws3.import_export;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - Mobile Services			
-			'AmazonCognito2017' : 'shape=mxgraph.aws3.cognito;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonMobileAnalytics2017' : 'shape=mxgraph.aws3.mobile_analytics;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSDeviceFarm2017' : 'shape=mxgraph.aws3.device_farm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSMobileHub2017' : 'shape=mxgraph.aws3.mobile_hub;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;fillColor=#AD688A;gradientColor=#F58435;gradientDirection=west;',
+			'AmazonCognito2017' : 'shape=mxgraph.aws3.cognito;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonMobileAnalytics2017' : 'shape=mxgraph.aws3.mobile_analytics;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSDeviceFarm2017' : 'shape=mxgraph.aws3.device_farm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSMobileHub2017' : 'shape=mxgraph.aws3.mobile_hub;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;fillColor=#AD688A;gradientColor=#F58435;gradientDirection=west;;pointerEvents=1',
 			
 // AWS 17 - Networking & Content Delivery			
-			'AmazonCloudFront2017' : 'shape=mxgraph.aws3.cloudfront;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonCloudFrontdownloaddistribution2017' : 'shape=mxgraph.aws3.download_distribution;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonCloudFrontedgelocation2017' : 'shape=mxgraph.aws3.edge_location;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonCloudFrontstreamingdistribution2017' : 'shape=mxgraph.aws3.streaming_distribution;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRoute532017' : 'shape=mxgraph.aws3.route_53;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRoute53hostedzone2017' : 'shape=mxgraph.aws3.hosted_zone;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonRoute53routetable2017' : 'shape=mxgraph.aws3.route_table;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonVPCinternetgateway2017' : 'shape=mxgraph.aws3.internet_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSDirectConnect2017' : 'shape=mxgraph.aws3.direct_connect;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'ElasticLoadBalancingClassicLoadBalancer2017' : 'shape=mxgraph.aws3.classic_load_balancer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AmazonCloudFront2017' : 'shape=mxgraph.aws3.cloudfront;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonCloudFrontdownloaddistribution2017' : 'shape=mxgraph.aws3.download_distribution;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonCloudFrontedgelocation2017' : 'shape=mxgraph.aws3.edge_location;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonCloudFrontstreamingdistribution2017' : 'shape=mxgraph.aws3.streaming_distribution;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRoute532017' : 'shape=mxgraph.aws3.route_53;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRoute53hostedzone2017' : 'shape=mxgraph.aws3.hosted_zone;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonRoute53routetable2017' : 'shape=mxgraph.aws3.route_table;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonVPCinternetgateway2017' : 'shape=mxgraph.aws3.internet_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSDirectConnect2017' : 'shape=mxgraph.aws3.direct_connect;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'ElasticLoadBalancingClassicLoadBalancer2017' : 'shape=mxgraph.aws3.classic_load_balancer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - On-Demand Workforce			
-			'AmazonMechanicalTurk2017' : 'shape=mxgraph.aws3.mechanical_turk;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonMechanicalTurkassignmenttask2017' : 'shape=mxgraph.aws3.assignment_task;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonMechanicalTurkhumanintelligencetasks2017' : 'shape=mxgraph.aws3.human_intelligence_tasks_hit;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonMechanicalTurkrequester2017' : 'shape=mxgraph.aws3.requester;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonMechanicalTurkworkers2017' : 'shape=mxgraph.aws3.users;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AmazonMechanicalTurk2017' : 'shape=mxgraph.aws3.mechanical_turk;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonMechanicalTurkassignmenttask2017' : 'shape=mxgraph.aws3.assignment_task;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonMechanicalTurkhumanintelligencetasks2017' : 'shape=mxgraph.aws3.human_intelligence_tasks_hit;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonMechanicalTurkrequester2017' : 'shape=mxgraph.aws3.requester;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonMechanicalTurkworkers2017' : 'shape=mxgraph.aws3.users;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - SDKs			
-			'Xamarin2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'Ruby2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'Python2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'PHP2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'Nodejs2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'Net2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'JavaScript2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'Java2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'iOS2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSToolsForWindowsPowerShell2017' : 'shape=mxgraph.aws3.toolkit_for_windows_powershell;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSToolkitForVisualStudio2017' : 'shape=mxgraph.aws3.toolkit_for_visual_studio;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSToolkitForEclipse2017' : 'shape=mxgraph.aws3.toolkit_for_eclipse;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSCLI2017' : 'shape=mxgraph.aws3.cli;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'Android2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'Xamarin2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'Ruby2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'Python2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'PHP2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'Nodejs2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'Net2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'JavaScript2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'Java2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'iOS2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSToolsForWindowsPowerShell2017' : 'shape=mxgraph.aws3.toolkit_for_windows_powershell;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSToolkitForVisualStudio2017' : 'shape=mxgraph.aws3.toolkit_for_visual_studio;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSToolkitForEclipse2017' : 'shape=mxgraph.aws3.toolkit_for_eclipse;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSCLI2017' : 'shape=mxgraph.aws3.cli;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'Android2017' : 'shape=mxgraph.aws3.android;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 17 - Serurity Identity and Compliance
-			'ACMcertificatemanager2017' : 'shape=mxgraph.aws3.certificate_manager_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonCloudDirectory2017' : 'shape=mxgraph.aws3.clouddirectory;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonInspector2017' : 'shape=mxgraph.aws3.inspector;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonInspectoragent2017' : 'shape=mxgraph.aws3.agent;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonMacie2017' : 'shape=mxgraph.aws3.macie;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSArtifact2017' : 'shape=mxgraph.aws3.artifact;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSCertificateManager2017' : 'shape=mxgraph.aws3.certificate_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSCloudHSM2017' : 'shape=mxgraph.aws3.cloudhsm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSDirectoryService2017' : 'shape=mxgraph.aws3.directory_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSKMS2017' : 'shape=mxgraph.aws3.kms;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSOrganizations2017' : 'shape=mxgraph.aws3.organizations;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSShield2017' : 'shape=mxgraph.aws3.shield;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSWAF2017' : 'shape=mxgraph.aws3.waf;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSWAFfilteringrule2017' : 'shape=mxgraph.aws3.filtering_rule;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'IAM2017' : 'shape=mxgraph.aws3.iam;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'IAMaddon2017' : 'shape=mxgraph.aws3.add_on;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'IAMAWSSTS2017' : 'shape=mxgraph.aws3.sts;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'IAMAWSSTS22017' : 'shape=mxgraph.aws3.sts_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'IAMdataencryptionkey2017' : 'shape=mxgraph.aws3.data_encryption_key;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'IAMencrypteddata2017' : 'shape=mxgraph.aws3.encrypted_data;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'IAMlongtermsecuritycredential2017' : 'shape=mxgraph.aws3.long_term_security_credential;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;fillColor=#ffffff',
-			'IAMMFAtoken2017' : 'shape=mxgraph.aws3.mfa_token;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'IAMpermissions2017' : 'shape=mxgraph.aws3.permissions_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'IAMrole2017' : 'shape=mxgraph.aws3.role;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'IAMtemporarysecuritycredential2017' : 'shape=mxgraph.aws3.temporary_security_credential;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;fillColor=#ffffff',
+			'ACMcertificatemanager2017' : 'shape=mxgraph.aws3.certificate_manager_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonCloudDirectory2017' : 'shape=mxgraph.aws3.clouddirectory;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonInspector2017' : 'shape=mxgraph.aws3.inspector;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonInspectoragent2017' : 'shape=mxgraph.aws3.agent;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonMacie2017' : 'shape=mxgraph.aws3.macie;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSArtifact2017' : 'shape=mxgraph.aws3.artifact;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSCertificateManager2017' : 'shape=mxgraph.aws3.certificate_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSCloudHSM2017' : 'shape=mxgraph.aws3.cloudhsm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSDirectoryService2017' : 'shape=mxgraph.aws3.directory_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSKMS2017' : 'shape=mxgraph.aws3.kms;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSOrganizations2017' : 'shape=mxgraph.aws3.organizations;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSShield2017' : 'shape=mxgraph.aws3.shield;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSWAF2017' : 'shape=mxgraph.aws3.waf;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSWAFfilteringrule2017' : 'shape=mxgraph.aws3.filtering_rule;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'IAM2017' : 'shape=mxgraph.aws3.iam;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'IAMaddon2017' : 'shape=mxgraph.aws3.add_on;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'IAMAWSSTS2017' : 'shape=mxgraph.aws3.sts;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'IAMAWSSTS22017' : 'shape=mxgraph.aws3.sts_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'IAMdataencryptionkey2017' : 'shape=mxgraph.aws3.data_encryption_key;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'IAMencrypteddata2017' : 'shape=mxgraph.aws3.encrypted_data;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'IAMlongtermsecuritycredential2017' : 'shape=mxgraph.aws3.long_term_security_credential;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;fillColor=#ffffff;pointerEvents=1',
+			'IAMMFAtoken2017' : 'shape=mxgraph.aws3.mfa_token;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'IAMpermissions2017' : 'shape=mxgraph.aws3.permissions_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'IAMrole2017' : 'shape=mxgraph.aws3.role;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'IAMtemporarysecuritycredential2017' : 'shape=mxgraph.aws3.temporary_security_credential;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;fillColor=#ffffff;pointerEvents=1',
 			
 // AWS 17 - Storage			
-			'AmazonEBS2017' : 'shape=mxgraph.aws3.volume;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEFS2017' : 'shape=mxgraph.aws3.efs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEFSEFSfilesystem2017' : 'shape=mxgraph.aws3.efs_share;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonGlacier2017' : 'shape=mxgraph.aws3.glacier;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonGlacierarchive2017' : 'shape=mxgraph.aws3.archive;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonGlaciervault2017' : 'shape=mxgraph.aws3.vault;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonS32017' : 'shape=mxgraph.aws3.s3;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonS3bucket2017' : 'shape=mxgraph.aws3.bucket;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonS3bucketwithobjects2017' : 'shape=mxgraph.aws3.bucket_with_objects;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonS3object2017' : 'shape=mxgraph.aws3.object;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSStorageGateway2017' : 'shape=mxgraph.aws3.storage_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSStorageGatewaycachedvolume2017' : 'shape=mxgraph.aws3.cached_volume;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSStorageGatewaynoncachedvolume2017' : 'shape=mxgraph.aws3.non_cached_volume;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSStorageGatewayvirtualtapelibrary2017' : 'shape=mxgraph.aws3.virtual_tape_library;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'snapshot2017' : 'shape=mxgraph.aws3.snapshot;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'volume2017' : 'shape=mxgraph.aws3.volume;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
+			'AmazonEBS2017' : 'shape=mxgraph.aws3.volume;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEFS2017' : 'shape=mxgraph.aws3.efs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEFSEFSfilesystem2017' : 'shape=mxgraph.aws3.efs_share;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonGlacier2017' : 'shape=mxgraph.aws3.glacier;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonGlacierarchive2017' : 'shape=mxgraph.aws3.archive;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonGlaciervault2017' : 'shape=mxgraph.aws3.vault;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonS32017' : 'shape=mxgraph.aws3.s3;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonS3bucket2017' : 'shape=mxgraph.aws3.bucket;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonS3bucketwithobjects2017' : 'shape=mxgraph.aws3.bucket_with_objects;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonS3object2017' : 'shape=mxgraph.aws3.object;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSStorageGateway2017' : 'shape=mxgraph.aws3.storage_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSStorageGatewaycachedvolume2017' : 'shape=mxgraph.aws3.cached_volume;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSStorageGatewaynoncachedvolume2017' : 'shape=mxgraph.aws3.non_cached_volume;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSStorageGatewayvirtualtapelibrary2017' : 'shape=mxgraph.aws3.virtual_tape_library;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'snapshot2017' : 'shape=mxgraph.aws3.snapshot;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'volume2017' : 'shape=mxgraph.aws3.volume;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
 			
 // AWS 19 Analytics			
 			
-			'AnalyticsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.analytics;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonAthenaAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.athena;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonCloudSearchAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudsearch;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonElasticsearchServiceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elasticsearch_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonEMRAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.emr;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonKinesisAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.kinesis;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonKinesisDataAnalyticsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.kinesis_data_analytics;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonKinesisDataFirehoseAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.kinesis_data_firehose;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonKinesisDataStreamsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.kinesis_data_streams;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonKinesisVideoStreamsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.kinesis_video_streams;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonManagedStreamingforKafkaAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.managed_streaming_for_kafka;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonQuickSightAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.quicksight;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonRedshiftAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.redshift;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSDataPipelineAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.data_pipeline;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSGlueAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.glue;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSLakeFormationAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lake_formation;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonCloudSearch_SearchDocumentsAWS19' : 'shape=mxgraph.aws4.search_documents;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEMR_ClusterAWS19' : 'shape=mxgraph.aws4.cluster;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEMR_EMREngineAWS19' : 'shape=mxgraph.aws4.emr_engine;;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEMR_EMREngineMapRM3AWS19' : 'shape=mxgraph.aws4.emr_engine_mapr_m3;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEMR_EMREngineMapRM5AWS19' : 'shape=mxgraph.aws4.emr_engine_mapr_m5;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEMR_EMREngineMapRM7AWS19' : 'shape=mxgraph.aws4.emr_engine_mapr_m7;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonRedshift_DenseComputeNodeAWS19' : 'shape=mxgraph.aws4.dense_compute_node;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonRedshift_DenseStorageNodeAWS19' : 'shape=mxgraph.aws4.dense_storage_node;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGlue_CrawlersAWS19' : 'shape=mxgraph.aws4.glue_crawlers;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGlue_DataCatalogAWS19' : 'shape=mxgraph.aws4.glue_data_catalog;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEMR_HDFSClusterAWS19' : 'shape=mxgraph.aws4.cluster;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSDataLake_ResourceAWS19' : 'shape=mxgraph.aws4.data_lake_resource_icon;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
+			'AnalyticsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.analytics;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonAthenaAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.athena;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonCloudSearchAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudsearch;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonElasticsearchServiceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elasticsearch_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonEMRAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.emr;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonKinesisAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.kinesis;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonKinesisDataAnalyticsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.kinesis_data_analytics;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonKinesisDataFirehoseAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.kinesis_data_firehose;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonKinesisDataStreamsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.kinesis_data_streams;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonKinesisVideoStreamsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.kinesis_video_streams;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonManagedStreamingforKafkaAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.managed_streaming_for_kafka;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonQuickSightAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.quicksight;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonRedshiftAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.redshift;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSDataPipelineAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.data_pipeline;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSGlueAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.glue;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSLakeFormationAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lake_formation;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonCloudSearch_SearchDocumentsAWS19' : 'shape=mxgraph.aws4.search_documents;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEMR_ClusterAWS19' : 'shape=mxgraph.aws4.cluster;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEMR_EMREngineAWS19' : 'shape=mxgraph.aws4.emr_engine;;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEMR_EMREngineMapRM3AWS19' : 'shape=mxgraph.aws4.emr_engine_mapr_m3;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEMR_EMREngineMapRM5AWS19' : 'shape=mxgraph.aws4.emr_engine_mapr_m5;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEMR_EMREngineMapRM7AWS19' : 'shape=mxgraph.aws4.emr_engine_mapr_m7;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonRedshift_DenseComputeNodeAWS19' : 'shape=mxgraph.aws4.dense_compute_node;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonRedshift_DenseStorageNodeAWS19' : 'shape=mxgraph.aws4.dense_storage_node;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGlue_CrawlersAWS19' : 'shape=mxgraph.aws4.glue_crawlers;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGlue_DataCatalogAWS19' : 'shape=mxgraph.aws4.glue_data_catalog;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEMR_HDFSClusterAWS19' : 'shape=mxgraph.aws4.cluster;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSDataLake_ResourceAWS19' : 'shape=mxgraph.aws4.data_lake_resource_icon;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
 			
 // AWS 19 - Application Integration			
-			'ApplicationIntegrationAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.application_integration;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonMQAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.mq;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonSimpleNotificationServiceSNSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sns;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonSimpleQueueServiceSQSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sqs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSAppSyncAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sqs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSStepFunctionsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.step_functions;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonSimpleNotificationServiceSNS_EmailNotificationAWS19' : 'shape=mxgraph.aws4.email_notification;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonSimpleNotificationServiceSNS_HTTPNotificationAWS19' : 'shape=mxgraph.aws4.http_notification;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonSimpleNotificationServiceSNS_TopicAWS19' : 'shape=mxgraph.aws4.topic;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonSimpleQueueServiceSQS_MessageAWS19' : 'shape=mxgraph.aws4.message;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonSimpleQueueServiceSQS_QueueAWS19' : 'shape=mxgraph.aws4.queue;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonAPIGateway_EndpointAWS19' : 'shape=mxgraph.aws4.endpoint;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEventBridgeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.eventbridge;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSElementalAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elemental;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
+			'ApplicationIntegrationAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.application_integration;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonMQAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.mq;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonSimpleNotificationServiceSNSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sns;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonSimpleQueueServiceSQSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sqs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSAppSyncAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sqs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSStepFunctionsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.step_functions;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonSimpleNotificationServiceSNS_EmailNotificationAWS19' : 'shape=mxgraph.aws4.email_notification;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonSimpleNotificationServiceSNS_HTTPNotificationAWS19' : 'shape=mxgraph.aws4.http_notification;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonSimpleNotificationServiceSNS_TopicAWS19' : 'shape=mxgraph.aws4.topic;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonSimpleQueueServiceSQS_MessageAWS19' : 'shape=mxgraph.aws4.message;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonSimpleQueueServiceSQS_QueueAWS19' : 'shape=mxgraph.aws4.queue;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonAPIGateway_EndpointAWS19' : 'shape=mxgraph.aws4.endpoint;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEventBridgeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.eventbridge;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSElementalAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elemental;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
 			
 // AWS 19 - AR & VR			
-			'ARVRAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ar_vr;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonSumerianAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sumerian;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
+			'ARVRAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ar_vr;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonSumerianAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sumerian;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
 			
 // AWS 19 - Blockchain 			
-			'BlockchainAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.blockchain;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonManagedBlockchainAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.managed_blockchain;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonQuantumLedgerDatabaseQLDBAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.quantum_ledger_database;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
+			'BlockchainAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.blockchain;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonManagedBlockchainAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.managed_blockchain;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonQuantumLedgerDatabaseQLDBAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.quantum_ledger_database;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
 			
 // AWS 19 - Business Applications 			
-			'BusinessApplicationAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.business_application;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AlexaForBusinessAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.alexa_for_business;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonChimeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.chime;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonWorkDocsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.workdocs;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonWorkMailAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.workmail;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
+			'BusinessApplicationAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.business_application;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AlexaForBusinessAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.alexa_for_business;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonChimeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.chime;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonWorkDocsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.workdocs;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonWorkMailAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.workmail;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
 			
 // AWS 19 - Compute			
-			'ComputeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.compute;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonEC2AWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ec2;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonEC2AutoScalingAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.auto_scaling2;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonEC2ContainerRegistryAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ecr;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonElasticContainerServiceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ecs;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonElasticContainerServiceforKubernetesAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.eks;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonLightsailAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lightsail;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSBatchAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.batch;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSElasticBeanstalkAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_beanstalk;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSFargateAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fargate;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSLambdaAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSOutpostsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.outposts;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSServerlessApplicationRepositoryAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.serverless_application_repository;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'ElasticLoadBalancingELBAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_load_balancing;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'VMwareCloudOnAWSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.vmware_cloud_on_aws;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonEC2_AMIAWS19' : 'shape=mxgraph.aws4.ami;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_AutoScalingAWS19' : 'shape=mxgraph.aws4.auto_scaling2;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2ContainerRegistry_ImageAWS19' : 'shape=mxgraph.aws4.container_registry_image;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2ContainerRegistry_RegistryAWS19' : 'shape=mxgraph.aws4.registry;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_ElasticIPAddressAWS19' : 'shape=mxgraph.aws4.elastic_ip_address;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_RescueAWS19' : 'shape=mxgraph.aws4.rescue;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonElasticContainerService_Container1AWS19' : 'shape=mxgraph.aws4.container_1;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonElasticContainerService_Container2AWS19' : 'shape=mxgraph.aws4.container_2;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonElasticContainerService_Container3AWS19' : 'shape=mxgraph.aws4.container_3;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonElasticContainerService_ServiceAWS19' : 'shape=mxgraph.aws4.ecs_service;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonElasticContainerService_TaskAWS19' : 'shape=mxgraph.aws4.ecs_task;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSElasticBeanstalk_ApplicationAWS19' : 'shape=mxgraph.aws4.application;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSElasticBeanstalk_DeploymentAWS19' : 'shape=mxgraph.aws4.deployment;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSLambda_LambdaFunctionAWS19' : 'shape=mxgraph.aws4.lambda_function;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSThinkboxDeadlineAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.thinkbox_deadline;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;',
-			'AWSThinkboxDraftAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.thinkbox_draft;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;',
-			'AWSThinkboxFrostAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.thinkbox_frost;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;',
-			'AWSThinkboxKrakatoaAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.thinkbox_krakatoa;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;',
-			'AWSThinkboxSequoiaAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.thinkbox_sequoia;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;',
-			'AWSThinkboxStokeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.thinkbox_stoke;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;',
-			'AWSThinkboxXMeshAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.thinkbox_xmesh;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;',
+			'ComputeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.compute;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonEC2AWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ec2;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonEC2AutoScalingAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.auto_scaling2;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonEC2ContainerRegistryAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ecr;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonElasticContainerServiceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ecs;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonElasticContainerServiceforKubernetesAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.eks;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonLightsailAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lightsail;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSBatchAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.batch;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSElasticBeanstalkAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_beanstalk;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSFargateAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fargate;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSLambdaAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSOutpostsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.outposts;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSServerlessApplicationRepositoryAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.serverless_application_repository;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'ElasticLoadBalancingELBAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_load_balancing;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'VMwareCloudOnAWSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.vmware_cloud_on_aws;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonEC2_AMIAWS19' : 'shape=mxgraph.aws4.ami;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_AutoScalingAWS19' : 'shape=mxgraph.aws4.auto_scaling2;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2ContainerRegistry_ImageAWS19' : 'shape=mxgraph.aws4.container_registry_image;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2ContainerRegistry_RegistryAWS19' : 'shape=mxgraph.aws4.registry;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_ElasticIPAddressAWS19' : 'shape=mxgraph.aws4.elastic_ip_address;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_RescueAWS19' : 'shape=mxgraph.aws4.rescue;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonElasticContainerService_Container1AWS19' : 'shape=mxgraph.aws4.container_1;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1;pointerEvents=1',
+			'AmazonElasticContainerService_Container2AWS19' : 'shape=mxgraph.aws4.container_2;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonElasticContainerService_Container3AWS19' : 'shape=mxgraph.aws4.container_3;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonElasticContainerService_ServiceAWS19' : 'shape=mxgraph.aws4.ecs_service;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonElasticContainerService_TaskAWS19' : 'shape=mxgraph.aws4.ecs_task;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSElasticBeanstalk_ApplicationAWS19' : 'shape=mxgraph.aws4.application;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSElasticBeanstalk_DeploymentAWS19' : 'shape=mxgraph.aws4.deployment;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSLambda_LambdaFunctionAWS19' : 'shape=mxgraph.aws4.lambda_function;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSThinkboxDeadlineAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.thinkbox_deadline;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;;pointerEvents=1',
+			'AWSThinkboxDraftAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.thinkbox_draft;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;;pointerEvents=1',
+			'AWSThinkboxFrostAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.thinkbox_frost;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;;pointerEvents=1',
+			'AWSThinkboxKrakatoaAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.thinkbox_krakatoa;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;;pointerEvents=1',
+			'AWSThinkboxSequoiaAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.thinkbox_sequoia;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;;pointerEvents=1',
+			'AWSThinkboxStokeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.thinkbox_stoke;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;;pointerEvents=1',
+			'AWSThinkboxXMeshAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.thinkbox_xmesh;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;;pointerEvents=1',
 			
 			
 // AWS 19 - Cost Management		
-			'AWSCostManagementAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cost_management;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSBudgetsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.budgets;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSCostandUsageReportAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cost_and_usage_report;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSCostExplorerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cost_explorer;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'ReservedInstanceReportingAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.reserved_instance_reporting;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
+			'AWSCostManagementAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cost_management;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSBudgetsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.budgets;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSCostandUsageReportAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cost_and_usage_report;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSCostExplorerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cost_explorer;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'ReservedInstanceReportingAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.reserved_instance_reporting;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
 			
 // AWS 19 - Customer Engagement			
-			'CustomerEngagementAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.customer_engagement;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonConnectAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.connect;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonPinpointAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.pinpoint;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonSimpleEmailServiceSESAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.simple_email_service;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonSimpleEmailServiceSES_EmailAWS19' : 'shape=mxgraph.aws4.email;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
+			'CustomerEngagementAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.customer_engagement;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonConnectAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.connect;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonPinpointAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.pinpoint;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonSimpleEmailServiceSESAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.simple_email_service;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonSimpleEmailServiceSES_EmailAWS19' : 'shape=mxgraph.aws4.email;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
 			
 // AWS 19 - Database			
-			'DatabaseAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.database;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonAuroraAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.aurora;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonDocumentDBwithMongoDBcompatibilityAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.documentdb_with_mongodb_compatibility;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonDynamoDBAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.dynamodb;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonElastiCacheAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elasticache;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonNeptuneAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.neptune;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonQuantumLedgerDatabase_QLDBAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.quantum_ledger_database;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonRDSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.rds;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonRDSonVMwareAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.rds_on_vmware;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonRedshift_blueAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.redshift;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonTimestreamAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.timestream;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSDatabaseMigrationServiceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.database_migration_service;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonDynamoDB_AttributeAWS19' : 'shape=mxgraph.aws4.attribute;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonDynamoDB_AttributesAWS19' : 'shape=mxgraph.aws4.attributes;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonDynamoDB_GlobalSecondaryIndexAWS19' : 'shape=mxgraph.aws4.global_secondary_index;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonDynamoDB_ItemAWS19' : 'shape=mxgraph.aws4.item;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonDynamoDB_ItemsAWS19' : 'shape=mxgraph.aws4.items;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonDynamoDB_TableAWS19' : 'shape=mxgraph.aws4.table;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonElastiCache_CacheNodeAWS19' : 'shape=mxgraph.aws4.cache_node;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonElastiCache_ForMemcachedAWS19' : 'shape=mxgraph.aws4.elasticache_for_memcached;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonElastiCache_ForRedisAWS19' : 'shape=mxgraph.aws4.elasticache_for_redis;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonRedshift_DenseComputeNode_blueAWS19' : 'shape=mxgraph.aws4.dense_compute_node;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonRedshift_DenseStorageNode_blueAWS19' : 'shape=mxgraph.aws4.dense_storage_node;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSDatabaseMigrationService_DatabaseMigrationWorkflowAWS19' : 'shape=mxgraph.aws4.database_migration_workflow_job;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonDynamoDBDAXAWS19' : 'shape=mxgraph.aws4.dynamodb_dax;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
+			'DatabaseAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.database;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonAuroraAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.aurora;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonDocumentDBwithMongoDBcompatibilityAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.documentdb_with_mongodb_compatibility;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonDynamoDBAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.dynamodb;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonElastiCacheAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elasticache;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonNeptuneAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.neptune;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonQuantumLedgerDatabase_QLDBAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.quantum_ledger_database;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonRDSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.rds;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonRDSonVMwareAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.rds_on_vmware;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonRedshift_blueAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.redshift;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonTimestreamAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.timestream;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSDatabaseMigrationServiceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.database_migration_service;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonDynamoDB_AttributeAWS19' : 'shape=mxgraph.aws4.attribute;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonDynamoDB_AttributesAWS19' : 'shape=mxgraph.aws4.attributes;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonDynamoDB_GlobalSecondaryIndexAWS19' : 'shape=mxgraph.aws4.global_secondary_index;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonDynamoDB_ItemAWS19' : 'shape=mxgraph.aws4.item;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonDynamoDB_ItemsAWS19' : 'shape=mxgraph.aws4.items;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonDynamoDB_TableAWS19' : 'shape=mxgraph.aws4.table;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonElastiCache_CacheNodeAWS19' : 'shape=mxgraph.aws4.cache_node;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonElastiCache_ForMemcachedAWS19' : 'shape=mxgraph.aws4.elasticache_for_memcached;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonElastiCache_ForRedisAWS19' : 'shape=mxgraph.aws4.elasticache_for_redis;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonRedshift_DenseComputeNode_blueAWS19' : 'shape=mxgraph.aws4.dense_compute_node;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonRedshift_DenseStorageNode_blueAWS19' : 'shape=mxgraph.aws4.dense_storage_node;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSDatabaseMigrationService_DatabaseMigrationWorkflowAWS19' : 'shape=mxgraph.aws4.database_migration_workflow_job;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonDynamoDBDAXAWS19' : 'shape=mxgraph.aws4.dynamodb_dax;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
 			
 // AWS 19 - Desktop App Streaming			
-			'DesktopandAppStreamingAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.desktop_and_app_streaming;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonAppstream2AWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.appstream_20;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonWorkspacesAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.workspaces;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
+			'DesktopandAppStreamingAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.desktop_and_app_streaming;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonAppstream2AWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.appstream_20;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonWorkspacesAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.workspaces;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
 			
 // AWS 19 - Developer Tools			
-			'DeveloperToolsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.developer_tools;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSCloud9AWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloud9;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSCodeBuildAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.codebuild;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSCodeCommitAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.codecommit;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSCodeDeployAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.codedeploy;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSCodePipelineAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.codepipeline;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSCodeStarAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.codestar;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSCommandLineInterfaceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.command_line_interface;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSToolsAndSDKsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.tools_and_sdks;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSXRayAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.xray;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSCloudDevelopmentKitAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloud_development_kit;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
+			'DeveloperToolsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.developer_tools;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSCloud9AWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloud9;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSCodeBuildAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.codebuild;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSCodeCommitAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.codecommit;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSCodeDeployAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.codedeploy;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSCodePipelineAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.codepipeline;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSCodeStarAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.codestar;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSCommandLineInterfaceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.command_line_interface;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSToolsAndSDKsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.tools_and_sdks;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSXRayAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.xray;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSCloudDevelopmentKitAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloud_development_kit;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
 			
 // AWS 19 - EC2 Instance Types
-			'AmazonEC2_InstanceAWS19' : 'shape=mxgraph.aws4.instance2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_InstancesAWS19' : 'shape=mxgraph.aws4.instances;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_InstancewithCloudWatchAWS19' : 'shape=mxgraph.aws4.instance_with_cloudwatch2;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_DBonInstanceAWS19' : 'shape=mxgraph.aws4.db_on_instance2;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_SpotInstanceAWS19' : 'shape=mxgraph.aws4.spot_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_HighMemoryInstanceAWS19' : 'shape=mxgraph.aws4.high_memory_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_A1InstanceAWS19' : 'shape=mxgraph.aws4.a1_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_OptimizedInstanceAWS19' : 'shape=mxgraph.aws4.optimized_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_C4InstanceAWS19' : 'shape=mxgraph.aws4.c4_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_C5InstanceAWS19' : 'shape=mxgraph.aws4.c5_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_C5nInstanceAWS19' : 'shape=mxgraph.aws4.c5n_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_D2InstanceAWS19' : 'shape=mxgraph.aws4.d2_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_F1InstanceAWS19' : 'shape=mxgraph.aws4.f1_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_G3InstanceAWS19' : 'shape=mxgraph.aws4.g3_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_H1InstanceAWS19' : 'shape=mxgraph.aws4.h1_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_I3InstanceAWS19' : 'shape=mxgraph.aws4.i3_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_M4InstanceAWS19' : 'shape=mxgraph.aws4.m4_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_M5aInstanceAWS19' : 'shape=mxgraph.aws4.m5a_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_M5InstanceAWS19' : 'shape=mxgraph.aws4.m5_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_P2InstanceAWS19' : 'shape=mxgraph.aws4.p2_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_P3InstanceAWS19' : 'shape=mxgraph.aws4.p3_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_R4InstanceAWS19' : 'shape=mxgraph.aws4.r4_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_R5aInstanceAWS19' : 'shape=mxgraph.aws4.r5a_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_R5InstanceAWS19' : 'shape=mxgraph.aws4.r5_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_T2InstanceAWS19' : 'shape=mxgraph.aws4.t2_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_T3aInstanceAWS19' : 'shape=mxgraph.aws4.t3a_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_T3InstanceAWS19' : 'shape=mxgraph.aws4.t3_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_X1eInstanceAWS19' : 'shape=mxgraph.aws4.x1e_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_X1InstanceAWS19' : 'shape=mxgraph.aws4.x1_instance2;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonEC2_z1dInstanceAWS19' : 'shape=mxgraph.aws4.z1d_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
+			'AmazonEC2_InstanceAWS19' : 'shape=mxgraph.aws4.instance2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_InstancesAWS19' : 'shape=mxgraph.aws4.instances;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_InstancewithCloudWatchAWS19' : 'shape=mxgraph.aws4.instance_with_cloudwatch2;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_DBonInstanceAWS19' : 'shape=mxgraph.aws4.db_on_instance2;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_SpotInstanceAWS19' : 'shape=mxgraph.aws4.spot_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_HighMemoryInstanceAWS19' : 'shape=mxgraph.aws4.high_memory_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_A1InstanceAWS19' : 'shape=mxgraph.aws4.a1_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_OptimizedInstanceAWS19' : 'shape=mxgraph.aws4.optimized_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_C4InstanceAWS19' : 'shape=mxgraph.aws4.c4_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_C5InstanceAWS19' : 'shape=mxgraph.aws4.c5_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_C5nInstanceAWS19' : 'shape=mxgraph.aws4.c5n_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_D2InstanceAWS19' : 'shape=mxgraph.aws4.d2_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_F1InstanceAWS19' : 'shape=mxgraph.aws4.f1_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_G3InstanceAWS19' : 'shape=mxgraph.aws4.g3_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_H1InstanceAWS19' : 'shape=mxgraph.aws4.h1_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_I3InstanceAWS19' : 'shape=mxgraph.aws4.i3_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_M4InstanceAWS19' : 'shape=mxgraph.aws4.m4_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_M5aInstanceAWS19' : 'shape=mxgraph.aws4.m5a_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_M5InstanceAWS19' : 'shape=mxgraph.aws4.m5_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_P2InstanceAWS19' : 'shape=mxgraph.aws4.p2_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_P3InstanceAWS19' : 'shape=mxgraph.aws4.p3_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_R4InstanceAWS19' : 'shape=mxgraph.aws4.r4_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_R5aInstanceAWS19' : 'shape=mxgraph.aws4.r5a_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_R5InstanceAWS19' : 'shape=mxgraph.aws4.r5_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_T2InstanceAWS19' : 'shape=mxgraph.aws4.t2_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_T3aInstanceAWS19' : 'shape=mxgraph.aws4.t3a_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_T3InstanceAWS19' : 'shape=mxgraph.aws4.t3_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_X1eInstanceAWS19' : 'shape=mxgraph.aws4.x1e_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_X1InstanceAWS19' : 'shape=mxgraph.aws4.x1_instance2;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonEC2_z1dInstanceAWS19' : 'shape=mxgraph.aws4.z1d_instance;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
 
-			'AmazonWorkLinkAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.worklink;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
+			'AmazonWorkLinkAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.worklink;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
 			
 // AWS 19 - Game Tech			
-			'GameTechAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.game_tech;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonGameLiftAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.gamelift;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
+			'GameTechAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.game_tech;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonGameLiftAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.gamelift;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
 			
 // AWS 19 - General			
-			'AWSMarketplaceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.marketplace;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSGeneral_AWSCloudAWS19' : 'shape=mxgraph.aws4.aws_cloud;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_CorporateDataCenterAWS19' : 'shape=mxgraph.aws4.corporate_data_center;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_DiskAWS19' : 'shape=mxgraph.aws4.disk;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_ForumsAWS19' : 'shape=mxgraph.aws4.forums;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_GenericDatabaseAWS19' : 'shape=mxgraph.aws4.generic_database;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_InternetAlt1AWS19' : 'shape=mxgraph.aws4.internet;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_InternetAlt2AWS19' : 'shape=mxgraph.aws4.internet_alt1;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_InternetGatewayAWS19' : 'shape=mxgraph.aws4.internet_alt2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_MobileClientAWS19' : 'shape=mxgraph.aws4.mobile_client;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_MultimediaAWS19' : 'shape=mxgraph.aws4.multimedia;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_OfficeBuildingAWS19' : 'shape=mxgraph.aws4.office_building;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_SAMLTokenAWS19' : 'shape=mxgraph.aws4.saml_token;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_SDKAWS19' : 'shape=mxgraph.aws4.external_sdk;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_SSLPadlockAWS19' : 'shape=mxgraph.aws4.ssl_padlock;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_TapeStorageAWS19' : 'shape=mxgraph.aws4.tape_storage;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_ToolkitAWS19' : 'shape=mxgraph.aws4.external_toolkit;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_TraditionalServerAWS19' : 'shape=mxgraph.aws4.traditional_server;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_UserAWS19' : 'shape=mxgraph.aws4.user;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_UsersAWS19' : 'shape=mxgraph.aws4.users;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSGeneral_VirtualPrivateCloudAWS19' : 'shape=mxgraph.aws4.virtual_private_cloud;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'ClientAWS19' : 'shape=mxgraph.aws4.client;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'External_SDKAWS19' : 'shape=mxgraph.aws4.external_sdk;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'External_ToolkitAWS19' : 'shape=mxgraph.aws4.external_toolkit;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
+			'AWSMarketplaceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.marketplace;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSGeneral_AWSCloudAWS19' : 'shape=mxgraph.aws4.aws_cloud;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_CorporateDataCenterAWS19' : 'shape=mxgraph.aws4.corporate_data_center;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_DiskAWS19' : 'shape=mxgraph.aws4.disk;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_ForumsAWS19' : 'shape=mxgraph.aws4.forums;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_GenericDatabaseAWS19' : 'shape=mxgraph.aws4.generic_database;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_InternetAlt1AWS19' : 'shape=mxgraph.aws4.internet;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_InternetAlt2AWS19' : 'shape=mxgraph.aws4.internet_alt1;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_InternetGatewayAWS19' : 'shape=mxgraph.aws4.internet_alt2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_MobileClientAWS19' : 'shape=mxgraph.aws4.mobile_client;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_MultimediaAWS19' : 'shape=mxgraph.aws4.multimedia;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_OfficeBuildingAWS19' : 'shape=mxgraph.aws4.office_building;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_SAMLTokenAWS19' : 'shape=mxgraph.aws4.saml_token;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_SDKAWS19' : 'shape=mxgraph.aws4.external_sdk;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_SSLPadlockAWS19' : 'shape=mxgraph.aws4.ssl_padlock;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_TapeStorageAWS19' : 'shape=mxgraph.aws4.tape_storage;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_ToolkitAWS19' : 'shape=mxgraph.aws4.external_toolkit;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_TraditionalServerAWS19' : 'shape=mxgraph.aws4.traditional_server;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_UserAWS19' : 'shape=mxgraph.aws4.user;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_UsersAWS19' : 'shape=mxgraph.aws4.users;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSGeneral_VirtualPrivateCloudAWS19' : 'shape=mxgraph.aws4.virtual_private_cloud;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'ClientAWS19' : 'shape=mxgraph.aws4.client;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'External_SDKAWS19' : 'shape=mxgraph.aws4.external_sdk;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'External_ToolkitAWS19' : 'shape=mxgraph.aws4.external_toolkit;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
 			
 // AWS 19 - Groups (Note: repeated below without _v2)
-			'AWSCloudAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fillColor=none',
-			'AWSCloudaltAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fillColor=none',
-			'RegionAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_region;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;dashed=1;fontColor=#0E82B8;fillColor=none',
-			'AvailabilityZoneAWS19_v2' : 'verticalAlign=top;fillColor=none;fillOpacity=100;dashed=1;dashPattern=5 5;fontColor=#0E82B8',
-			'SecuritygroupAWS19_v2' : 'verticalAlign=top;fillColor=none;fillOpacity=100',
-			'AutoScalingAWS19_v2' : 'shape=mxgraph.aws4.groupCenter;grIcon=mxgraph.aws4.group_auto_scaling_group;grStroke=1;verticalAlign=top;fillColor=none;fillOpacity=100;fontColor=#D75F17;spacingTop=25;fillColor=none',
-			'VirtualprivatecloudVPCAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fontColor=#2C8723;fillColor=none',
-			'PrivateSubnetAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;strokeColor=#0E82B8;fillColor=none',
-			'PublicSubnetAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;strokeColor=#2C8723;fontColor=#2C8723;fillColor=none',
-			'ServercontentsAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_on_premise;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fontColor=#5A6C86;fillColor=none',
-			'CorporatedatacenterAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_corporate_data_center;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fontColor=#5A6C86;fillColor=none',
-			'ElasticBeanstalkcontainerAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_elastic_beanstalk;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fontColor=#D75F17;fillColor=none',
-			'EC2instancecontentsAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_ec2_instance_contents;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fontColor=#D75F17;fillColor=none',
-			'SpotFleetAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_spot_fleet;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fontColor=#D75F17;fillColor=none',
-			'AWSStepFunctionAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_step_functions_workflow;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fontColor=#CB1261;fillColor=none',
-			'GenericGroup1AWS19_v2' : 'verticalAlign=top;align=center;fillColor=none;fillOpacity=100;dashed=1;dashPattern=5 5;strokeColor=#5A6C86;fontColor=#5A6C86',
-			'GenericGroup2AWS19_v2' : 'verticalAlign=top;align=center',
+			'AWSCloudAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fillColor=none;' + containerStyle,
+			'AWSCloudaltAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fillColor=none;' + containerStyle,
+			'RegionAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_region;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;dashed=1;fontColor=#0E82B8;fillColor=none;' + containerStyle,
+			'AvailabilityZoneAWS19_v2' : 'verticalAlign=top;fillColor=none;dashed=1;dashPattern=5 5;fontColor=#0E82B8;' + containerStyle,
+			'SecuritygroupAWS19_v2' : 'verticalAlign=top;fillColor=none;' + containerStyle,
+			'AutoScalingAWS19_v2' : 'shape=mxgraph.aws4.groupCenter;grIcon=mxgraph.aws4.group_auto_scaling_group;grStroke=1;verticalAlign=top;fillColor=none;fontColor=#D75F17;spacingTop=25;fillColor=none;' + containerStyle,
+			'VirtualprivatecloudVPCAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fontColor=#2C8723;fillColor=none;' + containerStyle,
+			'PrivateSubnetAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;strokeColor=#0E82B8;fillColor=none;' + containerStyle,
+			'PublicSubnetAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;strokeColor=#2C8723;fontColor=#2C8723;fillColor=none;' + containerStyle,
+			'ServercontentsAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_on_premise;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fontColor=#5A6C86;fillColor=none;' + containerStyle,
+			'CorporatedatacenterAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_corporate_data_center;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fontColor=#5A6C86;fillColor=none;' + containerStyle,
+			'ElasticBeanstalkcontainerAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_elastic_beanstalk;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fontColor=#D75F17;fillColor=none;' + containerStyle,
+			'EC2instancecontentsAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_ec2_instance_contents;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fontColor=#D75F17;fillColor=none;' + containerStyle,
+			'SpotFleetAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_spot_fleet;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fontColor=#D75F17;fillColor=none;' + containerStyle,
+			'AWSStepFunctionAWS19_v2' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_step_functions_workflow;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fontColor=#CB1261;fillColor=none;' + containerStyle,
+			'GenericGroup1AWS19_v2' : 'verticalAlign=top;align=center;fillColor=none;dashed=1;dashPattern=5 5;strokeColor=#5A6C86;fontColor=#5A6C86;' + containerStyle,
+			'GenericGroup2AWS19_v2' : 'verticalAlign=top;align=center;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;' + containerStyle,
 
 			//Repeated from the above
-			'AWSCloudAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fillColor=none',
-			'AWSCloudaltAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fillColor=none',
-			'RegionAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_region;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;dashed=1;fontColor=#0E82B8;fillColor=none',
-			'AvailabilityZoneAWS19' : 'verticalAlign=top;fillColor=none;fillOpacity=100;dashed=1;dashPattern=5 5;fontColor=#0E82B8;strokeOpacity=100;strokeColor=#147eba',
-			'SecuritygroupAWS19' : 'verticalAlign=top;fillColor=none;fillOpacity=100;fontColor=#DD3522',
-			'AutoScalingAWS19' : 'shape=mxgraph.aws4.groupCenter;grIcon=mxgraph.aws4.group_auto_scaling_group;grStroke=1;verticalAlign=top;fillColor=none;fillOpacity=100;fontColor=#D75F17;spacingTop=25;fillColor=none',
-			'VirtualprivatecloudVPCAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fontColor=#2C8723;fillColor=none',
-			'PrivateSubnetAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;verticalAlign=top;align=left;spacingLeft=30;strokeColor=#0E82B8;fontColor=#0E82B8;fillOpacity=13;fillColor=#147eba',
-			'PublicSubnetAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;verticalAlign=top;align=left;spacingLeft=30;strokeColor=#2C8723;fontColor=#2C8723;fillOpacity=13;fillColor=#248814',
-			'ServercontentsAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_on_premise;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fontColor=#5A6C86;fillColor=none',
-			'CorporatedatacenterAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_corporate_data_center;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fontColor=#5A6C86;fillColor=none',
-			'ElasticBeanstalkcontainerAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_elastic_beanstalk;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fontColor=#D75F17;fillColor=none',
-			'EC2instancecontentsAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_ec2_instance_contents;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fontColor=#D75F17;fillColor=none',
-			'SpotFleetAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_spot_fleet;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fontColor=#D75F17;fillColor=none',
-			'AWSStepFunctionAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_step_functions_workflow;verticalAlign=top;align=left;spacingLeft=30;fillOpacity=100;fontColor=#CB1261;fillColor=none',
-			'GenericGroup1AWS19' : 'verticalAlign=top;align=center;fillColor=none;fillOpacity=100;dashed=1;dashPattern=5 5;strokeColor=#5A6C86;fontColor=#5A6C86',
-			'GenericGroup2AWS19' : 'verticalAlign=top;align=center;fillOpacity=100;fillColor=#EAECEF',
+			'AWSCloudAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fillColor=none;' + containerStyle,
+			'AWSCloudaltAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fillColor=none;' + containerStyle,
+			'RegionAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_region;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;dashed=1;fontColor=#0E82B8;fillColor=none;' + containerStyle,
+			'AvailabilityZoneAWS19' : 'verticalAlign=top;fillColor=none;dashed=1;dashPattern=5 5;fontColor=#0E82B8;strokeOpacity=100;strokeColor=#147eba;' + containerStyle,
+			'SecuritygroupAWS19' : 'verticalAlign=top;fillColor=none;fontColor=#DD3522;' + containerStyle,
+			'AutoScalingAWS19' : 'shape=mxgraph.aws4.groupCenter;grIcon=mxgraph.aws4.group_auto_scaling_group;grStroke=1;verticalAlign=top;fillColor=none;fontColor=#D75F17;spacingTop=25;fillColor=none;' + containerStyle,
+			'VirtualprivatecloudVPCAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fontColor=#2C8723;fillColor=none;' + containerStyle,
+			'PrivateSubnetAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;strokeColor=#0E82B8;fontColor=#0E82B8;fillOpacity=13;fillColor=#147eba;' + containerStyle,
+			'PublicSubnetAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;strokeColor=#2C8723;fontColor=#2C8723;fillOpacity=13;fillColor=#248814;' + containerStyle,
+			'ServercontentsAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_on_premise;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fontColor=#5A6C86;fillColor=none;' + containerStyle,
+			'CorporatedatacenterAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_corporate_data_center;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fontColor=#5A6C86;fillColor=none;' + containerStyle,
+			'ElasticBeanstalkcontainerAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_elastic_beanstalk;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fontColor=#D75F17;fillColor=none;' + containerStyle,
+			'EC2instancecontentsAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_ec2_instance_contents;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fontColor=#D75F17;fillColor=none;' + containerStyle,
+			'SpotFleetAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_spot_fleet;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fontColor=#D75F17;fillColor=none;' + containerStyle,
+			'AWSStepFunctionAWS19' : 'shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_step_functions_workflow;verticalAlign=top;align=left;grIconSize=40;spacingLeft=45;spacingTop=5;fontColor=#CB1261;fillColor=none;' + containerStyle,
+			'GenericGroup1AWS19' : 'verticalAlign=top;align=center;fillColor=none;dashed=1;dashPattern=5 5;strokeColor=#5A6C86;fontColor=#5A6C86;' + containerStyle,
+			'GenericGroup2AWS19' : 'verticalAlign=top;align=center;fillColor=#EAECEF;' + containerStyle,
 // AWS 19 - Internet of Things			
-			'InternetofThingsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.internet_of_things;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonFreeRTOSlightbgAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.freertos;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSIoT1ClickAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_1click;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSIoTButtonAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_button;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSIoTCoreAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_core;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSIoTDeviceDefenderAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_device_defender;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSIoTDeviceManagementAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_device_management;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSIoTEventsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_events;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSIoTGreengrassAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.greengrass;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSIoTSiteWiseAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_sitewise;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSIoTThingsGraphAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_things_graph;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSIoTAnalyticsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_analytics;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSIoTAnalytics_ChannelAWS19' : 'shape=mxgraph.aws4.iot_analytics_channel;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSIoTAnalytics_DataStoreAWS19' : 'shape=mxgraph.aws4.iot_analytics_data_store;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSIoTAnalytics_PipelineAWS19' : 'shape=mxgraph.aws4.iot_analytics_pipeline;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_ActionAWS19' : 'shape=mxgraph.aws4.action;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_ActuatorAWS19' : 'shape=mxgraph.aws4.actuator;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_AlexaEnabledDeviceAWS19' : 'shape=mxgraph.aws4.alexa_enabled_device;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_AlexaSkillAWS19' : 'shape=mxgraph.aws4.alexa_skill;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_AlexaVoiceServiceAWS19' : 'shape=mxgraph.aws4.alexa_skill;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_BankAWS19' : 'shape=mxgraph.aws4.bank;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_BicycleAWS19' : 'shape=mxgraph.aws4.bycicle;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_CameraAWS19' : 'shape=mxgraph.aws4.camera;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_CarAWS19' : 'shape=mxgraph.aws4.car;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_CartAWS19' : 'shape=mxgraph.aws4.cart;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_CertificateManagerAWS19' : 'shape=mxgraph.aws4.certificate_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_CoffeePotAWS19' : 'shape=mxgraph.aws4.coffee_pot;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_DesiredStateAWS19' : 'shape=mxgraph.aws4.desired_state;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_DeviceGatewayAWS19' : 'shape=mxgraph.aws4.iot_device_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_DoorLockAWS19' : 'shape=mxgraph.aws4.door_lock;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_EchoAWS19' : 'shape=mxgraph.aws4.echo;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_FactoryAWS19' : 'shape=mxgraph.aws4.factory;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_FireTVAWS19' : 'shape=mxgraph.aws4.firetv;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_FireTVStickAWS19' : 'shape=mxgraph.aws4.firetv_stick;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_GenericAWS19' : 'shape=mxgraph.aws4.generic;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_HardwareBoardAWS19' : 'shape=mxgraph.aws4.hardware_board;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_HouseAWS19' : 'shape=mxgraph.aws4.house;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_HTTP2ProtocolAWS19' : 'shape=mxgraph.aws4.http2_protocol;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_HTTPProtocolAWS19' : 'shape=mxgraph.aws4.http_protocol;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_LambdaFunctionAWS19' : 'shape=mxgraph.aws4.lambda_function;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_LightbulbAWS19' : 'shape=mxgraph.aws4.lightbulb;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_MedicalEmergencyAWS19' : 'shape=mxgraph.aws4.medical_emergency;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_MQTTProtocolAWS19' : 'shape=mxgraph.aws4.mqtt_protocol;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_OverTheAirUpdateAWS19' : 'shape=mxgraph.aws4.iot_over_the_air_update;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_PoliceEmergencyAWS19' : 'shape=mxgraph.aws4.police_emergency;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_PolicyAWS19' : 'shape=mxgraph.aws4.policy;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_ReportedStateAWS19' : 'shape=mxgraph.aws4.reported_state;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_RuleAWS19' : 'shape=mxgraph.aws4.rule;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_SensorAWS19' : 'shape=mxgraph.aws4.sensor;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_ServoAWS19' : 'shape=mxgraph.aws4.servo;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_ShadowAWS19' : 'shape=mxgraph.aws4.shadow;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_SimulatorAWS19' : 'shape=mxgraph.aws4.simulator;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_ThermostatAWS19' : 'shape=mxgraph.aws4.thermostat;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_TopicAWS19' : 'shape=mxgraph.aws4.topic_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_TravelAWS19' : 'shape=mxgraph.aws4.travel;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_UtilityAWS19' : 'shape=mxgraph.aws4.utility;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'IoT_WindfarmAWS19' : 'shape=mxgraph.aws4.windfarm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSIoTGreengrass_ConnectorAWS19' : 'shape=mxgraph.aws4.connector;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSIoTAnalytics_DataSetAWS19' : 'shape=mxgraph.aws4.data_set;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSIoTAnalytics_NotebookAWS19' : 'shape=mxgraph.aws4.notebook;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
+			'InternetofThingsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.internet_of_things;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonFreeRTOSlightbgAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.freertos;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSIoT1ClickAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_1click;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSIoTButtonAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_button;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSIoTCoreAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_core;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSIoTDeviceDefenderAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_device_defender;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSIoTDeviceManagementAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_device_management;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSIoTEventsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_events;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSIoTGreengrassAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.greengrass;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSIoTSiteWiseAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_sitewise;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSIoTThingsGraphAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_things_graph;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSIoTAnalyticsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_analytics;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSIoTAnalytics_ChannelAWS19' : 'shape=mxgraph.aws4.iot_analytics_channel;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSIoTAnalytics_DataStoreAWS19' : 'shape=mxgraph.aws4.iot_analytics_data_store;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSIoTAnalytics_PipelineAWS19' : 'shape=mxgraph.aws4.iot_analytics_pipeline;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_ActionAWS19' : 'shape=mxgraph.aws4.action;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_ActuatorAWS19' : 'shape=mxgraph.aws4.actuator;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_AlexaEnabledDeviceAWS19' : 'shape=mxgraph.aws4.alexa_enabled_device;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_AlexaSkillAWS19' : 'shape=mxgraph.aws4.alexa_skill;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_AlexaVoiceServiceAWS19' : 'shape=mxgraph.aws4.alexa_skill;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_BankAWS19' : 'shape=mxgraph.aws4.bank;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_BicycleAWS19' : 'shape=mxgraph.aws4.bycicle;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_CameraAWS19' : 'shape=mxgraph.aws4.camera;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_CarAWS19' : 'shape=mxgraph.aws4.car;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_CartAWS19' : 'shape=mxgraph.aws4.cart;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_CertificateManagerAWS19' : 'shape=mxgraph.aws4.certificate_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_CoffeePotAWS19' : 'shape=mxgraph.aws4.coffee_pot;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_DesiredStateAWS19' : 'shape=mxgraph.aws4.desired_state;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_DeviceGatewayAWS19' : 'shape=mxgraph.aws4.iot_device_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_DoorLockAWS19' : 'shape=mxgraph.aws4.door_lock;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_EchoAWS19' : 'shape=mxgraph.aws4.echo;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_FactoryAWS19' : 'shape=mxgraph.aws4.factory;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_FireTVAWS19' : 'shape=mxgraph.aws4.firetv;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_FireTVStickAWS19' : 'shape=mxgraph.aws4.firetv_stick;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_GenericAWS19' : 'shape=mxgraph.aws4.generic;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_HardwareBoardAWS19' : 'shape=mxgraph.aws4.hardware_board;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_HouseAWS19' : 'shape=mxgraph.aws4.house;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_HTTP2ProtocolAWS19' : 'shape=mxgraph.aws4.http2_protocol;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_HTTPProtocolAWS19' : 'shape=mxgraph.aws4.http_protocol;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_LambdaFunctionAWS19' : 'shape=mxgraph.aws4.lambda_function;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_LightbulbAWS19' : 'shape=mxgraph.aws4.lightbulb;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_MedicalEmergencyAWS19' : 'shape=mxgraph.aws4.medical_emergency;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_MQTTProtocolAWS19' : 'shape=mxgraph.aws4.mqtt_protocol;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_OverTheAirUpdateAWS19' : 'shape=mxgraph.aws4.iot_over_the_air_update;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_PoliceEmergencyAWS19' : 'shape=mxgraph.aws4.police_emergency;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_PolicyAWS19' : 'shape=mxgraph.aws4.policy;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_ReportedStateAWS19' : 'shape=mxgraph.aws4.reported_state;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_RuleAWS19' : 'shape=mxgraph.aws4.rule;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_SensorAWS19' : 'shape=mxgraph.aws4.sensor;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_ServoAWS19' : 'shape=mxgraph.aws4.servo;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_ShadowAWS19' : 'shape=mxgraph.aws4.shadow;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_SimulatorAWS19' : 'shape=mxgraph.aws4.simulator;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_ThermostatAWS19' : 'shape=mxgraph.aws4.thermostat;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_TopicAWS19' : 'shape=mxgraph.aws4.topic_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_TravelAWS19' : 'shape=mxgraph.aws4.travel;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_UtilityAWS19' : 'shape=mxgraph.aws4.utility;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'IoT_WindfarmAWS19' : 'shape=mxgraph.aws4.windfarm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSIoTGreengrass_ConnectorAWS19' : 'shape=mxgraph.aws4.connector;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSIoTAnalytics_DataSetAWS19' : 'shape=mxgraph.aws4.data_set;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSIoTAnalytics_NotebookAWS19' : 'shape=mxgraph.aws4.notebook;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
 			
 // AWS 19 - Machine Learning			
-			'MachineLearningAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.machine_learning;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonComprehendAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.comprehend;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonElasticInferenceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_inference;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonForecastAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.forecast;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonLexAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lex;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonPersonalizeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.personalize;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonPollyAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.polly;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonRekognitionAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.rekognition;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonSageMakerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sagemaker;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonSageMakerGroundTruthAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sagemaker_ground_truth;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonTextractAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.textract;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonTranscribeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.transcribe;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonTranslateAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.translate;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'ApacheMXNetonAWSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.apache_mxnet_on_aws;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSDeepLearningAMIsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.deep_learning_amis;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSDeepLensAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.deeplens;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSDeepRacerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.deepracer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'TensorFlowonAWSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.tensorflow_on_aws;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonSageMaker_ModelAWS19' : 'shape=mxgraph.aws4.sagemaker_model;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonSageMaker_NotebookAWS19' : 'shape=mxgraph.aws4.sagemaker_notebook;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonSageMaker_TrainAWS19' : 'shape=mxgraph.aws4.sagemaker_train;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonRekognition_ImageAWS19' : 'shape=mxgraph.aws4.rekognition_image;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonRekognition_VideoAWS19' : 'shape=mxgraph.aws4.rekognition_video;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSDeepLearningContainersAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.deep_learning_containers;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
+			'MachineLearningAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.machine_learning;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonComprehendAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.comprehend;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonElasticInferenceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_inference;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonForecastAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.forecast;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonLexAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lex;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonPersonalizeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.personalize;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonPollyAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.polly;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonRekognitionAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.rekognition;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonSageMakerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sagemaker;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonSageMakerGroundTruthAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sagemaker_ground_truth;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonTextractAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.textract;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonTranscribeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.transcribe;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonTranslateAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.translate;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'ApacheMXNetonAWSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.apache_mxnet_on_aws;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSDeepLearningAMIsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.deep_learning_amis;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSDeepLensAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.deeplens;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSDeepRacerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.deepracer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'TensorFlowonAWSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.tensorflow_on_aws;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonSageMaker_ModelAWS19' : 'shape=mxgraph.aws4.sagemaker_model;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonSageMaker_NotebookAWS19' : 'shape=mxgraph.aws4.sagemaker_notebook;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonSageMaker_TrainAWS19' : 'shape=mxgraph.aws4.sagemaker_train;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonRekognition_ImageAWS19' : 'shape=mxgraph.aws4.rekognition_image;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonRekognition_VideoAWS19' : 'shape=mxgraph.aws4.rekognition_video;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSDeepLearningContainersAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.deep_learning_containers;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
 			
 // AWS 19 - Management & Governance			
-			'ManagementandGovernanceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.management_and_governance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonCloudWatchAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSAutoScalingAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.autoscaling;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSCloudFormationAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudformation;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSCloudTrailAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudtrail;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSCommandLineInterface_pinkAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.command_line_interface;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSConfigAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.config;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSControlTowerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.control_tower;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSLicenseManagerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.license_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSManagedServicesAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.managed_services;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSManagementConsoleAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.management_console;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSOpsWorksAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.opsworks;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSPersonalHealthDashboardAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.personal_health_dashboard;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSServiceCatalogAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.service_catalog;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSSystemsManagerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.systems_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSTrustedAdvisorAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.trusted_advisor;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSWellArchitectedToolAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.well_architected_tool;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonCloudWatch_AlarmAWS19' : 'shape=mxgraph.aws4.alarm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonCloudWatch_EventEventBasedAWS19' : 'shape=mxgraph.aws4.event_event_based;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonCloudWatch_EventTimeBasedAWS19' : 'shape=mxgraph.aws4.event_time_based;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonCloudWatch_RuleAWS19' : 'shape=mxgraph.aws4.rule_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSCloudFormation_ChangeSetAWS19' : 'shape=mxgraph.aws4.change_set;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSCloudFormation_StackAWS19' : 'shape=mxgraph.aws4.stack;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSCloudFormation_TemplateAWS19' : 'shape=mxgraph.aws4.template;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSOpsWorks_AppsAWS19' : 'shape=mxgraph.aws4.opsworks_apps;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSOpsWorks_DeploymentsAWS19' : 'shape=mxgraph.aws4.deployments;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSOpsWorks_InstancesAWS19' : 'shape=mxgraph.aws4.instances_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSOpsWorks_LayersAWS19' : 'shape=mxgraph.aws4.layers;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSOpsWorks_MonitoringAWS19' : 'shape=mxgraph.aws4.monitoring;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSOpsWorks_PermissionsAWS19' : 'shape=mxgraph.aws4.opsworks_permissions;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSOpsWorks_ResourcesAWS19' : 'shape=mxgraph.aws4.resources;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSOpsWorks_Stack2AWS19' : 'shape=mxgraph.aws4.stack2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSSystemsManager_AutomationAWS19' : 'shape=mxgraph.aws4.automation;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSSystemsManager_DocumentsAWS19' : 'shape=mxgraph.aws4.documents;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSSystemsManager_InventoryAWS19' : 'shape=mxgraph.aws4.inventory;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSSystemsManager_MaintenanceWindowsAWS19' : 'shape=mxgraph.aws4.maintenance_windows;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSSystemsManager_ParameterStoreAWS19' : 'shape=mxgraph.aws4.parameter_store;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSSystemsManager_PatchManagerAWS19' : 'shape=mxgraph.aws4.patch_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSSystemsManager_RunCommandAWS19' : 'shape=mxgraph.aws4.run_command;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSSystemsManager_StateManagerAWS19' : 'shape=mxgraph.aws4.state_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSTrustedAdvisor_ChecklistAWS19' : 'shape=mxgraph.aws4.checklist;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSTrustedAdvisor_ChecklistCostAWS19' : 'shape=mxgraph.aws4.checklist_cost;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSTrustedAdvisor_ChecklistFaultTolerantAWS19' : 'shape=mxgraph.aws4.checklist_fault_tolerant;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSTrustedAdvisor_ChecklistPerformanceAWS19' : 'shape=mxgraph.aws4.checklist_performance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSTrustedAdvisor_ChecklistSecurityAWS19' : 'shape=mxgraph.aws4.checklist_security;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSOrganizationsAWS19_v2' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.organizations;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSSystemsManagerOpsCenterAWS19' : 'shape=mxgraph.aws4.systems_manager_opscenter;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
+			'ManagementandGovernanceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.management_and_governance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonCloudWatchAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSAutoScalingAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.autoscaling;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSCloudFormationAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudformation;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSCloudTrailAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudtrail;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSCommandLineInterface_pinkAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.command_line_interface;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSConfigAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.config;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSControlTowerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.control_tower;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSLicenseManagerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.license_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSManagedServicesAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.managed_services;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSManagementConsoleAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.management_console;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSOpsWorksAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.opsworks;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSPersonalHealthDashboardAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.personal_health_dashboard;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSServiceCatalogAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.service_catalog;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSSystemsManagerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.systems_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSTrustedAdvisorAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.trusted_advisor;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSWellArchitectedToolAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.well_architected_tool;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonCloudWatch_AlarmAWS19' : 'shape=mxgraph.aws4.alarm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonCloudWatch_EventEventBasedAWS19' : 'shape=mxgraph.aws4.event_event_based;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonCloudWatch_EventTimeBasedAWS19' : 'shape=mxgraph.aws4.event_time_based;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonCloudWatch_RuleAWS19' : 'shape=mxgraph.aws4.rule_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSCloudFormation_ChangeSetAWS19' : 'shape=mxgraph.aws4.change_set;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSCloudFormation_StackAWS19' : 'shape=mxgraph.aws4.stack;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSCloudFormation_TemplateAWS19' : 'shape=mxgraph.aws4.template;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSOpsWorks_AppsAWS19' : 'shape=mxgraph.aws4.opsworks_apps;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSOpsWorks_DeploymentsAWS19' : 'shape=mxgraph.aws4.deployments;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSOpsWorks_InstancesAWS19' : 'shape=mxgraph.aws4.instances_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSOpsWorks_LayersAWS19' : 'shape=mxgraph.aws4.layers;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSOpsWorks_MonitoringAWS19' : 'shape=mxgraph.aws4.monitoring;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSOpsWorks_PermissionsAWS19' : 'shape=mxgraph.aws4.opsworks_permissions;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSOpsWorks_ResourcesAWS19' : 'shape=mxgraph.aws4.resources;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSOpsWorks_Stack2AWS19' : 'shape=mxgraph.aws4.stack2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSSystemsManager_AutomationAWS19' : 'shape=mxgraph.aws4.automation;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSSystemsManager_DocumentsAWS19' : 'shape=mxgraph.aws4.documents;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSSystemsManager_InventoryAWS19' : 'shape=mxgraph.aws4.inventory;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSSystemsManager_MaintenanceWindowsAWS19' : 'shape=mxgraph.aws4.maintenance_windows;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSSystemsManager_ParameterStoreAWS19' : 'shape=mxgraph.aws4.parameter_store;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSSystemsManager_PatchManagerAWS19' : 'shape=mxgraph.aws4.patch_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSSystemsManager_RunCommandAWS19' : 'shape=mxgraph.aws4.run_command;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSSystemsManager_StateManagerAWS19' : 'shape=mxgraph.aws4.state_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSTrustedAdvisor_ChecklistAWS19' : 'shape=mxgraph.aws4.checklist;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSTrustedAdvisor_ChecklistCostAWS19' : 'shape=mxgraph.aws4.checklist_cost;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSTrustedAdvisor_ChecklistFaultTolerantAWS19' : 'shape=mxgraph.aws4.checklist_fault_tolerant;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSTrustedAdvisor_ChecklistPerformanceAWS19' : 'shape=mxgraph.aws4.checklist_performance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSTrustedAdvisor_ChecklistSecurityAWS19' : 'shape=mxgraph.aws4.checklist_security;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSOrganizationsAWS19_v2' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.organizations;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSSystemsManagerOpsCenterAWS19' : 'shape=mxgraph.aws4.systems_manager_opscenter;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
 			
 // AWS 19 - Media Services			
-			'MediaServicesAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.media_services;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonElasticTranscoderAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_transcoder;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonKinesisVideoStreams_orangeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.kinesis_video_streams;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSElementalMediaConnectAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elemental_mediaconnect;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSElementalMediaConvertAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elemental_mediaconvert;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSElementalMediaLiveAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elemental_medialive;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSElementalMediaPackageAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elemental_mediapackage;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSElementalMediaStoreAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elemental_mediastore;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSElementalMediaTailorAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elemental_mediatailor;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
+			'MediaServicesAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.media_services;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonElasticTranscoderAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_transcoder;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonKinesisVideoStreams_orangeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.kinesis_video_streams;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSElementalMediaConnectAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elemental_mediaconnect;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSElementalMediaConvertAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elemental_mediaconvert;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSElementalMediaLiveAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elemental_medialive;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSElementalMediaPackageAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elemental_mediapackage;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSElementalMediaStoreAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elemental_mediastore;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSElementalMediaTailorAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elemental_mediatailor;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
 			
 // AWS 19 - Migration & Transfer			
-			'MigrationandTransferAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.migration_and_transfer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSApplicationDiscoveryServiceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.application_discovery_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSDatabaseMigrationService_greenAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.database_migration_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSDataSyncAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.datasync;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSMigrationHubAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.migration_hub;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSServerMigrationServiceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.server_migration_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSSnowballAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.snowball;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSSnowballEdgeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.snowball_edge;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSSnowmobileAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.snowmobile;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSTransferforSFTPAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.transfer_for_sftp;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSDataSync_AgentAWS19' : 'shape=mxgraph.aws4.agent2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
+			'MigrationandTransferAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.migration_and_transfer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSApplicationDiscoveryServiceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.application_discovery_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSDatabaseMigrationService_greenAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.database_migration_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSDataSyncAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.datasync;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSMigrationHubAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.migration_hub;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSServerMigrationServiceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.server_migration_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSSnowballAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.snowball;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSSnowballEdgeAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.snowball_edge;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSSnowmobileAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.snowmobile;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSTransferforSFTPAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.transfer_for_sftp;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSDataSync_AgentAWS19' : 'shape=mxgraph.aws4.agent2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
 // AWS 19 - Mobile			
-			'MobileAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.mobile;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonAPIGatewayAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonPinpoint_redAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.pinpoint;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSAmplifyAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.amplify;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSAppSync_redAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.appsync;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSDeviceFarmAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.device_farm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
+			'MobileAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.mobile;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonAPIGatewayAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonPinpoint_redAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.pinpoint;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSAmplifyAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.amplify;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSAppSync_redAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.appsync;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSDeviceFarmAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.device_farm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
 			
 // AWS 19 - Networking & Content Delivery			
-			'NetworkingandContentDeliveryAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.networking_and_content_delivery;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonAPIGateway_purpleAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonCloudFrontAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudfront;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonRoute53AWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.route_53;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonVPCAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.vpc;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonVPCPrivateLinkAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.vpc_privatelink;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSAppMeshAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.app_mesh;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSClientVPNAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.client_vpn;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSCloudMapAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloud_map;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSDirectConnectAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.direct_connect;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSGlobalAcceleratorAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.global_accelerator;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSTransitGatewayAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.transit_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonCloudFront_DownloadDistributionAWS19' : 'shape=mxgraph.aws4.download_distribution;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonCloudFront_EdgeLocationAWS19' : 'shape=mxgraph.aws4.edge_location;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonCloudFront_StreamingDistributionAWS19' : 'shape=mxgraph.aws4.streaming_distribution;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonRoute53_HostedZoneAWS19' : 'shape=mxgraph.aws4.hosted_zone;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonRoute53_RouteTableAWS19' : 'shape=mxgraph.aws4.route_table;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonVPC_CustomerGatewayAWS19' : 'shape=mxgraph.aws4.customer_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonVPC_ElasticNetworkAdapterAWS19' : 'shape=mxgraph.aws4.elastic_network_adapter;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonVPC_ElasticNetworkInterfaceAWS19' : 'shape=mxgraph.aws4.elastic_network_interface;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonVPC_EndpointsAWS19' : 'shape=mxgraph.aws4.endpoints;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonVPC_FlowLogsAWS19' : 'shape=mxgraph.aws4.flow_logs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonVPC_InternetGatewayAWS19' : 'shape=mxgraph.aws4.internet_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonVPC_NATGatewayAWS19' : 'shape=mxgraph.aws4.nat_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonVPC_NetworkAccessControlListAWS19' : 'shape=mxgraph.aws4.network_access_control_list;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonVPC_PeeringAWS19' : 'shape=mxgraph.aws4.peering;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonVPC_RouterAWS19' : 'shape=mxgraph.aws4.router;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonVPC_VPNConnectionAWS19' : 'shape=mxgraph.aws4.vpn_connection;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonVPC_VPNGatewayAWS19' : 'shape=mxgraph.aws4.vpn_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonNetworkingAPIGateway_EndpointAWS19' : 'shape=mxgraph.aws4.endpoint;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonVPCTrafficMirroringAWS19' : 'shape=mxgraph.aws4.vpc_traffic_mirroring;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSSitetoSiteVPNAWS19' : 'shape=mxgraph.aws4.site_to_site_vpn;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'ElasticLoadBalancing_ApplicationloadbalancerAWS19' : 'shape=mxgraph.aws4.application_load_balancer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'ElasticLoadBalancingELBAWS19_v2' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_load_balancing;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'ElasticLoadBalancing_ClassicloadbalancerAWS19' : 'shape=mxgraph.aws4.classic_load_balancer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'ElasticLoadBalancing_NetworkloadbalancerAWS19' : 'shape=mxgraph.aws4.network_load_balancer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
+			'NetworkingandContentDeliveryAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.networking_and_content_delivery;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonAPIGateway_purpleAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonCloudFrontAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudfront;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonRoute53AWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.route_53;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonVPCAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.vpc;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonVPCPrivateLinkAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.vpc_privatelink;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSAppMeshAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.app_mesh;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSClientVPNAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.client_vpn;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSCloudMapAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloud_map;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSDirectConnectAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.direct_connect;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSGlobalAcceleratorAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.global_accelerator;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSTransitGatewayAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.transit_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonCloudFront_DownloadDistributionAWS19' : 'shape=mxgraph.aws4.download_distribution;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonCloudFront_EdgeLocationAWS19' : 'shape=mxgraph.aws4.edge_location;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonCloudFront_StreamingDistributionAWS19' : 'shape=mxgraph.aws4.streaming_distribution;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonRoute53_HostedZoneAWS19' : 'shape=mxgraph.aws4.hosted_zone;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonRoute53_RouteTableAWS19' : 'shape=mxgraph.aws4.route_table;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonVPC_CustomerGatewayAWS19' : 'shape=mxgraph.aws4.customer_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonVPC_ElasticNetworkAdapterAWS19' : 'shape=mxgraph.aws4.elastic_network_adapter;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonVPC_ElasticNetworkInterfaceAWS19' : 'shape=mxgraph.aws4.elastic_network_interface;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonVPC_EndpointsAWS19' : 'shape=mxgraph.aws4.endpoints;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonVPC_FlowLogsAWS19' : 'shape=mxgraph.aws4.flow_logs;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonVPC_InternetGatewayAWS19' : 'shape=mxgraph.aws4.internet_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonVPC_NATGatewayAWS19' : 'shape=mxgraph.aws4.nat_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonVPC_NetworkAccessControlListAWS19' : 'shape=mxgraph.aws4.network_access_control_list;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonVPC_PeeringAWS19' : 'shape=mxgraph.aws4.peering;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonVPC_RouterAWS19' : 'shape=mxgraph.aws4.router;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonVPC_VPNConnectionAWS19' : 'shape=mxgraph.aws4.vpn_connection;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonVPC_VPNGatewayAWS19' : 'shape=mxgraph.aws4.vpn_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonNetworkingAPIGateway_EndpointAWS19' : 'shape=mxgraph.aws4.endpoint;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonVPCTrafficMirroringAWS19' : 'shape=mxgraph.aws4.vpc_traffic_mirroring;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSSitetoSiteVPNAWS19' : 'shape=mxgraph.aws4.site_to_site_vpn;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'ElasticLoadBalancing_ApplicationloadbalancerAWS19' : 'shape=mxgraph.aws4.application_load_balancer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'ElasticLoadBalancingELBAWS19_v2' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_load_balancing;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'ElasticLoadBalancing_ClassicloadbalancerAWS19' : 'shape=mxgraph.aws4.classic_load_balancer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'ElasticLoadBalancing_NetworkloadbalancerAWS19' : 'shape=mxgraph.aws4.network_load_balancer;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
 			
 // AWS 19 - Robotics		
-			'RoboticsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.robotics;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSRoboMakerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.robotics;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSRoboMaker_CloudExtensionROSAWS19' : 'shape=mxgraph.aws4.cloud_extension_ros;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSRoboMaker_DevelopmentEnvironmentAWS19' : 'shape=mxgraph.aws4.development_environment;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSRoboMaker_FleetManagementAWS19' : 'shape=mxgraph.aws4.fleet_management;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSRoboMaker_SimulationAWS19' : 'shape=mxgraph.aws4.simulation;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
+			'RoboticsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.robotics;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSRoboMakerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.robotics;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSRoboMaker_CloudExtensionROSAWS19' : 'shape=mxgraph.aws4.cloud_extension_ros;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSRoboMaker_DevelopmentEnvironmentAWS19' : 'shape=mxgraph.aws4.development_environment;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSRoboMaker_FleetManagementAWS19' : 'shape=mxgraph.aws4.fleet_management;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSRoboMaker_SimulationAWS19' : 'shape=mxgraph.aws4.simulation;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
 			
 // AWS 19 - Satellite			
-			'SatelliteAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.satellite;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AWSGroundStationAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ground_station;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
+			'SatelliteAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.satellite;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AWSGroundStationAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ground_station;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
 			
 // AWS 19 - Security, Identity & Compliance			
-			'SecurityIdentityandComplianceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.security_identity_and_compliance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonCloudDirectoryAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloud_directory;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonCognitoAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cognito;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonGuardDutyAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.guardduty;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonInspectorAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.inspector;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonMacieAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.macie;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSArtifactAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.artifact;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSCertificateManagerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.certificate_manager_3;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSCloudHSMAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudhsm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSDirectoryServiceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.directory_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSFirewallManagerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.firewall_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSIdentityandAccessManagement_IAMAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.identity_and_access_management;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSKeyManagementServiceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.key_management_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSOrganizationsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.organizations;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSSecretsManagerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.secrets_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSSecurityHubAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.security_hub;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSShieldAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.shield;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSSingleSignOnAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.single_sign_on;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSWAFAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.waf;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonInspector_AgentAWS19' : 'shape=mxgraph.aws4.agent;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSCertificateManager_CertificateManagerAWS19' : 'shape=mxgraph.aws4.certificate_manager_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSIdentityandAccessManagementIAM_AddonAWS19' : 'shape=mxgraph.aws4.addon;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSIdentityandAccessManagementIAM_AWSSTSAWS19' : 'shape=mxgraph.aws4.sts;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSIdentityandAccessManagementIAM_AWSSTSAlternateAWS19' : 'shape=mxgraph.aws4.sts_alternate;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSIdentityandAccessManagementIAM_DataEncryptionKeyAWS19' : 'shape=mxgraph.aws4.data_encryption_key;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSIdentityandAccessManagementIAM_EncryptedDataAWS19' : 'shape=mxgraph.aws4.encrypted_data;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSIdentityandAccessManagementIAM_LongtermSecurityCredentialAWS19' : 'shape=mxgraph.aws4.long_term_security_credential;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSIdentityandAccessManagementIAM_MFATokenAWS19' : 'shape=mxgraph.aws4.mfa_token;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSIdentityandAccessManagementIAM_PermissionsAWS19' : 'shape=mxgraph.aws4.permissions;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSIdentityandAccessManagementIAM_RoleAWS19' : 'shape=mxgraph.aws4.role;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSIdentityandAccessManagementIAM_TemporarySecurityCredentialAWS19' : 'shape=mxgraph.aws4.temporary_security_credential;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSOrganizations_AccountAWS19' : 'shape=mxgraph.aws4.organizations_account;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSOrganizations_OrganizationalUnitAWS19' : 'shape=mxgraph.aws4.organizations_organizational_unit;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSShield_ShieldAdvancedAWS19' : 'shape=mxgraph.aws4.shield_shield_advanced;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSWAF_FilteringruleAWS19' : 'shape=mxgraph.aws4.filtering_rule;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSADConnectorAWS19' : 'shape=mxgraph.aws4.ad_connector;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSSimpleADAWS19' : 'shape=mxgraph.aws4.simple_ad;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSManagedMicrosoftADAWS19' : 'shape=mxgraph.aws4.managed_ms_ad;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSResourceAccessManagerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.resource_access_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
+			'SecurityIdentityandComplianceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.security_identity_and_compliance;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonCloudDirectoryAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloud_directory;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonCognitoAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cognito;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonGuardDutyAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.guardduty;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonInspectorAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.inspector;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonMacieAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.macie;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSArtifactAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.artifact;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSCertificateManagerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.certificate_manager_3;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSCloudHSMAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudhsm;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSDirectoryServiceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.directory_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSFirewallManagerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.firewall_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSIdentityandAccessManagement_IAMAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.identity_and_access_management;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSKeyManagementServiceAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.key_management_service;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSOrganizationsAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.organizations;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSSecretsManagerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.secrets_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSSecurityHubAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.security_hub;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSShieldAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.shield;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSSingleSignOnAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.single_sign_on;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSWAFAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.waf;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonInspector_AgentAWS19' : 'shape=mxgraph.aws4.agent;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSCertificateManager_CertificateManagerAWS19' : 'shape=mxgraph.aws4.certificate_manager_2;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSIdentityandAccessManagementIAM_AddonAWS19' : 'shape=mxgraph.aws4.addon;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSIdentityandAccessManagementIAM_AWSSTSAWS19' : 'shape=mxgraph.aws4.sts;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSIdentityandAccessManagementIAM_AWSSTSAlternateAWS19' : 'shape=mxgraph.aws4.sts_alternate;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSIdentityandAccessManagementIAM_DataEncryptionKeyAWS19' : 'shape=mxgraph.aws4.data_encryption_key;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSIdentityandAccessManagementIAM_EncryptedDataAWS19' : 'shape=mxgraph.aws4.encrypted_data;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSIdentityandAccessManagementIAM_LongtermSecurityCredentialAWS19' : 'shape=mxgraph.aws4.long_term_security_credential;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSIdentityandAccessManagementIAM_MFATokenAWS19' : 'shape=mxgraph.aws4.mfa_token;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSIdentityandAccessManagementIAM_PermissionsAWS19' : 'shape=mxgraph.aws4.permissions;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSIdentityandAccessManagementIAM_RoleAWS19' : 'shape=mxgraph.aws4.role;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSIdentityandAccessManagementIAM_TemporarySecurityCredentialAWS19' : 'shape=mxgraph.aws4.temporary_security_credential;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSOrganizations_AccountAWS19' : 'shape=mxgraph.aws4.organizations_account;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSOrganizations_OrganizationalUnitAWS19' : 'shape=mxgraph.aws4.organizations_organizational_unit;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSShield_ShieldAdvancedAWS19' : 'shape=mxgraph.aws4.shield_shield_advanced;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSWAF_FilteringruleAWS19' : 'shape=mxgraph.aws4.filtering_rule;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSADConnectorAWS19' : 'shape=mxgraph.aws4.ad_connector;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSSimpleADAWS19' : 'shape=mxgraph.aws4.simple_ad;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSManagedMicrosoftADAWS19' : 'shape=mxgraph.aws4.managed_ms_ad;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSResourceAccessManagerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.resource_access_manager;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
 			
 			
 // AWS 19 - Storage
-			'StorageAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.storage;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top',
-			'AmazonElasticBlockStoreEBSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_block_store;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonElasticFileSystem_EFSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_file_system;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonFSxAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fsx;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonFSxforLustreAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fsx_for_lustre;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonFSxforWindowsFileServerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fsx_for_windows_file_server;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonS3GlacierAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.glacier;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonSimpleStorageServiceS3AWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSBackupAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.backup;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSSnowball_greenAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.snowball;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSSnowballEdge_greenAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.snowball_edge;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSSnowmobile_greenAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.snowmobile;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AWSStorageGatewayAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.storage_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'AmazonElasticBlockStoreEBS_SnapshotAWS19' : 'shape=mxgraph.aws4.snapshot;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonElasticBlockStoreEBS_VolumeAWS19' : 'shape=mxgraph.aws4.volume;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonS3Glacier_ArchiveAWS19' : 'shape=mxgraph.aws4.archive;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonS3Glacier_VaultAWS19' : 'shape=mxgraph.aws4.vault;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonSimpleStorageServiceS3_BucketAWS19' : 'shape=mxgraph.aws4.bucket;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonSimpleStorageServiceS3_BucketwithObjectsAWS19' : 'shape=mxgraph.aws4.bucket_with_objects;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonSimpleStorageServiceS3_ObjectAWS19' : 'shape=mxgraph.aws4.object;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSSnowFamily_SnowballImportExportAWS19' : 'shape=mxgraph.aws4.import_export;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSStorageGateway_CachedVolumeAWS19' : 'shape=mxgraph.aws4.cached_volume;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSStorageGateway_NonCachedVolumeAWS19' : 'shape=mxgraph.aws4.non_cached_volume;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AWSStorageGateway_VirtualTapeLibraryAWS19' : 'shape=mxgraph.aws4.virtual_tape_library;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'AmazonElasticFileSystem_EFS_FilesystemAWS19' : 'shape=mxgraph.aws4.file_system;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none',
-			'EFSInfrequentAccessAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.efs_infrequentaccess;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
-			'EFSStandardAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.efs_standard;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff',
+			'StorageAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.storage;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;pointerEvents=1',
+			'AmazonElasticBlockStoreEBSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_block_store;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonElasticFileSystem_EFSAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_file_system;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonFSxAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fsx;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonFSxforLustreAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fsx_for_lustre;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonFSxforWindowsFileServerAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fsx_for_windows_file_server;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonS3GlacierAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.glacier;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonSimpleStorageServiceS3AWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSBackupAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.backup;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSSnowball_greenAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.snowball;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSSnowballEdge_greenAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.snowball_edge;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSSnowmobile_greenAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.snowmobile;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AWSStorageGatewayAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.storage_gateway;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'AmazonElasticBlockStoreEBS_SnapshotAWS19' : 'shape=mxgraph.aws4.snapshot;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonElasticBlockStoreEBS_VolumeAWS19' : 'shape=mxgraph.aws4.volume;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonS3Glacier_ArchiveAWS19' : 'shape=mxgraph.aws4.archive;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonS3Glacier_VaultAWS19' : 'shape=mxgraph.aws4.vault;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonSimpleStorageServiceS3_BucketAWS19' : 'shape=mxgraph.aws4.bucket;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonSimpleStorageServiceS3_BucketwithObjectsAWS19' : 'shape=mxgraph.aws4.bucket_with_objects;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonSimpleStorageServiceS3_ObjectAWS19' : 'shape=mxgraph.aws4.object;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSSnowFamily_SnowballImportExportAWS19' : 'shape=mxgraph.aws4.import_export;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSStorageGateway_CachedVolumeAWS19' : 'shape=mxgraph.aws4.cached_volume;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSStorageGateway_NonCachedVolumeAWS19' : 'shape=mxgraph.aws4.non_cached_volume;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AWSStorageGateway_VirtualTapeLibraryAWS19' : 'shape=mxgraph.aws4.virtual_tape_library;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'AmazonElasticFileSystem_EFS_FilesystemAWS19' : 'shape=mxgraph.aws4.file_system;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;pointerEvents=1',
+			'EFSInfrequentAccessAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.efs_infrequentaccess;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
+			'EFSStandardAWS19' : 'shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.efs_standard;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=#ffffff;pointerEvents=1',
 			
 // GCP - Service Cards			
 			'GCPServiceCardApplicationSystemBlock' : cs,
@@ -3799,9 +3804,9 @@ LucidImporter = {};
 			'PresentationFrameBlock' : cs,
 //Timeline
 //TODO Timeline shapes are postponed, this code is a work-in-progress
-			//'TimelineBlock' : cs,
-			//'TimelineMilestoneBlock' : cs,
-			//'TimelineIntervalBlock' : cs,
+			'TimelineBlock' : cs,
+			'TimelineMilestoneBlock' : cs,
+			'TimelineIntervalBlock' : cs,
 			'MinimalTextBlock' : 'strokeColor=none;fillColor=none',
 //Freehand			
 			'FreehandBlock' : cs,
@@ -3814,7 +3819,35 @@ LucidImporter = {};
 //Infographics
 			'InfographicsBlock': cs,
 //Other
-			'FlexiblePolygonBlock': cs
+			'FlexiblePolygonBlock': cs,
+			'PersonRoleBlock' : cs
+	};
+	
+	function mapImgUrl(imgUrl)
+	{
+		if (imgUrl && LucidImporter.imgSrcRepl != null)
+		{
+			var attMap = LucidImporter.imgSrcRepl.attMap;
+					
+			if (attMap[imgUrl])
+			{
+				imgUrl = attMap[imgUrl];
+			}
+			else
+			{
+				var imgRepl = LucidImporter.imgSrcRepl.imgRepl;
+				
+				for (var i = 0; i < imgRepl.length; i++)
+				{
+					var repl = imgRepl[i];
+					imgUrl = imgUrl.replace(repl.searchVal, repl.replVal);
+				}
+				
+				LucidImporter.hasExtImgs = true;
+			}
+		}
+	
+		return imgUrl;
 	};
 	
 	function mapFontFamily(fontFamily)
@@ -3854,6 +3887,11 @@ LucidImporter = {};
 		return '';
 	};
 	
+	function fix1Digit(num)
+	{
+		return  Math.round(num * 10) / 10;	
+	};
+	
 	// actual code start
 	//TODO This can be optimized more
 	function convertTxt2Html(txt, srcM, props)
@@ -3871,7 +3909,7 @@ LucidImporter = {};
 			return nonBlockStyles[m.n];
 		});
 		
-		//To prevent losing begining of a label when first one is not at zero (links case) 
+		//To prevent losing beginning of a label when first one is not at zero (links case) 
 		if (m[0] && m[0].s != 0)
 		{
 			m.unshift({s: 0, n: 'dummy', v: '', e: m[0].s});
@@ -3937,7 +3975,7 @@ LucidImporter = {};
 			var str = '';
 			var t = styles['t'];
 
-			var l = styles['l'] || {};
+			var l = styles['l'] || {v: t && t.v == 'ul'? 'auto' : 'decimal'};
 			
 			if (t != null && (listActive == false || listActive != t.v || listType != l.v))
 			{
@@ -3960,7 +3998,7 @@ LucidImporter = {};
 					openBlockTags.push('ol');
 				}
 				
-				str += 'style="margin: 0px; padding: 10px;list-style-position: inside; list-style-type:';
+				str += 'style="margin: 0px; padding-left: 10px;list-style-position: inside; list-style-type:';
 				
 				if (t.v == 'hl')
 				{
@@ -4013,21 +4051,68 @@ LucidImporter = {};
 			if (t != null)
 			{
 				str += '<li style="text-align:' + (styles['a']? styles['a'].v : (props.TextAlign || 'center')) + ';';
+				var color, fontSize;
 				
-				if (nonBlockStyles != null && nonBlockStyles['c'])
+				// Find font size/color
+				if (nonBlockStyles != null)
 				{
-					var v = rgbToHex(nonBlockStyles['c'].v);
-					
-					if (v != null)
+					if (nonBlockStyles['c'])
 					{
-						v = v.substring(0, 7);
-						str += 'color:' + v + ';';
+						color = nonBlockStyles['c'].v;
 					}
+					
+					if (nonBlockStyles['s'])
+					{
+						fontSize = nonBlockStyles['s'].v;
+					}
+				}
+					
+				try
+				{
+					var s = m[i], e = ends[j];
+					var it = i;
+					
+					if (s && e && s.s < e.e) //s can be null when all starts are used, e ends after s BUT sometimes there are errors in the file
+					{
+						var curS = s.s;
+		
+						while(s != null && s.s == curS)
+						{
+							if (s.n == 's')
+							{
+								fontSize = s.v;
+							}
+							else if (s.n == 'c')
+							{
+								color = s.v;
+							}
+							
+							s = m[++it];
+						}
+					}					
+				}
+				catch(e)
+				{
+					console.log(e);
+				}
+				
+				color = rgbToHex(color);
+				
+				if (color != null)
+				{
+					color = color.substring(0, 7);
+					str += 'color:' + color + ';';
+				}
+				
+				//Ignore zero font-size
+				if (fontSize)
+				{
+					str += 'font-size:' + fix1Digit(fontSize * scale) + 'px;';
 				}
 				
 				str += '">';
 				openBlockTags.push('li');
-				str += '<span style="font-size:' + defaultFontSize + 'px;';
+				str += '<span style="';
 				openBlockTags.push('span');
 			}
 			
@@ -4045,34 +4130,34 @@ LucidImporter = {};
 					jc = 'flex-end';
 				}
 				
-				str += 'display: flex; justify-content: ' + jc + '; text-align: ' + tmp + '; align-items: baseline; font-size: 0; line-height: 1;';
+				str += 'display: flex; justify-content: ' + jc + '; text-align: ' + tmp + '; align-items: baseline; font-size: 0; line-height: 1.25;';
 			}
 			
 			if (styles['il'])
 			{
-				str += 'margin-left: ' + Math.max(0, Math.round(styles['il'].v * scale - (listActive? 28 : 0))) + 'px;';
+				str += 'margin-left: ' + Math.max(0, fix1Digit(styles['il'].v * scale - (listActive? 28 : 0))) + 'px;';
 			}
 
 			if (styles['ir'])
 			{
-				str += 'margin-right: ' + Math.round(styles['ir'].v * scale) + 'px;';
+				str += 'margin-right: ' + fix1Digit(styles['ir'].v * scale) + 'px;';
 			}
 
 			if (styles['mt'])
 			{
-				str += 'margin-top: ' + Math.round(styles['mt'].v * scale) + 'px;';
+				str += 'margin-top: ' + fix1Digit(styles['mt'].v * scale) + 'px;';
 			}
 
 			if (styles['mb'])
 			{
-				str += 'margin-bottom: ' + Math.round(styles['mb'].v * scale) + 'px;';
+				str += 'margin-bottom: ' + fix1Digit(styles['mb'].v * scale) + 'px;';
 			}
 
-			str += '">';
+			str += 'margin-top: -2px;">';
 			
 			if (!listActive)
 			{
-				str += '<span style="font-size:' + defaultFontSize + 'px;">';
+				str += '<span>';// Is this needed?
 				openBlockTags.push('span');
 			}
 			
@@ -4082,7 +4167,10 @@ LucidImporter = {};
 		
 		function startTag(styles)
 		{
-			if (Object.keys(styles).length == 0) return '';
+			if (mxUtils.isEmptyObject(styles))
+			{
+				return '';
+			}
 			
 			var str = '';
 			var tagCount = 0;
@@ -4103,7 +4191,8 @@ LucidImporter = {};
 			openTags.push('span');
 			tagCount++;
 
-			str += 'font-size:' + (styles['s']? Math.floor(styles['s'].v * scale) : defaultFontSize) + 'px;';
+			//Ignore zero font-size
+			str += 'font-size:' + (styles['s'] && styles['s'].v? fix1Digit(styles['s'].v * scale) : defaultFontSize) + 'px;';
 
 			if (styles['c'])
 			{
@@ -4196,6 +4285,12 @@ LucidImporter = {};
 			if (listActive)
 			{
 				str = str.trim();
+			}
+			
+			//If an endTag is called with no open tags, add a dummy startTag to have a font size
+			if (openTags.length == 0 && str.length > 0)
+			{
+				str = startTag({dummy: 1}) + str;
 			}
 			
 			str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -4318,7 +4413,7 @@ LucidImporter = {};
 		{
 			if (curE != maxE)
 			{
-				html += txt.substring(curE, maxE);
+				html += startTag({dummy: 1}) + endTag(txt, curE, maxE);
 			}
 			
 			html += endBlockTag(true); 
@@ -4330,33 +4425,33 @@ LucidImporter = {};
 	function convertText(props, forceHTML)
 	{
 		isLastLblHTML = false;
-		var text = (props.Text != null) ? props.Text :
-			((props.Value != null) ? props.Value :
-			props.Lane_0);
+		var text = (props.Text != null && props.Text.t) ? props.Text :
+			((props.Value != null && props.Value.t) ? props.Value :
+			((props.Lane_0 != null && props.Lane_0.t) ? props.Lane_0 : null));
 		var text2 = null;
 		
 		if (text == null && props.State != null)
 		{
-			if (props.State.t != null)
+			if (props.State.t)
 			{
 				text = props.State;
 			}
 		}
 		else if (text == null && props.Note != null)
 		{
-			if (props.Note.t != null)
+			if (props.Note.t)
 			{
 				text = props.Note;
 			}
 		}
 		else if (text == null && props.Title != null)
 		{
-			if (props.Title.t != null)
+			if (props.Title.t)
 			{
 				text = props.Title;
 			}
 		}
-		else if (props.t != null)
+		else if (props.t)
 		{
 			text = props;
 		}
@@ -4367,7 +4462,7 @@ LucidImporter = {};
 			{
 				if (props.TextAreas.Text.Value != null)
 				{
-					if (props.TextAreas.Text.Value.t != null)
+					if (props.TextAreas.Text.Value.t)
 					{
 						text = props.TextAreas.Text.Value;
 					}
@@ -4376,7 +4471,7 @@ LucidImporter = {};
 		}
 		else if (text == null && props.t0 != null)
 		{
-			if (props.t0.t != null)
+			if (props.t0.t)
 			{
 				text = props.t0;
 			}
@@ -4395,9 +4490,15 @@ LucidImporter = {};
 				//Convert text object to HTML if needed
 				try
 				{
+					//If there are 3+ consecutive spaces, most probably it's spaces to create a new line
+					if (/   /.test(txt))
+					{
+						LucidImporter.hasUnknownShapes = true;
+					}
+					
 					for (var i = 0; i < m.length; i++)
 					{
-						if (m[i].s > 0 || (m[i].e != null && m[i].e < txt.length) || m[i].n == 't' || m[i].n == 'ac')
+						if (m[i].s > 0 || (m[i].e != null && m[i].e < txt.length) || m[i].n == 't' || m[i].n == 'ac' || m[i].n == 'lk')
 						{
 							isLastLblHTML = true;
 							break;
@@ -4480,6 +4581,20 @@ LucidImporter = {};
 				return properties.Title.m;
 			}
 		}
+		else if (properties.State != null)
+		{
+			if (properties.State.m != null)
+			{
+				return properties.State.m;
+			}
+		}
+		else if (properties.Note != null)
+		{
+			if (properties.Note.m != null)
+			{
+				return properties.Note.m;
+			}
+		}
 		
 		return null;
 	}
@@ -4508,16 +4623,45 @@ LucidImporter = {};
 		return style;  
 	}
 	
-	function addAllStyles(style, properties, action, cell, noLblStyle)
+	function addAllStyles(style, properties, action, cell, noLblStyle, overrideNone)
 	{
+		overrideNone = (overrideNone == null) ? false : overrideNone;
 		var s = '';
 		
-		if (style != null && style != '' && style.charAt(style.length - 1) != ';')
+		var noStroke = false;
+		var noFill = false;
+
+		// Special case fillColor/strokeColor none is removed during processing
+		if (style != null)
 		{
-			s = ';';
+			if (overrideNone)
+			{
+				var tokens = style.split(';');
+				style = '';
+
+				for (var i = 0; i < tokens.length; i++)
+				{
+					if (tokens[i] == 'fillColor=none')
+					{
+						noFill = true;
+					}
+					else if (tokens[i] == 'strokeColor=none')
+					{
+						noStroke = true;
+					}
+					else if (tokens[i] != '')
+					{
+						style += tokens[i] + ';';
+					}
+				}
+			}
+			else  if (style != '' && style.charAt(style.length - 1) != ';')
+			{
+				s = ';';
+			}
 		}
-		
-		s += 'whiteSpace=wrap;' + 
+
+		s += (!hasStyle(style, 'whiteSpace') ? 'whiteSpace=wrap;' : '') + 
 		  (noLblStyle? (hasStyle(style, 'overflow')? '' : 'overflow=block;blockSpacing=1;') + 
 			(hasStyle(style, 'html')? '' : 'html=1;') + 'fontSize=' + defaultFontSize + ';' +
 			gFontFamilyStyle
@@ -4545,8 +4689,19 @@ LucidImporter = {};
 			addStyle(mxConstants.STYLE_FILLCOLOR, style, properties, action, cell) +			
 			addStyle(mxConstants.STYLE_DASHED, style, properties, action, cell) +			
 			addStyle(mxConstants.STYLE_STROKEWIDTH, style, properties, action, cell) +			
-			addStyle(mxConstants.STYLE_IMAGE, style, properties, action, cell);
-		
+			addStyle(mxConstants.STYLE_IMAGE, style, properties, action, cell) +			
+			addStyle(mxConstants.STYLE_POINTER_EVENTS, style, properties, action, cell);
+
+		if (noFill && !hasStyle(s, mxConstants.STYLE_FILLCOLOR))
+		{
+			s += 'fillColor=none;';
+		}
+
+		if (noStroke && !hasStyle(s, mxConstants.STYLE_STROKECOLOR))
+		{
+			s += 'strokeColor=none;';
+		}
+
 		gFontFamilyStyle = '';
 		return s;
 	}
@@ -4625,6 +4780,9 @@ LucidImporter = {};
 					
 				case mxConstants.STYLE_IMAGE :
 					return getImage(properties, action);
+
+				case mxConstants.STYLE_POINTER_EVENTS :
+					return getPointerEvents(properties, action);
 					
 				default :
 					break;
@@ -4651,11 +4809,11 @@ LucidImporter = {};
 				
 				if (currM.n == 's')
 				{
-					if (currM.v != null)
+					if (currM.v) //Ignore zero value also
 					{
 						isV = true;
 						
-						return 'fontSize=' + Math.floor(currM.v * scale) + ';';
+						return 'fontSize=' + fix1Digit(currM.v * scale) + ';';
 					}
 				}
 				i++;
@@ -4720,23 +4878,6 @@ LucidImporter = {};
 		}
 	};
 	
-	function getLinkFromM(m)
-	{
-		if (m != null)
-		{
-			for (var i = 0; i < m.length; i++)
-			{
-				if (m[i].n == 'lk' && m[i].v != null &&
-					m[i].v.length > 0)
-				{
-					return getLink(m[i].v[0]);
-				}
-			}
-		}
-		
-		return null;
-	}
-
 	function getFontColor(properties)
 	{
 		//adds font color
@@ -4758,6 +4899,11 @@ LucidImporter = {};
 						isC = true;
 						
 						var currV = rgbToHex(currM.v).substring(0, 7);
+
+						if (currV == '#000000')
+						{
+							currV = 'default';
+						}
 
 						return mxConstants.STYLE_FONTCOLOR + '=' + currV + ';';
 					}
@@ -4911,7 +5057,7 @@ LucidImporter = {};
 				{
 					if (currM.n == 'il')
 					{
-						return 'spacingLeft=' + currM.v * scale + ';';
+						return 'spacingLeft=' + fix1Digit(currM.v * scale) + ';';
 					}
 					/*else
 					{
@@ -4952,7 +5098,7 @@ LucidImporter = {};
 					{
 						isIR = true;
 						
-						return 'spacingRight=' + currM.v * scale + ';';
+						return 'spacingRight=' + fix1Digit(currM.v * scale) + ';';
 					}
 				}
 				
@@ -4982,7 +5128,7 @@ LucidImporter = {};
 					if (currM.v != null)
 					{
 						isMT = true;
-						return 'spacingTop=' + currM.v * scale + ';';
+						return 'spacingTop=' + fix1Digit(currM.v * scale) + ';';
 					}
 				}
 				
@@ -5012,7 +5158,7 @@ LucidImporter = {};
 					if (currM.v != null)
 					{
 						isMB = true;
-						return 'spacingBottom=' + currM.v * scale + ';';
+						return 'spacingBottom=' + fix1Digit(currM.v * scale) + ';';
 					}
 				}
 				
@@ -5028,7 +5174,7 @@ LucidImporter = {};
 		//adds global spacing
 		if (typeof properties.InsetMargin === 'number')
 		{
-				return 'spacing=' + Math.max(0, Math.round(parseInt(properties.InsetMargin) * scale)) + ';';
+			return 'spacing=' + Math.max(0, fix1Digit((properties.InsetMargin) * scale)) + ';';
 		}
 	
 		return '';
@@ -5136,7 +5282,7 @@ LucidImporter = {};
 			{
 				if (properties.Rounding > 0)
 				{
-					return 'rounded=1;absoluteArcSize=1;arcSize=' + Math.round(properties.Rounding * 0.6) + ';';
+					return 'rounded=1;absoluteArcSize=1;arcSize=' + fix1Digit(properties.Rounding * scale) + ';';
 				}
 			}
 //			else if (properties.Rounding == null)
@@ -5227,6 +5373,19 @@ LucidImporter = {};
 	{
 		if (color)
 		{
+			if (typeof color === 'object')
+			{
+				try
+				{
+					color = color.cs[0].c; //TODO support gradient colors 
+				}
+				catch(e)
+				{
+					console.log(e);
+					color = '#ffffff';
+				}
+			}
+			
 			if (color.substring(0, 3) == 'rgb')
 			{
 				color = '#' + color.match(/\d+/g).map(function(n)
@@ -5265,7 +5424,8 @@ LucidImporter = {};
 			{
 				if (properties.FillColor.cs != null && properties.FillColor.cs.length > 1)
 				{
-					return createStyle(mxConstants.STYLE_FILLCOLOR, getColor(properties.FillColor.cs[0].c)) + createStyle(mxConstants.STYLE_GRADIENTCOLOR, getColor(properties.FillColor.cs[1].c));
+					return createStyle(mxConstants.STYLE_FILLCOLOR, getColor(properties.FillColor.cs[0].c)) +
+						createStyle(mxConstants.STYLE_GRADIENTCOLOR, getColor(properties.FillColor.cs[1].c));
 				}
 			}
 			else if (typeof properties.FillColor === 'string')
@@ -5286,52 +5446,57 @@ LucidImporter = {};
 		// Stroke style
 		if (properties.StrokeStyle == 'dotted')
 		{
-			return 'dashed=1;dashPattern=1 4;';
+			return 'dashed=1;fixDash=1;dashPattern=1 4;';
 		}
 		else if (properties.StrokeStyle == 'dashdot')
 		{
-			return 'dashed=1;dashPattern=10 5 1 5;';
+			return 'dashed=1;fixDash=1;dashPattern=10 5 1 5;';
 		}
 		else if (properties.StrokeStyle == 'dashdotdot')
 		{
-			return 'dashed=1;dashPattern=10 5 1 5 1 5;';
+			return 'dashed=1;fixDash=1;dashPattern=10 5 1 5 1 5;';
 		}
 		else if (properties.StrokeStyle == 'dotdotdot')
 		{
-			return 'dashed=1;dashPattern=1 2;';
+			return 'dashed=1;fixDash=1;dashPattern=1 2;';
 		}
 		else if (properties.StrokeStyle == 'longdash')
 		{
-			return 'dashed=1;dashPattern=16 6;';
+			return 'dashed=1;fixDash=1;dashPattern=16 6;';
 		}
 		else if (properties.StrokeStyle == 'dashlongdash')
 		{
-			return 'dashed=1;dashPattern=10 6 16 6;';
+			return 'dashed=1;fixDash=1;dashPattern=10 6 16 6;';
 		}
 		else if (properties.StrokeStyle == 'dashed24')
 		{
-			return 'dashed=1;dashPattern=3 8;';
+			return 'dashed=1;fixDash=1;dashPattern=3 8;';
 		}
 		else if (properties.StrokeStyle == 'dashed32')
 		{
-			return 'dashed=1;dashPattern=6 5;';
+			return 'dashed=1;fixDash=1;dashPattern=6 5;';
 		}
 		else if (properties.StrokeStyle == 'dashed44')
 		{
-			return 'dashed=1;dashPattern=8 8;';
+			return 'dashed=1;fixDash=1;dashPattern=8 8;';
 		}
 		else if (properties.StrokeStyle != null && properties.
 			StrokeStyle.substring(0, 6) == 'dashed')
 		{
-			return 'dashed=1;';
+			return 'dashed=1;fixDash=1;';
 		} 
 		
 		return '';
 	}
+
+	function getPointerEvents(properties)
+	{
+		return properties.Magnetize ? containerStyle : '';
+	}
 	
 	function getStrokeWidth(properties)
 	{
-		return properties.LineWidth != null? createStyle(mxConstants.STYLE_STROKEWIDTH, Math.round(parseFloat(properties.LineWidth) * scale), '1') : '';
+		return properties.LineWidth != null? createStyle(mxConstants.STYLE_STROKEWIDTH, fix1Digit(parseFloat(properties.LineWidth) * scale), '1') : '';
 	}
 	
 	function getImage(properties, action, url)
@@ -5374,16 +5539,7 @@ LucidImporter = {};
 					
 		if (imgUrl != null)
 		{
-			if (LucidImporter.imgSrcRepl != null)
-			{
-				for (var i = 0; i < LucidImporter.imgSrcRepl.length; i++)
-				{
-					var repl = LucidImporter.imgSrcRepl[i];
-					imgUrl = imgUrl.replace(repl.searchVal, repl.replVal);
-				}
-			}
-			
-			return 'image=' + imgUrl + ';' + extraStyles;
+			return 'image=' + mapImgUrl(imgUrl) + ';' + extraStyles;
 		}
 		
 		return '';
@@ -5396,16 +5552,6 @@ LucidImporter = {};
 		{
 			graph.setAttributeForCell(cell, 'link', getLink(p.Link[0]));
 		}
-		//If the text has a link, it will be handled by html labels
-		/*else if (p.Text != null)
-		{
-			var link = getLinkFromM(getTextM(p.Text));
-			
-			if (link != null)
-			{
-				graph.setAttributeForCell(cell, 'link', link);
-			}
-		}*/
 		
 		replacePlaceholders(cell, graph);
 		
@@ -5526,7 +5672,12 @@ LucidImporter = {};
 			
 			if (s != null)
 			{
-				cell.style += s + ';';
+				cell.style += s;
+				
+				if (cell.style.charAt(cell.style.length - 1) != ';')
+				{
+					cell.style += ';';
+				}
 			}
 			else if (!cell.edge)
 			{
@@ -5540,7 +5691,7 @@ LucidImporter = {};
 			{
 				// Adds label
 				cell.value = (!ignoreLabel) ? convertText(p) : '';
-				cell.style += addAllStyles(cell.style, p, a, cell, isLastLblHTML);
+				cell.style += addAllStyles(cell.style, p, a, cell, isLastLblHTML, true);
 				
 				if (!cell.style.includes('strokeColor'))
 				{
@@ -5549,7 +5700,7 @@ LucidImporter = {};
 				
 				addCustomData(cell, p, graph);
 				
-				if (p.Title && p.Text && a.Class.substr(0, 8) != 'ExtShape')
+				if (p.Title && p.Title.t && p.Text && p.Text.t && a.Class.substr(0, 8) != 'ExtShape')
 				{
 					var geo = cell.geometry;
 					var title = new mxCell(convertText(p.Title), new mxGeometry(0, geo.height,geo.width, 10), 'strokeColor=none;fillColor=none;');
@@ -5569,8 +5720,13 @@ LucidImporter = {};
 					{
 						cell.style += 'rounded=0;';
 					}
+					var isCurved = p.Shape == 'curve';
 					
-					if (p.Shape != 'diagonal')
+					if (isCurved)
+					{
+						cell.style += 'curved=1;';
+					}
+					else if (p.Shape != 'diagonal')
 					{
 						if (p.ElbowPoints != null && p.ElbowPoints.length > 0)
 						{
@@ -5583,18 +5739,9 @@ LucidImporter = {};
 									Math.round(p.ElbowPoints[i].y * scale + dy)));
 							}
 						}
-						else if (p.Shape == 'elbow')
+						else if (p.Shape == 'elbow' || (p.Endpoint1.Block != null && p.Endpoint2.Block != null))
 						{
 							cell.style += 'edgeStyle=orthogonalEdgeStyle;';
-						}
-						else if (p.Endpoint1.Block != null && p.Endpoint2.Block != null)
-						{
-							cell.style += 'edgeStyle=orthogonalEdgeStyle;';
-	
-							if (p.Shape == 'curve')
-							{
-								cell.style += 'curved=1;';
-							}
 						}
 					}
 					
@@ -5643,9 +5790,38 @@ LucidImporter = {};
 						}
 					}
 
-					var waypoints = p.ElbowControlPoints != null && p.ElbowControlPoints.length > 0? p.ElbowControlPoints : 
-						(p.BezierJoints != null && p.BezierJoints.length > 0? p.BezierJoints : p.Joints);
-					
+					var waypoints = p.ElbowControlPoints != null && p.ElbowControlPoints.length > 0? p.ElbowControlPoints : p.Joints;
+
+					if (isCurved && p.BezierJoints != null && p.BezierJoints.length > 0)
+					{
+						waypoints = [];
+
+						//Last point sometimes has incorrect x,y value!
+						var lpt = p.BezierJoints[p.BezierJoints.length - 1];
+						lpt.p.x = p.Endpoint2.x;
+						lpt.p.y = p.Endpoint2.y;
+
+						for (var i = 0; i < p.BezierJoints.length; i++)
+						{
+							var pt = p.BezierJoints[i];
+							//TODO This is best-effort approximation (close enouhh but not exact)
+							waypoints.push({x: pt.p.x + pt.nt.x * pt.lcps * .75, y: pt.p.y + pt.nt.y * pt.lcps * .75});
+							waypoints.push({x: pt.p.x + pt.nt.x * pt.rcps * .75, y: pt.p.y + pt.nt.y * pt.rcps * .75});
+						}
+
+						//remove first & last points
+						waypoints = waypoints.slice(1, waypoints.length - 1);
+					}
+					else if (isCurved) //Curved with the default waypoints
+					{
+						waypoints = [];
+						//TODO This is best-effort approximation (close enouhh but not exact)
+						waypoints.push({x: p.Endpoint1.x + (p.Endpoint1.LinkX < 0.1? -250 : (p.Endpoint1.LinkX > 0.9? 250 : 0) ), 
+										y: p.Endpoint1.y + (p.Endpoint1.LinkY < 0.1? -250 : (p.Endpoint1.LinkY > 0.9? 250 : 0) )});
+						waypoints.push({x: p.Endpoint2.x + (p.Endpoint2.LinkX < 0.1? -250 : (p.Endpoint2.LinkX > 0.9? 250 : 0) ), 
+										y: p.Endpoint2.y + (p.Endpoint2.LinkY < 0.1? -250 : (p.Endpoint2.LinkY > 0.9? 250 : 0) )});
+					}
+
 					if (waypoints != null)
 					{
 						cell.geometry.points = [];
@@ -5687,9 +5863,9 @@ LucidImporter = {};
 					// Anchor points and arrows					
 					var p1, p2;
 					
-					if (source == null || !source.geometry.isRotated) //TODO Rotate the endpoint instead of ignoring it (The same for flipped shapes)
+					if (source == null || !source.geometry.isRotated) //TODO Rotate the endpoint instead of ignoring it
 					{
-						p1 = updateEndpoint(cell, p.Endpoint1, true, implicitY);
+						p1 = updateEndpoint(cell, p.Endpoint1, true, implicitY, null, source);
 					}
 					
 					if (source != null && p1 != null)
@@ -5703,9 +5879,9 @@ LucidImporter = {};
 						LucidImporter.stylePointsSet.add(source);
 					}
 					
-					if (target == null || !target.geometry.isRotated) //TODO Rotate the endpoint instead of ignoring it (The same for flipped shapes)
+					if (target == null || !target.geometry.isRotated) //TODO Rotate the endpoint instead of ignoring it
 					{
-						p2 = updateEndpoint(cell, p.Endpoint2, false, implicitY);
+						p2 = updateEndpoint(cell, p.Endpoint2, false, implicitY, null, target);
 					}
 					
 					if (target != null && p2 != null)
@@ -5726,6 +5902,8 @@ LucidImporter = {};
 		{
 			setAttributeForCell(cell, 'lucidchartObjectId', obj.id, graph);
 		}
+
+		cell.lucidchartObject = obj;
 	};
 	
 	function createVertex(obj, graph)
@@ -5741,29 +5919,19 @@ LucidImporter = {};
 		
 		v = new mxCell('', new mxGeometry(Math.round(b.x * scale + dx), Math.round(b.y * scale + dy),
 				Math.round(b.w * scale), Math.round(b.h * scale)), vertexStyle);
-	    v.vertex = true;
-	    updateCell(v, obj, graph);
-	    
-	    //Store z-order to use it in groups
+		v.vertex = true;
+		updateCell(v, obj, graph);
+
+		//Store z-order to use it in groups
 		v.zOrder = p.ZOrder;
-	    
-	    //FillOpacity affects icon also, so create a parent as a background color
-	    if (v != null && v.style.indexOf(';grIcon=') >= 0)
-    	{
-	    	var parent = new mxCell('', new mxGeometry(v.geometry.x, v.geometry.y,
-	    			v.geometry.width, v.geometry.height), vertexStyle);
-	    	parent.vertex = true;
-			parent.style += addAllStyles(parent.style, p, a, parent);
-			
-		    v.geometry.x = 0;
-		    v.geometry.y = 0;
-		    v.style += 'part=1;';
-		    parent.insert(v);
-		    v = parent;
-    	}
-	    
+		
 	    handleTextRotation(v, p);
-	    
+
+	    if (p.Hidden)
+		{
+			v.visible = false;
+		}
+		
 	    return v;
 	};
 	
@@ -5783,22 +5951,27 @@ LucidImporter = {};
 		{
 			var count = 0;
 			
-			while (ta['t' + count] != null)
+			while (ta['t' + count] !== undefined) //Some files has null for some labels 
 			{
 				var tmp = ta['t' + count];
-				e = insertLabel(tmp, e, obj);
+				
+				if (tmp != null)
+				{
+					e = insertLabel(tmp, e, obj, source, target, graph)
+				}
+				
 				count++;
 			}
 			
 			count = 0;
 			
-			while (ta['m' + count] != null || count < 1)
+			while (ta['m' + count] !== undefined || count < 1)
 			{
 				var tmp = ta['m' + count];
 				
 				if (tmp != null)
 				{
-					e = insertLabel(tmp, e, obj);
+					e = insertLabel(tmp, e, obj, source, target, graph)
 				}
 				
 				count++;
@@ -5806,21 +5979,26 @@ LucidImporter = {};
 
 			if (ta.Text != null)
 			{
-				e = insertLabel(ta.Text, e, obj);
+				e = insertLabel(ta.Text, e, obj, source, target, graph)
 			}
 
 			var ta = (p != null) ? p.TextAreas : obj.TextAreas;
 			
 			if (ta.Message != null)
 			{
-				e = insertLabel(ta.Message, e, obj);
+				e = insertLabel(ta.Message, e, obj, source, target, graph)
 			}
+		}
+		
+		if (obj.Hidden)
+		{
+			e.visible = false;
 		}
 		
 		return e;
 	}
 
-	function insertLabel(textArea, e, obj)
+	function insertLabel(textArea, e, obj, src, trg, graph)
 	{
 		var x = (parseFloat(textArea.Location) - 0.5) * 2;
 		
@@ -5829,10 +6007,57 @@ LucidImporter = {};
 			x = (parseFloat(textArea.Text.Location) - 0.5) * 2;
 		}
 		
-		var lab = new mxCell(convertText(textArea), new mxGeometry((!isNaN(x)) ? x : 0, 0, 0, 0),
+		var lblTxt = convertText(textArea);
+		var lab = new mxCell(lblTxt, new mxGeometry((!isNaN(x)) ? x : 0, 0, 0, 0),
 			labelStyle + getEdgeLabelStyle(textArea, obj, isLastLblHTML));
 		lab.geometry.relative = true;
 		lab.vertex = true;
+		
+		if (textArea.Side)
+		{
+			try
+			{
+				if (obj.Action && obj.Action.Properties)
+				{
+					obj = obj.Action.Properties;
+				}
+				
+				var dx, dy;
+
+				//Sometimes x, y info in the Endpoint is incorrect when the edge is connected!
+				if (src != null && trg != null)
+				{
+					var srcGeo = src.geometry, trgGeo = trg.geometry;
+					dx = Math.abs((srcGeo.x + srcGeo.width * obj.Endpoint1.LinkX) - 
+									(trgGeo.x + trgGeo.width * obj.Endpoint2.LinkX));
+					dy = Math.abs((srcGeo.y + srcGeo.height * obj.Endpoint1.LinkY) - 
+									(trgGeo.y + trgGeo.height * obj.Endpoint2.LinkY));
+				}
+				else
+				{
+					dx = Math.abs(obj.Endpoint1.x - obj.Endpoint2.x);
+					dy = Math.abs(obj.Endpoint1.y - obj.Endpoint2.y);
+				}
+				
+				var strSize = mxUtils.getSizeForString(lblTxt.replace(/\n/g, '<br>'));
+				
+				if (dx == 0 || dx < dy)
+				{
+					lab.geometry.offset = new mxPoint(Math.sign(obj.Endpoint1.y - obj.Endpoint2.y) * textArea.Side * (strSize.width / 2 + 5 + dx), 0);
+				}
+				else
+				{
+					lab.geometry.offset = new mxPoint(0, Math.sign(obj.Endpoint2.x - obj.Endpoint1.x) * textArea.Side * (strSize.height / 2 + 5 + dy));
+				}
+			}
+			catch(e)
+			{
+				console.log(e);
+			}
+		} 
+
+		
+		lab.lucidchartObject = textArea;
 		e.insert(lab);
 		
 		return e;
@@ -5854,9 +6079,9 @@ LucidImporter = {};
 			
 			for (var i = 0; i < obj.Value.m.length; i++)
 			{
-				if (obj.Value.m[i].n == 's')
+				if (obj.Value.m[i].n == 's' && obj.Value.m[i].v) //Ignore zero value
 				{
-					size = scale * parseFloat(obj.Value.m[i].v);
+					size = fix1Digit(scale * parseFloat(obj.Value.m[i].v));
 				}
 				else if (obj.Value.m[i].n == 'c')
 				{
@@ -5865,6 +6090,11 @@ LucidImporter = {};
 					if (v != null)
 					{
 						v = v.substring(0, 7);
+					}
+
+					if (v == '#000000')
+					{
+						v = 'default';
 					}
 					
 					style += 'fontColor=' + v + ';'
@@ -5893,7 +6123,7 @@ LucidImporter = {};
 		return '';
 	};
 
-	function updateEndpoint(cell, endpoint, source, ignoreX, ignoreY)
+	function updateEndpoint(cell, endpoint, source, ignoreX, ignoreY, endCell)
 	{
 		if (endpoint != null)
 		{
@@ -5901,20 +6131,30 @@ LucidImporter = {};
 			{
 				endpoint.LinkX = Math.round(endpoint.LinkX * 1000) / 1000;
 				endpoint.LinkY = Math.round(endpoint.LinkY * 1000) / 1000;
+				
+				if (endCell != null && endCell.style && endCell.style.indexOf('flipH=1') > -1)
+				{
+					endpoint.LinkX = 1 - endpoint.LinkX;
+				}
+
+				if (endCell != null && endCell.style && endCell.style.indexOf('flipV=1') > -1)
+				{
+					endpoint.LinkY = 1 - endpoint.LinkY;
+				}
+				
 				cell.style += ((!ignoreX) ? ((source) ? 'exitX' : 'entryX') + '=' + endpoint.LinkX + ';' : '') +
 					((!ignoreY) ? (((source) ? 'exitY' : 'entryY') + '=' + endpoint.LinkY + ';') : '') +
 					((source) ? 'exitPerimeter' : 'entryPerimeter') + '=0;'; //perimeter as 0 works with both cases better
 				
 				if (endpoint.Inside)
 				{
-					
 					return '[' + endpoint.LinkX + ',' + endpoint.LinkY + ',0]';
 				}
 			}
 		}
 	};
 
-	function createGroup(obj, lookup, edgesGroups, blocksMap)
+	function createGroup(obj, lookup, edgesGroups, blocksMap, graph)
 	{
 		try
 		{
@@ -5923,7 +6163,7 @@ LucidImporter = {};
 				obj = obj.Action.Properties;
 			}
 			
-			var group = new mxCell('', new mxGeometry(), 'group;dropTarget=0;');
+			var group = new mxCell('', new mxGeometry(), groupStyle);
 			group.vertex = true;
 			//Store z-order to use it in groups
 			group.zOrder = obj.ZOrder;
@@ -5949,8 +6189,8 @@ LucidImporter = {};
 			
 			memberCells.sort(function(a, b)
 			{
-				var ai = a.zOrder;
-				var bi = b.zOrder;
+				var ai = a.zOrder || a.ZOrder; // for edges we need ZOrder since they aren't created yet
+				var bi = b.zOrder || b.ZOrder;
 				
 				return (ai != null && bi != null) ? (ai > bi? 1 : (ai < bi? -1 : 0)) : 0; //ZOrder can be negative
 			});
@@ -5963,7 +6203,7 @@ LucidImporter = {};
 					{
 						for (var i = 0; i < e.length; i++) 
                         {
-                        	updateMinMax(e[i], scaleIt);
+                        	updateMinMax(e[i].p? e[i].p : e[i], scaleIt);
                         }
 					}
 					else
@@ -6023,11 +6263,15 @@ LucidImporter = {};
 					visible: !obj.Hidden,
 					locked: obj.Restrictions.b && obj.Restrictions.p && obj.Restrictions.c
 				};
+
+				group.style += 'container=1;collapsible=0;recursiveResize=0;';
 			}
 			else if (obj.Hidden)
 			{
 				group.visible = false;
 			}
+
+			group.lucidchartObject = obj;
 			
 			return group;
 		}
@@ -6089,12 +6333,14 @@ LucidImporter = {};
 				{
 					for (var key in g.Generators)
 					{
-						//TODO We don't support any generators currently, so probably we should mark any generator as unknow shape
 						if (g.Generators[key].ClassName == 'OrgChart2018')
 						{
 							LucidImporter.hasUnknownShapes = true;
-							console.log('Lucid diagram has an Org Chart!');
-							//createOrgChart(obj, graph, lookup, queue);
+							createOrgChart(key, g.Generators[key], g.Data, graph, lookup);
+						}
+						else
+						{
+							LucidImporter.hasUnknownShapes = true;
 						}
 					}
 				}
@@ -6119,8 +6365,11 @@ LucidImporter = {};
 						if (obj.GeneratorData.p.ClassName == 'OrgChart2018')
 						{
 							LucidImporter.hasUnknownShapes = true;
-							console.log('Lucid diagram has an Org Chart!');
-							//createOrgChart(obj, graph, lookup, queue);
+							createOrgChart(obj.GeneratorData.id, obj.GeneratorData.p, obj.GeneratorData.gs, graph, lookup);
+						}
+						else
+						{
+							LucidImporter.hasUnknownShapes = true;
 						}
 					}
 					
@@ -6134,7 +6383,7 @@ LucidImporter = {};
 					
 					if (obj.IsGroup)
 					{
-						var group = createGroup(obj, lookup, edgesGroups, blocksMap);
+						var group = createGroup(obj, lookup, edgesGroups, blocksMap, graph);
 						
 						if (group)
 						{
@@ -6155,7 +6404,7 @@ LucidImporter = {};
 						var obj = g.Groups[key];
 						obj.id = key;
 
-						var group = createGroup(obj, lookup, edgesGroups, blocksMap);
+						var group = createGroup(obj, lookup, edgesGroups, blocksMap, graph)
 						
 						if (group)
 						{
@@ -6198,6 +6447,12 @@ LucidImporter = {};
 				var src = (p.Endpoint1.Block != null) ? lookup[p.Endpoint1.Block] : null;
 				var trg = (p.Endpoint2.Block != null) ? lookup[p.Endpoint2.Block] : null;
 				var e = createEdge(obj, graph, src, trg);
+
+				if ((p.Endpoint1 && p.Endpoint1.Line) || (p.Endpoint2 && p.Endpoint2.Line))
+				{
+					console.log('Edge to Edge case');
+					LucidImporter.hasUnknownShapes = true;
+				}
 				
 				if (src == null && p.Endpoint1 != null)
 				{
@@ -6304,13 +6559,38 @@ LucidImporter = {};
 			try
 			{
 				var allCells = graph.getModel().cells;
+
+				// Computes absolute points and bounds
+				// for edge label placement optimizer
+				graph.view.validate();
 				
 				for (var id in allCells)
 				{
 					var c = allCells[id];
-					delete c.zOrder;
+
+					if (c != null)
+					{
+						normalizeGroup(graph, c);
+						normalizeStyle(graph, c);
+						normalizeEdge(graph, c);
+
+						if (urlParams['lucidchartObject'] == '1' &&
+							c.lucidchartObject != null)
+						{
+							setAttributeForCell(c, 'lucidchartObject',
+								JSON.stringify(c.lucidchartObject, null, 2),
+								graph);
+						}
+
+						delete c.lucidchartObject;
+						delete c.zOrder;
+					}
 				}
-			} catch(e){}
+			}
+			catch(e)
+			{
+				console.log(e);
+			}
 			
 			if (!noSelection)
 				graph.setSelectionCells(select);
@@ -6318,8 +6598,163 @@ LucidImporter = {};
 		finally
 		{
 			graph.getModel().endUpdate();
+		}	
+	};
+
+	// Optimizes edge routing and labels
+	function normalizeEdge(graph, cell)
+	{
+		if (graph.model.contains(cell) && cell.edge)
+		{
+			var state = graph.view.getState(cell);
+
+			// Keeps labels close to the edge
+			if (state != null && cell.children != null)
+			{
+				var box = mxRectangle.fromRectangle(state.paintBounds);
+				box.grow(5);
+
+				for (var i = 0; i < cell.children.length; i++)
+				{
+					var label = graph.view.getState(cell.children[i]);
+					
+					if (label != null && !mxUtils.contains(box,
+						label.paintBounds.x, label.paintBounds.y))
+					{
+						label.cell.geometry.offset = new mxPoint(0, 0);
+					}
+				}
+			}
+
+			// Fixes simple elbow routing
+			var lo = cell.lucidchartObject;
+
+			if (lo != null && lo.Shape == 'elbow' &&
+				lo.ElbowControlPoints == null &&
+				lo.ElbowPoints == null &&
+				state.style['exitX'] != null &&
+				state.style['exitY'] != null &&
+				state.style['entryX'] != null &&
+				state.style['entryY'] != null)
+			{
+				var f = 20;
+				cell.style = mxUtils.setStyle(cell.style, 'exitX', Math.round(state.style['exitX'] * f) / f);
+				cell.style = mxUtils.setStyle(cell.style, 'exitY', Math.round(state.style['exitY'] * f) / f);
+				cell.style = mxUtils.setStyle(cell.style, 'entryX', Math.round(state.style['entryX'] * f) / f);
+				cell.style = mxUtils.setStyle(cell.style, 'entryY', Math.round(state.style['entryY'] * f) / f);
+			}
 		}
-		
+	};
+
+	// Removes duplicate styles
+	function normalizeStyle(graph, cell)
+	{
+		if (graph.model.contains(cell) &&
+			cell.style != null &&
+			cell.style != '')
+		{
+			var entries = cell.style.split(';');
+			var styleMap = {};
+			var result = [];
+
+			for (var i = entries.length - 1; i >= 0; i--)
+			{
+				var tokens = entries[i].split('=');
+
+				if (tokens.length != 2 || styleMap[tokens[0]] == null)
+				{
+					styleMap[tokens[0]] = tokens[1];
+
+					if (entries[i] != '')
+					{
+						result.push(entries[i]);
+					}
+				}
+			}
+
+			cell.style = result.reverse().join(';') + ';';
+		}
+	};
+
+	// Merges groups with background cover cells
+	function normalizeGroup(graph, group)
+	{
+		if (graph.model.contains(group) && group.children != null &&
+			group.geometry != null && group.vertex &&
+			group.style == groupStyle)
+		{
+			var coverCell = null;
+
+			for (var i = 0; i < group.children.length; i++)
+			{
+				if (group.children[i].vertex)
+				{
+					var geo = group.children[i].geometry;
+
+					if (geo != null && geo.x == 0 && geo.y == 0 &&
+						geo.width == group.geometry.width &&
+						geo.height == group.geometry.height)
+					{
+						if (coverCell != null)
+						{
+							// Ignores multiple cover cells
+							return;
+						}
+						else
+						{	
+							coverCell = group.children[i];
+						}
+					}
+				}
+			}
+
+			removeCellFromParent(graph, coverCell);
+		}
+	}
+
+	function removeCellFromParent(graph, cell)
+	{
+		if (cell != null)
+		{
+			var p = cell.parent;
+
+			if (graph.convertValueToString(p) == '')
+			{
+				// Moves edges to parent
+				if (cell.edges != null)
+				{
+					for (var i = 0; i < cell.edges.length; i++)
+					{
+						if (cell.edges[i].source == cell)
+						{
+							cell.edges[i].setTerminal(cell.parent, true);
+						}
+
+						if (cell.edges[i].target == cell)
+						{
+							cell.edges[i].setTerminal(cell.parent, false);
+						}
+					}
+				}
+
+				// Moves children to parent
+				if (cell.children != null && cell.children.length > 0)
+				{
+					var cells = cell.children.slice();
+
+					for (var i = 0; i < cells.length; i++)
+					{
+						p.insert(cells[i]);
+					}
+				}
+
+				graph.cellLabelChanged(p, graph.convertValueToString(cell));
+				p.style = mxUtils.setStyle(mxUtils.setStyle(
+					cell.style, 'container', '1'),
+					'collapsible', '0');
+				cell.removeFromParent();
+			}
+		}
 	};
 
 	function createGraph()
@@ -6451,8 +6886,8 @@ LucidImporter = {};
 					if (line.n1 != null) // Curve
 					{
 						var curve =  NURBSTo(points[line.p2].x, points[line.p2].y, w, h, 
-								points[line.p1].x, points[line.p1].y, line.n1.x, line.n1.y, 
-								points[line.p2].x, points[line.p2].y, line.n2.x, line.n2.y);
+								points[line.p1].x / w, points[line.p1].y / h, line.n1.x / w, line.n1.y / h, 
+								points[line.p2].x / w, points[line.p2].y / h, line.n2.x / w, line.n2.y / h);
 						parts.push(curve);
 					}
 					else //line
@@ -6483,6 +6918,8 @@ LucidImporter = {};
 				text: obj.Text,
 				w: w,
 				h: h,
+				x: obj.BoundingBox.x,
+				y: obj.BoundingBox.y,
 				stencils: stencils
 			};
 		}
@@ -6494,17 +6931,25 @@ LucidImporter = {};
 	
 	LucidImporter.importState = function(state, imgSrcRepl, advImpConfig)
 	{
+		dx = 0;
+		dy = 0;
 		LucidImporter.stencilsMap = {}; //Reset stencils cache
 		LucidImporter.imgSrcRepl = imgSrcRepl; //Use LucidImporter object to store the map since it is used deep inside
 		LucidImporter.advImpConfig = advImpConfig;
 		LucidImporter.globalProps = {};
 		LucidImporter.pageIdsMap = {};
 		LucidImporter.hasUnknownShapes = false;
-		var xml = ['<?xml version=\"1.0\" encoding=\"UTF-8\"?>', '<mxfile>'];
-		
+		LucidImporter.hasOrgChart = false;
+		LucidImporter.hasTimeLine = false;
+		LucidImporter.hasExtImgs = false;
+		var xml = ['<?xml version=\"1.0\" encoding=\"UTF-8\"?>', '<mxfile type="Lucidchart-Import" version="' +
+			EditorUi.VERSION + '" host="' + mxUtils.htmlEntities(window.location.hostname) + 
+			'" agent="' + mxUtils.htmlEntities(navigator.appVersion) + 
+			'" modified="' + mxUtils.htmlEntities(new Date().toISOString()) + '">'];
+
 		if (advImpConfig && advImpConfig.transparentEdgeLabels)
 		{
-			labelStyle = labelStyle.replace('labelBackgroundColor=#ffffff;', 'labelBackgroundColor=none;');
+			labelStyle = labelStyle.replace('labelBackgroundColor=default;', 'labelBackgroundColor=none;');
 		}
 		
 		// Extracts and sorts all pages
@@ -6512,6 +6957,11 @@ LucidImporter = {};
 
 		function addPages(obj)
 		{
+			if (obj.state != null)
+			{
+				EditorUi.debug('convertLucidChart addPages', obj);
+			}
+
 			//Build stencils map 
 			if (obj.Properties)
 			{
@@ -6530,6 +6980,7 @@ LucidImporter = {};
 			{
 				var pg = obj.Pages[id];
 				pg.id = id;
+				pg.Data = obj.Data;
 				pages.push(pg);
 			}
 			
@@ -6554,12 +7005,7 @@ LucidImporter = {};
 				LucidImporter.pageIdsMap[pages[i].id] = i;
 			}
 		};
-		
-		if (state.state != null && urlParams['dev'] == '1' && window.console != null)
-		{
-			console.log(JSON.stringify(JSON.parse(state.state), null, 2));
-		}
-		
+
 		if (state.state != null)
 		{
 			addPages(JSON.parse(state.state));
@@ -6591,7 +7037,7 @@ LucidImporter = {};
  			
 			if (pages[i].Properties != null)
             {
-				if (pages[i].Properties.FillColor)
+				if (pages[i].Properties.FillColor && pages[i].Properties.FillColor != '#ffffff')
 				{
             		node.setAttribute('background', getColor(pages[i].Properties.FillColor));
 				}
@@ -6736,6 +7182,11 @@ LucidImporter = {};
 	{
 		if (style != null && key != null)
 		{
+			if (key == mxConstants.STYLE_ALIGN + 'Global')
+			{
+				key = mxConstants.STYLE_ALIGN;
+			}
+			
 			if (style.includes(';' + key + '='))
 			{
 				return true;
@@ -6750,6 +7201,19 @@ LucidImporter = {};
 		return false;
 	}
 	
+	function getDarkerClr(clr, perc)
+	{
+		function modComp(comp)
+		{
+			var v = Math.round(parseInt('0x' + comp) * perc).toString(16);
+			return v.length == 1? '0' + v : v;
+		}
+		
+		return '#' + modComp(clr.substr(1, 2)) +
+						 		modComp(clr.substr(3, 2)) +
+								modComp(clr.substr(5, 2));
+	};
+					
 	//composite shapes
 	function addCompositeShape(obj, select, graph)
 	{
@@ -6818,16 +7282,19 @@ LucidImporter = {};
 				
 				var brace = null;
 				var label = null;
+				var lbl = convertText(p);
+				//TODO Handle rotation of label correctly in all cases
+				var lblSize = p.Rotation? mxUtils.getSizeForString(lbl.replace(/\n/g, '<br>'), null, null, Math.abs(w - h * 0.125)) : {width: 0, height: 0};
 				
 				if (isRightBrace)
 				{
 					brace = new mxCell('', new mxGeometry(w - h * 0.125, 0,	h * 0.125, h), 'shape=curlyBracket;rounded=1;');
-					label = new mxCell('', new mxGeometry(0, 0,	w - h * 0.125, h), 'strokeColor=none;fillColor=none;');
+					label = new mxCell('', new mxGeometry(lblSize.height, -2 * lblSize.width, w - h * 0.125, h), 'strokeColor=none;fillColor=none;');
 				}
 				else
 				{
 					brace = new mxCell('', new mxGeometry(0, 0,	h * 0.125, h), 'shape=curlyBracket;rounded=1;flipH=1;');
-					label = new mxCell('', new mxGeometry(h * 0.125, 0,	w - h * 0.125, h), 'strokeColor=none;fillColor=none;');
+					label = new mxCell('', new mxGeometry(h * 0.125 - lblSize.height, lblSize.width, w - h * 0.125, h), 'strokeColor=none;fillColor=none;');
 				}
 				
 				v.style = "strokeColor=none;fillColor=none;"
@@ -6840,7 +7307,7 @@ LucidImporter = {};
 				addAllStyles(brace.style, p, a, brace);
 
 				label.vertex = true;
-				label.value = convertText(p);
+				label.value = lbl;
 				v.insert(label);
 				
 				label.style += 	
@@ -6933,7 +7400,7 @@ LucidImporter = {};
 			    var isBPMN = cls.indexOf('BPMN') == 0;
 			    var hasTxt = p[mainTxtFld] != null;
 				
-				v.style = (isPool? 'swimlane;startSize=' + mainTxtHeight + ';' : 'fillColor=none;strokeColor=none;pointerEvents=0;') + 
+				v.style = (isPool? 'swimlane;startSize=' + mainTxtHeight + ';' : 'fillColor=none;strokeColor=none;pointerEvents=0;fontStyle=0;') + 
 					'html=1;whiteSpace=wrap;container=1;collapsible=0;childLayout=stackLayout;' +
 					'resizeParent=1;dropTarget=0;' + (rotatedSL? 'horizontalStack=0;' : '');
 				v.style += addAllStyles(v.style, p, a, v);
@@ -6961,7 +7428,7 @@ LucidImporter = {};
 				var totalOffset = 0; //relative
 				var lane = new Array();
 
-				var laneStyle = 'swimlane;html=1;whiteSpace=wrap;container=1;connectable=0;collapsible=0;startSize=' + laneTxtHeight + ';dropTarget=0;rounded=0;' + 
+				var laneStyle = 'swimlane;html=1;whiteSpace=wrap;container=1;connectable=0;collapsible=0;fontStyle=0;startSize=' + laneTxtHeight + ';dropTarget=0;rounded=0;' + 
 								(rotatedSL? 'horizontal=0;': '') +
 								(isBPMN? 'swimlaneLine=0;fillColor=none;' : '');
 				p['Rotation'] = 0; //Override rotation such that it doesn't mess with our coordinates
@@ -7068,7 +7535,7 @@ LucidImporter = {};
 				v.insert(cols);
 				var y = 0;
 				
-				var rowStyle = 'swimlane;html=1;whiteSpace=wrap;container=1;connectable=0;collapsible=0;dropTarget=0;horizontal=0;startSize=' + rowStartSize + ';';
+				var rowStyle = 'swimlane;html=1;whiteSpace=wrap;container=1;connectable=0;collapsible=0;dropTarget=0;horizontal=0;fontStyle=0;startSize=' + rowStartSize + ';';
 				
 				for (var j = 0; j < rowsNum; j++)
 				{
@@ -7105,7 +7572,7 @@ LucidImporter = {};
 									getTextVerticalAlignment(p[curRow]);
 				}
 				
-				var colStyle = 'swimlane;html=1;whiteSpace=wrap;container=1;connectable=0;collapsible=0;dropTarget=0;startSize=' + colStartSize + ';';
+				var colStyle = 'swimlane;html=1;whiteSpace=wrap;container=1;connectable=0;collapsible=0;dropTarget=0;fontStyle=0;startSize=' + colStartSize + ';';
 				var x = 0;
 				
 				for (var j = 0; j < colsNum; j++)
@@ -7153,7 +7620,7 @@ LucidImporter = {};
 				else
 				{
 					v.style = 'swimlane;startSize=25;html=1;whiteSpace=wrap;container=1;collapsible=0;childLayout=stackLayout;' +
-								'resizeParent=1;dropTarget=0;rounded=1;arcSize=20;fontStyle=0';
+								'resizeParent=1;dropTarget=0;rounded=1;arcSize=20;fontStyle=0;';
 					v.value = convertText(p.State, true);
 					v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
 					v.style += getFillColor(p, a).replace('fillColor', 'swimlaneFillColor');
@@ -7167,7 +7634,7 @@ LucidImporter = {};
 				break;
 			case 'GSDFDProcessBlock' : 
 				var startSize = Math.round(p.nameHeight * scale);
-				v.style = 'shape=swimlane;html=1;rounded=1;arcSize=10;collapsible=0;startSize=' + startSize;
+				v.style = 'shape=swimlane;html=1;rounded=1;arcSize=10;collapsible=0;fontStyle=0;startSize=' + startSize;
 				v.value = convertText(p.Number, true);
 				v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
 				v.style += getFillColor(p, a).replace('fillColor', 'swimlaneFillColor');
@@ -7181,7 +7648,7 @@ LucidImporter = {};
 			case 'AndroidDevice' :
 				if (p.AndroidDeviceName != null)
 				{
-					
+					var rotation = getRotation(p, a, v);
 					v.style = "fillColor=#000000;strokeColor=#000000;";
 					var background = null;
 					var keyboard = null;
@@ -7190,35 +7657,36 @@ LucidImporter = {};
 					if (p.AndroidDeviceName == 'Tablet' || p.AndroidDeviceName == 'Mini Tablet' ||  (p.AndroidDeviceName == 'custom' && p.CustomDeviceType == 'Tablet'))
 					{
 						v.style += "shape=mxgraph.android.tab2;"
-						background = new mxCell('', new mxGeometry(w * 0.112, h * 0.077, w * 0.77, h * 0.85), '');
+						background = new mxCell('', new mxGeometry(0.112, 0.077, w * 0.77, h * 0.85), rotation);
 						
 						if (p.KeyboardShown)
 						{
-							keyboard = new mxCell('', new mxGeometry(w * 0.112, h * 0.727, w * 0.77, h * 0.2), 'shape=mxgraph.android.keyboard;');
+							keyboard = new mxCell('', new mxGeometry(0.112, 0.727, w * 0.77, h * 0.2), 'shape=mxgraph.android.keyboard;' + rotation);
 						}
 
 						if (!p.FullScreen)
 						{
-							statusBar = new mxCell('', new mxGeometry(w * 0.112, h * 0.077, w * 0.77, h * 0.03), 'shape=mxgraph.android.statusBar;strokeColor=#33b5e5;fillColor=#000000;fontColor=#33b5e5;fontSize=' + h * 0.015 + ';');
+							statusBar = new mxCell('', new mxGeometry(0.112, 0.077, w * 0.77, h * 0.03), 'shape=mxgraph.android.statusBar;strokeColor=#33b5e5;fillColor=#000000;fontColor=#33b5e5;fontSize=' + h * 0.015 + ';' + rotation);
 						}
 					}
 					else if (p.AndroidDeviceName == 'Large Phone' || p.AndroidDeviceName == 'Phone' ||  (p.AndroidDeviceName == 'custom' && p.CustomDeviceType == 'Phone'))
 					{
 						v.style += "shape=mxgraph.android.phone2;"
-						background = new mxCell('', new mxGeometry(w * 0.04, h * 0.092, w * 0.92, h * 0.816), '');
+						background = new mxCell('', new mxGeometry(0.04, 0.092, w * 0.92, h * 0.816), rotation);
 						
 						if (p.KeyboardShown)
 						{
-							keyboard = new mxCell('', new mxGeometry(w * 0.04, h * 0.708, w * 0.92, h * 0.2), 'shape=mxgraph.android.keyboard;');
+							keyboard = new mxCell('', new mxGeometry(0.04, 0.708, w * 0.92, h * 0.2), 'shape=mxgraph.android.keyboard;' + rotation);
 						}
 						
 						if (!p.FullScreen)
 						{
-							statusBar = new mxCell('', new mxGeometry(w * 0.04, h * 0.092, w * 0.92, h * 0.03), 'shape=mxgraph.android.statusBar;strokeColor=#33b5e5;fillColor=#000000;fontColor=#33b5e5;fontSize=' + h * 0.015 + ';');
+							statusBar = new mxCell('', new mxGeometry(0.04, 0.092, w * 0.92, h * 0.03), 'shape=mxgraph.android.statusBar;strokeColor=#33b5e5;fillColor=#000000;fontColor=#33b5e5;fontSize=' + h * 0.015 + ';' + rotation);
 						}
 					}
 					
 					background.vertex = true;
+					background.geometry.relative = true;
 					v.insert(background);
 					
 					if (p.Scheme == "Dark")
@@ -7233,12 +7701,14 @@ LucidImporter = {};
 					if (keyboard != null)
 					{
 						keyboard.vertex = true;
+						keyboard.geometry.relative = true;
 						v.insert(keyboard);
 					}
 
 					if (statusBar != null)
 					{
 						statusBar.vertex = true;
+						statusBar.geometry.relative = true;
 						v.insert(statusBar);
 					}
 				}
@@ -8725,7 +9195,7 @@ LucidImporter = {};
 					allStyle = mxConstants.STYLE_STROKEWIDTH + '=1;' + allStyle;
 				}
 				
-				v.style = 'group;dropTarget=0;' + rotation;
+				v.style = groupStyle + rotation;
 				var circleW = w * 0.8;
 				var lineW = w - circleW;
 				var circle = new mxCell('', new mxGeometry(0.2, 0, circleW, h), 'shape=ellipse;' + allStyle);
@@ -8759,7 +9229,7 @@ LucidImporter = {};
 					allStyle = mxConstants.STYLE_STROKEWIDTH + '=1;' + allStyle;
 				}
 				
-				v.style = 'group;dropTarget=0;' + rotation;
+				v.style = groupStyle + rotation;
 				var line1W = w * 0.225;
 				var line2W = w * 0.1;
 				var circleW = w - line1W - line2W;
@@ -9076,6 +9546,59 @@ LucidImporter = {};
 
 				break;
 			case 'BPMNChoreography' :
+				try
+				{
+					var st = getColor(p.FillColor);
+					var darkerClr = getDarkerClr(st, 0.75);
+					
+					var fz = getFontSize(p.Name).match(/\d+/);
+					var th = Math.max(mxUtils.getSizeForString(p.Name.t, fz? fz[0] : defaultFontSize, null, w - 10).height, 24);
+					st = 'swimlaneFillColor=' + darkerClr + ';'
+					
+					v.value = convertText(p.Name);
+					v.style += 'swimlane;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;' + st +
+						'startSize=' + th + ';spacingLeft=3;spacingRight=3;fontStyle=0;' +
+						getLabelStyle(p.Name, isLastLblHTML);
+					v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
+					
+					var curY = th;
+					var fz = getFontSize(p.TaskName).match(/\d+/);
+					var curH = p.TaskHeight? p.TaskHeight * scale : Math.max(mxUtils.getSizeForString(p.TaskName.t, fz? fz[0] : defaultFontSize, null, w - 10).height + 15, 24);
+					var task = new mxCell('', new mxGeometry(0, curY, w, curH), 'part=1;html=1;resizeHeight=0;spacingTop=-1;spacingLeft=3;spacingRight=3;');
+					task.value = convertText(p.TaskName);
+					task.vertex = true;
+					v.insert(task);
+					task.style += getLabelStyle(p.TaskName, isLastLblHTML);
+					task.style += addAllStyles(task.style, p, a, task, isLastLblHTML);
+					curY += curH;
+					
+					var item = [];
+					
+					for (var i = 0; i < p.Fields; i++)
+					{
+						var pTxt = p['Participant' + (i + 1)];
+						var fz = getFontSize(pTxt).match(/\d+/);
+						var curH =  Math.max(mxUtils.getSizeForString(pTxt.t, fz? fz[0] : defaultFontSize, null, w - 10).height, 24);
+						item[i] = new mxCell('', new mxGeometry(0, curY, w, curH), 'part=1;html=1;resizeHeight=0;fillColor=none;spacingTop=-1;spacingLeft=3;spacingRight=3;');
+						curY += curH;
+						item[i].vertex = true;
+						v.insert(item[i]);
+						item[i].style += getLabelStyle(pTxt, isLastLblHTML);
+						item[i].style += addAllStyles(item[i].style, p, a, item[i], isLastLblHTML);
+						item[i].value = convertText(pTxt);
+					}
+	/*
+	TODO: Add support for the following
+					"bpmnChoreographyType": 0, //Plus sign
+	                "initiatingMessage": 0, //Envelop before
+	                "responseMessage": 0, //Envelop after
+	*/
+				}
+				catch(e)
+				{
+					//Ignore
+					console.log(e);
+				}
 				break;
 			case 'BPMNConversation' :
 				v.style += 'shape=hexagon;perimeter=hexagonPerimeter2;';
@@ -9145,6 +9668,12 @@ LucidImporter = {};
 				switch (p.bpmnDataType)
 				{
 					case 0:
+						v.value = convertText(p.Text);
+						
+						if (p.Text && !p.Text.t)
+						{
+							p.Text.t = ' '; //Such that Title is catched and added later!
+						}
 						break;
 					case 1:
 						var item1 = new mxCell('', new mxGeometry(0.5, 1, 12, 10), 'shape=parallelMarker;part=1;');
@@ -9249,7 +9778,27 @@ LucidImporter = {};
 				item1.style += addAllStyles(item1.style, p, a, item1, isLastLblHTML);
 
 				break;
+			case 'OrgBlock' :
+				var lbls = '';
 				
+				for (var key in p.Active)
+				{
+					if (key == 'Photo' || !p.Active[key]) continue;
+					
+					lbls += convertText(p[key], true);
+				}
+				
+				if (p.Active.Photo)
+				{
+					var imgSize = w * 0.4;
+					v.style += 'spacingLeft=' + imgSize + ';imageWidth=' + (imgSize - 4) + ';imageHeight=' + (imgSize - 4) + 
+						';imageAlign=left;imageVerticalAlign=top;image=' + mapImgUrl(p.Photo);
+				}
+				
+				v.value = lbls;
+				v.style += addAllStyles(v.style, p, a, v, true);
+
+				break;				
 			case 'DefaultTableBlock' :
 				try
 				{
@@ -9268,7 +9817,7 @@ LucidImporter = {};
 					}
 					
 					//TODO Apply table layout when it's ready
-					v.style = 'group;dropTarget=0;';
+					v.style = groupStyle;
 					
 					var bandedClr1 = p['BandedColor1'];
 					var bandedClr2 = p['BandedColor2'];
@@ -9337,7 +9886,7 @@ LucidImporter = {};
 								
 								for (var l = j + 1; l < j + spans.w; l++)
 								{
-									skipCells[l + ',' + j] = true;
+									skipCells[k + ',' + l] = true;
 								}
 							}
 							
@@ -9356,7 +9905,7 @@ LucidImporter = {};
 
 							var cell = new mxCell('', new mxGeometry(x, y, cw, ch), 'shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;'
 									+ (hideV? 'left=0;right=0;' : '') + (hideH? 'top=0;bottom=0;' : '')
-									+ createStyle(mxConstants.STYLE_FILLCOLOR, getColor(fillClr), getColor(tblFillClr))
+									+ getFillColor({FillColor: fillClr || tblFillClr})
 									+ createStyle(mxConstants.STYLE_STROKECOLOR, getColor(borderClr), getColor(tblLnClr))
 									+ (borderW != null ? createStyle(mxConstants.STYLE_STROKEWIDTH, Math.round(parseFloat(borderW) * scale), '1') : '')
 									+ (lnOp? lnOp : tblLnOp) 
@@ -9388,7 +9937,10 @@ LucidImporter = {};
 						y += h;
 					}
 				}
-				catch(e){}
+				catch(e)
+				{
+					console.log(e);
+				}
 				break;
 			case 'VSMDedicatedProcessBlock' :
 			case 'VSMProductionControlBlock' :
@@ -9421,7 +9973,7 @@ LucidImporter = {};
 				v.insert(text1);
 				text1.value = convertText(p.Title);
 				text1.style += getLabelStyle(p.Title, isLastLblHTML);
-
+				p.Text = null;
 				break;
 				
 			case 'VSMSharedProcessBlock' :
@@ -9551,9 +10103,17 @@ LucidImporter = {};
 				item3.style += addAllStyles(item3.style, p, a, item3, isLastLblHTML);
 				
 				break;
-			case 'VSMTimelineBlock' :
+			case 'VSMElectronicInformationArrow' : 
+				v.style = 'group;';
+				v.value = convertText(p.Title);
+				v.style += getLabelStyle(p.Title, isLastLblHTML);
+				var edge = new mxCell('', new mxGeometry(0, 0, w, h), 'shape=mxgraph.lean_mapping.electronic_info_flow_edge;html=1;entryX=0;entryY=1;exitX=1;exitY=0;');
+				edge.edge = true;
+				edge.geometry.relative = 1;
+				graph.addCell(edge, v, null, v, v);
 				break;
 			case 'AWSRoundedRectangleContainerBlock2' :
+			case 'AWSRoundedRectangleContainerBlock' :
 				v.style += 'strokeColor=none;fillColor=none;';
 				
 				if (p.Spotfleet)
@@ -10366,7 +10926,12 @@ LucidImporter = {};
 		    	v.style += addAllStyles(v.style, p, a, v);
 
 				break;
-				
+			case 'fpWall' :
+				v.style += 'labelPosition=center;verticalAlign=bottom;verticalLabelPosition=top;';
+				v.value = convertText(p);
+				v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
+				v.style = v.style.replace('rotation=180;', ''); //180 rotation cause the labels to be upside down which doesn't match Lucid 
+			break;
 			case 'fpDoubleDoor' :
 				v.style += 'shape=mxgraph.floorplan.doorDouble;';
 
@@ -11028,7 +11593,7 @@ LucidImporter = {};
 				}
 
 				v.style += addAllStyles(v.style, p, a, v);
-
+				p.Text = null;
 				break;
 			case 'UI2AccordionBlock' :
 				
@@ -11605,7 +12170,10 @@ LucidImporter = {};
 				}
 				
 				break;
-				
+			case 'UI2SelectBlock' : 
+				v.style += 'shape=mxgraph.mockup.forms.comboBox;strokeColor=#999999;fillColor=#ddeeff;align=left;fillColor2=#aaddff;mainText=;fontColor=#666666';
+				v.value = convertText(p.Selected);
+				break;
 			case 'UI2HSliderBlock' :
 			case 'UI2VSliderBlock' :
 				v.style += 'shape=mxgraph.mockup.forms.horSlider;sliderStyle=basic;handleStyle=handle;';
@@ -11648,11 +12216,9 @@ LucidImporter = {};
 				break;
 
 			case 'UI2SearchBlock' :
-				v.style += 'shape=mxgraph.mockup.forms.searchBox;mainText=;flipH=1;align=left;spacingLeft=26;' + 
-					getFontSize(p.Search) +
-					getFontColor(p.Search) + 
-					getFontStyle(p.Search);
 				v.value = convertText(p.Search);
+				v.style += 'shape=mxgraph.mockup.forms.searchBox;mainText=;flipH=1;align=left;spacingLeft=26;' + 
+					getLabelStyle(p.Search, isLastLblHTML);
 				v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
 				
 				break;
@@ -11666,18 +12232,111 @@ LucidImporter = {};
 					fc = 'fillColor=#000000;'
 				}
 				
-				v.style += 'shape=mxgraph.mockup.forms.spinner;spinLayout=right;spinStyle=normal;adjStyle=triangle;mainText=;align=left;spacingLeft=8;' + fc + 
-					getFontSize(p.Number) +
-					getFontColor(p.Number) + 
-					getFontStyle(p.Number);
 				v.value = convertText(p.Number);
+				v.style += 'shape=mxgraph.mockup.forms.spinner;spinLayout=right;spinStyle=normal;adjStyle=triangle;mainText=;align=left;spacingLeft=8;' + fc + 
+					getLabelStyle(p.Number, isLastLblHTML);
 				v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
 				
 				break;
 				
 			case 'UI2TableBlock' :
-				//TODO Add this (probably a table support in general)
-				LucidImporter.hasUnknownShapes = true;
+				//Create table as HTML one
+				try
+				{
+					var fillClr = getColor(p.FillColor), lineClr = getColor(p.LineColor), header, altRow, borderStyle = '', rowH = 20;
+					v.style = 'html=1;overflow=fill;verticalAlign=top;spacing=0;';
+					var htmlTable = '<table style="width:100%;height:100%;border-collapse: collapse;border: 1px solid ' + lineClr + ';">';
+					var csvLines = p.Data.split('\n');
+					
+					if (!p.AltRow || p.AltRow == 'default')
+					{
+						altRow = getDarkerClr(fillClr, 0.95);
+					}
+					else if (p.AltRow == 'none')
+					{
+						altRow = fillClr;
+					}
+					else
+					{
+						altRow = getColor(p.AltRow);
+					}
+					
+					if (!p.Header || p.Header == 'default')
+					{
+						header = getDarkerClr(fillClr, 0.8);
+					}
+					else if (p.Header == 'none')
+					{
+						header = altRow;
+					}
+					else
+					{
+						header = getColor(p.Header);
+					}
+					
+					if (p.GridLines == 'full')
+					{
+						borderStyle = 'border: 1px solid ' + lineClr;
+						rowH = 19;
+					}
+					else if (p.GridLines == 'row')
+					{
+						borderStyle = 'border-bottom: 1px solid ' + lineClr;
+						rowH = 19;
+					}
+					else if (p.GridLines == 'default' || p.GridLines == 'column')
+					{
+						borderStyle = 'border-right: 1px solid ' + lineClr;
+					}
+					
+					csvLines = csvLines.filter(function(l)
+					{
+						return l;
+					});
+					
+					if (/^\{[^}]*\}$/.test(csvLines[csvLines.length - 1]))
+					{
+						csvLines.pop();
+					}
+					
+					var cols = csvLines[0].split(',').length;
+					
+					var emptyRow = '';
+					
+					for (var j = 0; j < cols - 1; j++)
+					{
+						emptyRow += ' , ';
+					}
+							
+					for (var i = csvLines.length; i < Math.ceil(h / 20); i++)
+					{
+						csvLines.push(emptyRow)
+					}
+					
+					for (var i = 0; i < csvLines.length; i++)
+					{
+						htmlTable += '<tr style="height: ' + rowH + 'px;background:' + (i == 0? header : 
+								(i % 2? fillClr : altRow)) + '">';
+						var els = csvLines[i].split(',');
+						
+						for (var j = 0; j < els.length; j++)
+						{
+							var cellProp = p['Cell_' + i + '_' + j];
+							var txtClr = cellProp && cellProp.m && cellProp.m[0] && cellProp.m[0].n == 'c'?  getColor(cellProp.m[0].v) : lineClr;
+							htmlTable += '<td style="height: ' + rowH + 'px;color:' + txtClr + ';' + borderStyle + '">' + mxUtils.htmlEntities(els[j]) + '</td>';
+						}
+						
+						htmlTable += '</tr>';
+					}
+					
+					htmlTable += '</table>';
+					v.value = htmlTable;
+				}
+				catch(e)
+				{
+					//Ignore
+					console.log(e);
+				}
 				break;
 			case 'UI2ButtonBarBlock' :
 				v.style += addAllStyles(v.style, p, a, v);
@@ -11962,13 +12621,14 @@ LucidImporter = {};
 				v.style += 'shape=mxgraph.mockup.misc.progressBar;fillColor2=#888888;barPos=' + (p.ScrollVal * 100) + ';';
 				
 				break;
-				
+			
+			case 'CalloutSquareBlock':
 			case 'UI2TooltipSquareBlock' :
-				v.value = convertText(p.Tip);
+				v.value = convertText(p.Tip || p.Text);
 				v.style += 'html=1;shape=callout;flipV=1;base=13;size=7;position=0.5;position2=0.66;rounded=1;arcSize=' + (p.RoundCorners) + ';' +
-					getLabelStyle(p.Tip, isLastLblHTML);
+					getLabelStyle(p.Tip || p.Text, isLastLblHTML);
 				v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
-				
+				v.geometry.height += 10;
 				break;
 			case 'UI2CalloutBlock' :
 				v.value = convertText(p.Txt);
@@ -12033,7 +12693,7 @@ LucidImporter = {};
 					}
 					
 					v.value = convertText(p.Title);
-					v.style += 'swimlane;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;' + st +
+					v.style += 'swimlane;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;fontStyle=0;marginBottom=0;' + st +
 						'startSize=' + th + ';' +
 						getLabelStyle(p.Title, isLastLblHTML);
 					v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
@@ -12077,15 +12737,13 @@ LucidImporter = {};
 						var extH = p.ExtraHeightSet && i == 1? (p.ExtraHeight * scale) : 0;
 						
 						var curH = Math.round((h - th) * itemH) + extH;
-						item[i] = new mxCell('', new mxGeometry(0, curY, w, curH), 'part=1;html=1;resizeHeight=0;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;');
+						item[i] = new mxCell('', new mxGeometry(0, curY, w, curH), 'part=1;html=1;whiteSpace=wrap;resizeHeight=0;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;');
 						curY += curH;
 						item[i].vertex = true;
 						v.insert(item[i]);
 						item[i].style += st +
 							getOpacity(p, a, item[i]) +
-							getFontSize(p['Text' + (i + 1)]) +
-							getFontColor(p['Text' + (i + 1)]) + 
-							getFontStyle(p['Text' + (i + 1)]);
+							getLabelStyle(p['Text' + (i + 1)], isLastLblHTML);
 						
 						item[i].value = convertText(p['Text' + (i + 1)]);
 					}
@@ -12093,6 +12751,7 @@ LucidImporter = {};
 				else
 				{
 					v.value = convertText(p.Title);
+					v.style += 'align=center;';
 					v.style += 
 						getLabelStyle(p.Title, isLastLblHTML);
 					v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
@@ -12111,14 +12770,16 @@ LucidImporter = {};
 				}
 				
 				v.value = convertText(p.Name);
-				v.style += 'swimlane;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;' + st +
+				v.style += 'swimlane;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;fontStyle=0;marginBottom=0;' + st +
 					'startSize=' + th + ';' +
 					getLabelStyle(p.Name, isLastLblHTML);
 				v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
 
 				if (p.ShadedHeader)
 				{
-					v.style += 'fillColor=#e0e0e0;';
+					var st = getColor(p.FillColor);
+					var darkerClr = getDarkerClr(st, 0.85);
+					v.style += 'fillColor=' + darkerClr + ';';
 				}
 				else
 				{
@@ -12133,14 +12794,12 @@ LucidImporter = {};
 				{
 					var itemH = 0;
 					var curH = p['Field' + (i + 1) + '_h'] * scale;
-					item[i] = new mxCell('', new mxGeometry(0, curY, w, curH), 'part=1;resizeHeight=0;strokeColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;');
+					item[i] = new mxCell('', new mxGeometry(0, curY, w, curH), 'part=1;resizeHeight=0;strokeColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;whiteSpace=wrap;');
 					curY += curH;
 					item[i].vertex = true;
 					v.insert(item[i]);
 					item[i].style += st +
-						getFontSize(p['Field' + (i + 1)]) +
-						getFontColor(p['Field' + (i + 1)]) + 
-						getFontStyle(p['Field' + (i + 1)]);
+						getLabelStyle(p['Field' + (i + 1)], isLastLblHTML);
 
 					if (p.AltRows == 1 && (i % 2 != 0))
 					{
@@ -12168,7 +12827,7 @@ LucidImporter = {};
 				}
 				
 				v.value = convertText(p.Name);
-				v.style += 'swimlane;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;' + st +
+				v.style += 'swimlane;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fontStyle=0;' + st +
 					'startSize=' + th + ';' +
 					getLabelStyle(p.Name, isLastLblHTML);
 
@@ -12197,13 +12856,11 @@ LucidImporter = {};
 				{
 					var itemH = 0;
 
-					key[i] = new mxCell('', new mxGeometry(0, currH, keyW, p['Key' + (i + 1) + '_h'] * scale), 'strokeColor=none;part=1;resizeHeight=0;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;');
+					key[i] = new mxCell('', new mxGeometry(0, currH, keyW, p['Key' + (i + 1) + '_h'] * scale), 'strokeColor=none;part=1;resizeHeight=0;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;whiteSpace=wrap;');
 					key[i].vertex = true;
 					v.insert(key[i]);
 					key[i].style += st +
-						getFontSize(p['Key' + (i + 1)]) +
-						getFontColor(p['Key' + (i + 1)]) + 
-						getFontStyle(p['Key' + (i + 1)]);
+						getLabelStyle(p['Key' + (i + 1)], isLastLblHTML);
 
 					if (p.AltRows == 1 && (i % 2 != 0))
 					{
@@ -12217,13 +12874,11 @@ LucidImporter = {};
 
 					key[i].value = convertText(p['Key' + (i + 1)]);
 					
-					item[i] = new mxCell('', new mxGeometry(keyW, currH, w - keyW, p['Field' + (i + 1) + '_h'] * scale), 'shape=partialRectangle;top=0;right=0;bottom=0;part=1;resizeHeight=0;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;');
+					item[i] = new mxCell('', new mxGeometry(keyW, currH, w - keyW, p['Field' + (i + 1) + '_h'] * scale), 'shape=partialRectangle;top=0;right=0;bottom=0;part=1;resizeHeight=0;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;html=1;whiteSpace=wrap;');
 					item[i].vertex = true;
 					v.insert(item[i]);
 					item[i].style += st +
-						getFontSize(p['Field' + (i + 1)]) +
-						getFontColor(p['Field' + (i + 1)]) + 
-						getFontStyle(p['Field' + (i + 1)]);
+						getLabelStyle(p['Field' + (i + 1)], isLastLblHTML);
 					v.style += addAllStyles(v.style, p, a, v);
 
 					if (p.AltRows == 1 && (i % 2 != 0))
@@ -12253,7 +12908,7 @@ LucidImporter = {};
 					st = 'swimlaneFillColor=#ffffff;'
 				}
 				
-				v.style += 'swimlane;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;' + st +
+				v.style += 'swimlane;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fontStyle=0;' + st +
 					'startSize=' + th + ';' +
 					getLabelStyle(p.Name);
 
@@ -12283,13 +12938,11 @@ LucidImporter = {};
 				{
 					var itemH = 0;
 
-					key[i] = new mxCell('', new mxGeometry(0, currH, keyW, p['Field' + (i + 1) + '_h'] * scale), 'strokeColor=none;part=1;resizeHeight=0;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;');
+					key[i] = new mxCell('', new mxGeometry(0, currH, keyW, p['Field' + (i + 1) + '_h'] * scale), 'strokeColor=none;part=1;resizeHeight=0;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;');
 					key[i].vertex = true;
 					v.insert(key[i]);
 					key[i].style += st +
-						getFontSize(p['Field' + (i + 1)]) +
-						getFontColor(p['Field' + (i + 1)]) + 
-						getFontStyle(p['Field' + (i + 1)]);
+						getLabelStyle(p['Field' + (i + 1)], isLastLblHTML);
 
 					if (p.AltRows == 1 && (i % 2 != 0))
 					{
@@ -12304,13 +12957,11 @@ LucidImporter = {};
 					key[i].value = convertText(p['Field' + (i + 1)]);
 					key[i].style += addAllStyles(key[i].style, p, a, key[i], isLastLblHTML);
 					
-					item[i] = new mxCell('', new mxGeometry(keyW, currH, w - keyW, p['Type' + (i + 1) + '_h'] * scale), 'shape=partialRectangle;top=0;right=0;bottom=0;part=1;resizeHeight=0;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;');
+					item[i] = new mxCell('', new mxGeometry(keyW, currH, w - keyW, p['Type' + (i + 1) + '_h'] * scale), 'shape=partialRectangle;top=0;right=0;bottom=0;part=1;resizeHeight=0;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;');
 					item[i].vertex = true;
 					v.insert(item[i]);
 					item[i].style += st +
-						getFontSize(p['Type' + (i + 1)]) +
-						getFontColor(p['Type' + (i + 1)]) + 
-						getFontStyle(p['Type' + (i + 1)]);
+						getLabelStyle(p['Type' + (i + 1)], isLastLblHTML);
 
 					if (p.AltRows == 1 && (i % 2 != 0))
 					{
@@ -12339,7 +12990,7 @@ LucidImporter = {};
 					st = 'swimlaneFillColor=#ffffff;'
 				}
 				
-				v.style += 'swimlane;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;' + st +
+				v.style += 'swimlane;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fontStyle=0;' + st +
 					'startSize=' + th + ';' +
 					getLabelStyle(p.Name);
 
@@ -12376,13 +13027,11 @@ LucidImporter = {};
 				{
 					var itemH = 0;
 
-					key[i] = new mxCell('', new mxGeometry(0, currH, keyW, p['Key' + (i + 1) + '_h'] * scale), 'strokeColor=none;part=1;resizeHeight=0;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;');
+					key[i] = new mxCell('', new mxGeometry(0, currH, keyW, p['Key' + (i + 1) + '_h'] * scale), 'strokeColor=none;part=1;resizeHeight=0;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;');
 					key[i].vertex = true;
 					v.insert(key[i]);
 					key[i].style += st +
-						getFontSize(p['Key' + (i + 1)]) +
-						getFontColor(p['Key' + (i + 1)]) + 
-						getFontStyle(p['Key' + (i + 1)]);
+						getLabelStyle(p['Key' + (i + 1)], isLastLblHTML);
 
 					if (p.AltRows == 1 && (i % 2 != 0))
 					{
@@ -12397,13 +13046,11 @@ LucidImporter = {};
 					key[i].value = convertText(p['Key' + (i + 1)]);
 					key[i].style += addAllStyles(key[i].style, p, a, key[i], isLastLblHTML);
 					
-					item[i] = new mxCell('', new mxGeometry(keyW, currH, w - keyW - typeW, p['Field' + (i + 1) + '_h'] * scale), 'shape=partialRectangle;top=0;right=0;bottom=0;part=1;resizeHeight=0;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;');
+					item[i] = new mxCell('', new mxGeometry(keyW, currH, w - keyW - typeW, p['Field' + (i + 1) + '_h'] * scale), 'shape=partialRectangle;top=0;right=0;bottom=0;part=1;resizeHeight=0;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;');
 					item[i].vertex = true;
 					v.insert(item[i]);
 					item[i].style += st +
-						getFontSize(p['Field' + (i + 1)]) +
-						getFontColor(p['Field' + (i + 1)]) + 
-						getFontStyle(p['Field' + (i + 1)]);
+						getLabelStyle(p['Field' + (i + 1)], isLastLblHTML);
 
 					if (p.AltRows == 1 && (i % 2 != 0))
 					{
@@ -12418,13 +13065,11 @@ LucidImporter = {};
 					item[i].value = convertText(p['Field' + (i + 1)]);
 					item[i].style += addAllStyles(item[i].style, p, a, item[i], isLastLblHTML);
 					
-					type[i] = new mxCell('', new mxGeometry(w - typeW, currH, typeW, p['Type' + (i + 1) + '_h'] * scale), 'shape=partialRectangle;top=0;right=0;bottom=0;part=1;resizeHeight=0;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;');
+					type[i] = new mxCell('', new mxGeometry(w - typeW, currH, typeW, p['Type' + (i + 1) + '_h'] * scale), 'shape=partialRectangle;top=0;right=0;bottom=0;part=1;resizeHeight=0;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;');
 					type[i].vertex = true;
 					v.insert(type[i]);
 					type[i].style += st +
-						getFontSize(p['Type' + (i + 1)]) +
-						getFontColor(p['Type' + (i + 1)]) + 
-						getFontStyle(p['Type' + (i + 1)]);
+						getLabelStyle(p['Type' + (i + 1)], isLastLblHTML);
 
 					if (p.AltRows == 1 && (i % 2 != 0))
 					{
@@ -12640,7 +13285,8 @@ LucidImporter = {};
 					
 					var drawData = p.DrawData.Data;
 					var svg = '<svg viewBox="0 0 1 1" xmlns="http://www.w3.org/2000/svg">';
-					
+					var imgUrlStyle = null;
+
 					for (var i = 0; i < drawData.length; i++)
 					{
 						var dd = drawData[i];
@@ -12651,6 +13297,11 @@ LucidImporter = {};
 						
 						if (typeof fc == 'object')
 						{
+							if (fc.url != null)
+							{
+								imgUrlStyle = 'shape=image;image=' + mapImgUrl(fc.url) + ';';
+							}
+
 							fc = Array.isArray(fc.cs)? fc.cs[0].c : fillColor; //Approximation TODO Handle it
 						}
 						
@@ -12659,7 +13310,7 @@ LucidImporter = {};
 					
 					svg += '</svg>';
 
-					v.style = 'shape=image;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;' +
+					v.style = imgUrlStyle? imgUrlStyle : 'shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;' +
 						'verticalAlign=top;aspect=fixed;imageAspect=0;image=data:image/svg+xml,' + ((window.btoa) ? btoa(svg) : Base64.encode(svg, true)) + ';';
 				}
 				catch(e){}
@@ -12702,9 +13353,10 @@ LucidImporter = {};
 				
 				v.insert(side);
 				break;
+			case 'VSMTimelineBlock':
 			case 'TimelineBlock':
 			//TODO Timeline shapes are postponed, this code is a work-in-progress
-				try
+			/*	try
 				{
 					var daysMap = {
 						'Sunday': 0,
@@ -12776,10 +13428,12 @@ LucidImporter = {};
 				{
 					console.log(e); //Ignore
 				}
-				break;
+				break;*/
 			case 'TimelineMilestoneBlock':
-				break;
+			//	break;
 			case 'TimelineIntervalBlock':
+				LucidImporter.hasTimeLine = true;
+				LucidImporter.hasUnknownShapes = true;
 				break;
 			case 'FreehandBlock':
 				try
@@ -12797,11 +13451,12 @@ LucidImporter = {};
 						}
 						
 						var stencil = LucidImporter.stencilsMap[p.Stencil.id];
+						var cx = -stencil.x / stencil.w, cy = -stencil.y / stencil.h;
 						
 						for (var i = 0; i < stencil.stencils.length; i++)
 						{
 							var shape = stencil.stencils[i];
-							var cell = new mxCell('', new mxGeometry(0, 0, w, h), 'shape=' + shape.shapeStencil + ';');
+							var cell = new mxCell('', new mxGeometry(cx, cy, w, h), 'shape=' + shape.shapeStencil + ';');
 							var sfc = shape.FillColor, slc = shape.LineColor, slw = shape.LineWidth;
 							
 							if (shape.FillColor == 'prop')
@@ -12869,11 +13524,11 @@ LucidImporter = {};
 									
 									if (gTxtObj.w)
 									{
-										lblGeo.width *= gTxtObj.w;
+										lblGeo.width *= (gTxtObj.w / stencil.w);
 									}									
 									if (gTxtObj.h)
 									{
-										lblGeo.height *= gTxtObj.h;
+										lblGeo.height *= (gTxtObj.h / stencil.h);
 									}
 									if (gTxtObj.x)
 									{
@@ -13110,6 +13765,37 @@ LucidImporter = {};
 				v.value = convertText(p);
 				v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
 			break;
+			case 'PersonRoleBlock' :
+				try
+				{
+					var st = getFillColor(p, a);
+					var th = h/2;
+					st = st.replace('fillColor', 'swimlaneFillColor');
+					
+					if (st == '')
+					{
+						st = 'swimlaneFillColor=#ffffff;'
+					}
+				
+					v.value = convertText(p.Role);
+					v.style += 'swimlane;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;' + st +
+						'startSize=' + th + ';spacingLeft=3;spacingRight=3;fontStyle=0;' +
+						getLabelStyle(p.Role, isLastLblHTML);
+					v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
+					
+					var name = new mxCell('', new mxGeometry(0, h/2, w, h/2), 'part=1;html=1;resizeHeight=0;spacingTop=-1;spacingLeft=3;spacingRight=3;');
+					name.value = convertText(p.Name);
+					name.vertex = true;
+					v.insert(name);
+					name.style += getLabelStyle(p.Name, isLastLblHTML);
+					name.style += addAllStyles(name.style, p, a, name, isLastLblHTML);
+				}
+				catch(e)
+				{
+					//Ignore
+					console.log(e);
+				}
+			break;
 		}
 
 		if (v.style && v.style.indexOf('html') < 0)
@@ -13117,12 +13803,13 @@ LucidImporter = {};
 			v.style += 'html=1;';
 		}
 		
-		if (p.Title && p.Text)
+		if (p.Title && p.Title.t && p.Text && p.Text.t)
 		{
 			try
 			{
 				var geo = v.geometry;
-				var title = new mxCell(convertText(p.Title), new mxGeometry(0, geo.height,geo.width, 10), 'strokeColor=none;fillColor=none;');
+				var title = new mxCell(convertText(p.Title), new mxGeometry(0, geo.height + 4,geo.width, 10), 
+								'strokeColor=none;fillColor=none;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=top;align=center;');
 				title.vertex = true;
 				v.insert(title);
 				v.style += getLabelStyle(p.Title, isLastLblHTML);
@@ -13134,6 +13821,12 @@ LucidImporter = {};
 		}
 				
 		handleTextRotation(v, p);
+		addCustomData(v, p, graph);
+		
+		if (p.Hidden)
+		{
+			v.visible = false;
+		}
 		
 	    return v;
 	};
@@ -13155,9 +13848,9 @@ LucidImporter = {};
 					{
 						lblW = h;
 						lblH = w;
-						var diff = Math.abs(h - w) / 2;
-						x = diff / w;
-						y = -diff/ h;
+						var diff = (h - w) / 2;
+						x = -diff / w;
+						y = diff/ h;
 					}
 					
 					deg += mxUtils.toDegree(p.Rotation);
@@ -13182,94 +13875,273 @@ LucidImporter = {};
 		}
 	};
 	
-	//TODO A lot of work is still needed to build the cell, do the layout, ...
-	function createOrgChart(obj, graph, lookup, queue)
+	function createOrgChart(objId, props, data, graph, lookup)
 	{
+		function getLineTxtStyle(cellDefaultStyle, fieldName)
+		{
+			var style = '';
+			
+			try
+			{
+				for (var i = 0; i < cellDefaultStyle.text.length; i++)
+				{
+					var item = cellDefaultStyle.text[i];
+					
+					if (item[0] == 't_' + fieldName)
+					{
+						for (var key in item[1])
+						{
+							var val = item[1][key];
+							
+							if (!val) continue;
+							
+							switch(key)
+							{
+								case 'font':
+									style += mapFontFamily(val);
+								break;
+								case 'bold':
+									style += 'font-weight: bold;';
+								break;
+								case 'italic':
+									style += 'font-style: italic;';
+								break;
+								case 'underline':
+									style += 'text-decoration: underline;';
+								break;
+								case 'size':
+									style += 'font-size:' + fix1Digit(val * scale) + 'px;';
+								break;
+								case 'color':
+									style += 'color:' + rgbToHex(val).substring(0, 7) + ';';
+								break;
+								case 'fill':
+									style += 'background-color:' + rgbToHex(val).substring(0, 7) + ';';
+								break;
+								case 'align':
+									style += 'text-align:' + val + ';';
+								break;
+							}
+						}
+						
+						break;
+					}
+				}
+			}
+			catch(e){}
+			
+			return style;
+		};
+		
 		try
 		{
-			var chartType = obj.GeneratorData.p.OrgChartBlockType;
-			var fields = obj.GeneratorData.p.FieldNames;
-			var layoutSettings = obj.GeneratorData.p.LayoutSettings;
-			var cellDefaultStyle = obj.GeneratorData.p.BlockItemDefaultStyle;
-			var edgeDefaultStyle = obj.GeneratorData.p.EdgeItemDefaultStyle;
-			var chartDataSrc = obj.GeneratorData.gs.Items.n;
-			var chartData = [];
+			//TODO Cell specific styles and chartType defaults
+			var defImg = 'https://cdn4.iconfinder.com/data/icons/basic-user-interface-elements/700/user-account-profile-human-avatar-face-head--128.png';
+			var chartType = props.OrgChartBlockType;
+			var pos = props.Location;
+			var x = pos.x * scale, y = pos.y * scale;
+			var chartGroup = new mxCell('', new mxGeometry(x, y, 200, 100), 'group');
+			chartGroup.vertex = true;
+			graph.addCell(chartGroup);
+			var fields = props.FieldNames;
+			var layoutSettings = props.LayoutSettings;
+			var cellDefaultStyle = props.BlockItemDefaultStyle || {props: {}};
+			var edgeDefaultStyle = props.EdgeItemDefaultStyle;
 			var parents = {};
-			var idPrefix = Date.now() + '_';
+			var idPrefix = (objId || Date.now()) + '_';
 			
-			for (var i = 0; i < chartDataSrc.length; i++)
+			if (chartType == 4)
 			{
-				var d = chartDataSrc[i];
-				chartData.push(d.f);
-				var id = idPrefix + d.pk;
-				parents[id] = d.ie;
-				var cell = new mxCell('', new mxGeometry(0, 0, 200, 100), '');
+				cellDefaultStyle.props.LineWidth = 0;
+			}
+			
+			var txtStyles = [], marginW = 25, marginH = 40, imgSize = 54, hasImage = true, cellStyle = addAllStyles('', cellDefaultStyle.props, {}, chartGroup, true);
+			
+			if (chartType == 0) //Image top-center
+			{
+				cellStyle += 'spacingTop=' + imgSize + ';imageWidth=' + imgSize + ';imageHeight=' + imgSize + ';imageAlign=center;imageVerticalAlign=top;image=';
+				marginH += imgSize;
+			}
+			else if (chartType == 1 || chartType == 2) //Image to top-left (or outsize top-left which we don't support)
+			{
+				cellStyle += 'spacingLeft=' + imgSize + ';imageWidth=' + (imgSize - 4) + ';imageHeight=' + (imgSize - 4) + ';imageAlign=left;imageVerticalAlign=top;image=';
+				marginW += imgSize;
+			}
+			else if (chartType >= 3)
+			{
+				hasImage = false;
+			}
+			
+			for (var j = 0; j < fields.length; j++)
+			{
+				txtStyles.push(getLineTxtStyle(cellDefaultStyle, fields[j]));
+			}
+			
+			function createNode(pk, pId, dObj)
+			{
+				var id = idPrefix + pk;
+				parents[id] = pId;
+				var lbl = '';
+				
+				for (var j = 0; j < fields.length; j++)
+				{
+					lbl += '<div style="' + txtStyles[j] + '">' + 
+						(dObj[fields[j]] || '&nbsp;') + '</div>';
+				}
+				
+				var size = mxUtils.getSizeForString(lbl);
+				//TODO Is image always in Image/018__ImageUrl__?
+				var imgUrl = mapImgUrl(dObj['Image'] || dObj['018__ImageUrl__']) || defImg;
+								
+				var cell = new mxCell(lbl, new mxGeometry(0, 0, size.width + marginW, size.height + marginH), 
+									cellStyle + (hasImage? imgUrl : ''));
 			    cell.vertex = true;
 				lookup[id] = cell;
-				queue.push({id: id});
+				graph.addCell(cell, chartGroup);	
+			};
+			
+			if (data.Items)
+			{
+				var chartDataSrc = data.Items.n;
+				
+				for (var i = 0; i < chartDataSrc.length; i++)
+				{
+					var d = chartDataSrc[i];
+					createNode(d.pk, d.ie[0]? d.ie[0].nf : null, d.f);
+				}
+			}
+			else
+			{
+				var dataId, derivative = props.ContractMap.derivative;
+
+	 			if (derivative == null)
+				{
+					//We don't have enough samples of this format, TODO improve this
+					var people = props.ContractMap.c.People;
+					dataId = people.id;
+					dataId = dataId.substr(0, dataId.lastIndexOf('_'));
+					
+					for (var j = 0; j < fields.length; j++)
+					{
+						fields[j] = people.f[fields[j]] || fields[j];
+					}
+				}
+				else
+				{
+					for (var i = 0; i < derivative.length; i++)
+					{
+						if (derivative[i].type == 'ForeignKeyGraph')
+						{
+							dataId = derivative[i].c[0].id;
+							dataId = dataId.substr(0, dataId.lastIndexOf('_'));
+						}
+						else if (derivative[i].type == 'MappedGraph')
+						{
+							for (var j = 0; j < fields.length; j++)
+							{
+								fields[j] = derivative[i].nfs[fields[j]] || fields[j];
+							}
+						}
+					}
+				}
+				
+				var chartDataSrc, foreignKey, primaryKey;
+				
+				for (var key in data)
+				{
+					var d = data[key].Collections;
+					
+					for (var key2 in d)
+					{
+						if (key2 == dataId)
+						{
+							chartDataSrc = d[key2].Items;
+						}
+						else if (d[key2].Properties.ForeignKeys && d[key2].Properties.ForeignKeys[0])
+						{
+							foreignKey = d[key2].Properties.ForeignKeys[0].SourceFields[0];
+							primaryKey = d[key2].Properties.Schema.PrimaryKey[0];
+						}
+					}
+					
+					if (chartDataSrc)
+					{
+						break;
+					}
+				}
+				
+				var dupMap = {};
+				
+				for (var id in chartDataSrc)
+				{
+					var d = chartDataSrc[id];
+					var pk = d[primaryKey], fk = d[foreignKey];
+					
+					//Special case where these nodes has duplicate id and should be connected somehow!
+					if (pk == fk)
+					{
+						dupMap[pk] = pk + Date.now();
+						pk = dupMap[pk];
+						d[primaryKey] = pk;
+						createNode(pk, fk, d);
+					}
+					else
+					{
+						createNode(pk, dupMap[fk] || fk, d);
+					}
+				}
 			}
 			
 			for (var key in parents)
 			{
 				var p = parents[key];
 				
-				if (p[0] && p[0].nf)
+				if (p != null)
 				{
-					var src = lookup[idPrefix + p[0].nf];
+					var src = lookup[idPrefix + p];
 					var trg = lookup[key];
-					var e = new mxCell('', new mxGeometry(0, 0, 100, 100), '');
-					e.geometry.relative = true;
-					e.edge = true;
-					graph.addCell(e, null, null, src, trg);
-				}
-			}
-			
-			var chartCells = obj.GeneratorData.povs;
-			
-			if (chartCells != null)
-			{
-				for (var key in chartCells)
-				{
-					var items = chartCells[key];
 					
-					for (var i = 0; i < items.length; i++)
+					if (src != null && trg != null)
 					{
-						var item = JSON.parse(items[i]);
-						console.log(item);
-						if (key.indexOf('-line') > 0) 
+						var e = new mxCell('', new mxGeometry(0, 0, 100, 100), '');
+						e.geometry.relative = true;
+						e.edge = true;
+						
+						if (edgeDefaultStyle != null && edgeDefaultStyle.props != null)
 						{
-							//No Endpoint1 so not useful as is
-//							queue.push({
-//								id: key + i,
-//								IsLine: true,
-//								Action: {
-//									Properties: item
-//								}
-//							});
+							updateCell(e, edgeDefaultStyle.props, graph, null, null, true);
 						}
-						else
-						{
-							//Sometimes it has no boundingBox as well as being not in sync
-//							var mainKey = Object.keys(item)[0];
-//							var constItem = {
-//								"id": key + i,
-//								"IsBlock": true,
-//								"Action": {
-//									"Action": "CreateBlock",
-//									"Class": "DefaultSquareBlock",
-//									"Properties": item
-//								}
-//							};
-//							
-//							constItem.Action.Properties.Text = item[mainKey];
-//							constItem.Action.Properties.TextVAlign = item[mainKey + '_VAlign'];
-//							lookup[key + i] = createVertex(constItem, graph);
-//							queue.push(constItem);
-						}
+						
+						graph.addCell(e, chartGroup, null, src, trg);
 					}
 				}
 			}
+
+			//TODO Support other layout options like LayoutType
+			var levelSps = layoutSettings.NodeSpacing.LevelSeparation * scale;
+			var orgChartLayout = new mxOrgChartLayout(graph, 0, levelSps, layoutSettings.NodeSpacing.NeighborSeparation * scale);
+			orgChartLayout.execute(chartGroup);
+			
+			//Find out the group size and
+			var maxX = 0, maxY = 0;
+			
+			for (var i = 0; chartGroup.children && i < chartGroup.children.length; i++)
+			{
+				var geo = chartGroup.children[i].geometry;
+				maxX = Math.max(maxX, geo.x + geo.width);
+				maxY = Math.max(maxY, geo.y + geo.height); 
+			}
+			
+			var gGeo = chartGroup.geometry;
+			gGeo.y -= levelSps; //Our org chart layout leave a space on top
+			gGeo.width = maxX;
+			gGeo.height = maxY;
 		}
-		catch(e){}
+		catch(e)
+		{
+			LucidImporter.hasUnknownShapes = true;
+			LucidImporter.hasOrgChart = true;
+			console.log(e);
+		}
 	};
 })();

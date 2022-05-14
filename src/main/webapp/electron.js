@@ -1,21 +1,20 @@
 const fs = require('fs')
+const fsProm = require('fs/promises');
 const os = require('os');
 const path = require('path')
 const url = require('url')
-const electron = require('electron')
-const {Menu: menu, shell} = require('electron')
-const ipcMain = electron.ipcMain
-const dialog = electron.dialog
-const app = electron.app
-const BrowserWindow = electron.BrowserWindow
+const {Menu: menu, shell, dialog,
+		clipboard, nativeImage, ipcMain, app, BrowserWindow} = require('electron')
 const crc = require('crc');
 const zlib = require('zlib');
 const log = require('electron-log')
 const program = require('commander')
 const {autoUpdater} = require("electron-updater")
+const PDFDocument = require('pdf-lib').PDFDocument;
 const Store = require('electron-store');
 const store = new Store();
 const ProgressBar = require('electron-progressbar');
+const spawn = require('child_process').spawn;
 const disableUpdate = require('./disableUpdate').disableUpdate() || 
 						process.env.DRAWIO_DISABLE_UPDATE === 'true' || 
 						fs.existsSync('/.flatpak-info'); //This file indicates running in flatpak sandbox
@@ -23,12 +22,22 @@ autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 autoUpdater.autoDownload = false
 
+//Command option to disable hardware acceleration
+if (process.argv.indexOf('--disable-acceleration') !== -1)
+{
+	app.disableHardwareAcceleration();
+}
+
 const __DEV__ = process.env.DRAWIO_ENV === 'dev'
 		
 let windowsRegistry = []
 let cmdQPressed = false
 let firstWinLoaded = false
 let firstWinFilePath = null
+const isMac = process.platform === 'darwin'
+const isWin = process.platform === 'win32'
+let enableSpellCheck = store.get('enableSpellCheck');
+enableSpellCheck = enableSpellCheck != null? enableSpellCheck : isMac;
 
 //Read config file
 var queryObj = {
@@ -43,7 +52,10 @@ var queryObj = {
 	'browser': 0,
 	'picker': 0,
 	'mode': 'device',
-	'export': 'https://exp.draw.io/ImageExport4/export'
+	'export': 'https://convert.diagrams.net/node/export',
+	'disableUpdate': disableUpdate? 1 : 0,
+	'winCtrls': isMac? 0 : 1,
+	'enableSpellCheck': enableSpellCheck? 1 : 0
 };
 
 try
@@ -65,18 +77,22 @@ catch(e)
 
 function createWindow (opt = {})
 {
+	let lastWinSizeStr = store.get('lastWinSize');
+	let lastWinSize = lastWinSizeStr ? lastWinSizeStr.split(',') : [1600, 1200];
+
 	let options = Object.assign(
 	{
-		width: 1600,
-		height: 1200,
+		frame: isMac,
+		backgroundColor: '#FFF',
+		width: parseInt(lastWinSize[0]),
+		height: parseInt(lastWinSize[1]),
+		icon: `${__dirname}/images/drawlogo256.png`,
 		webViewTag: false,
 		'web-security': true,
 		webPreferences: {
-			// preload: path.resolve('./preload.js'),
-			nodeIntegration: true,
-			enableRemoteModule: true,
-			nodeIntegrationInWorker: true,
-			spellcheck: (os.platform() == "darwin" ? true : false)
+			preload: `${__dirname}/electron-preload.js`,
+			spellcheck: enableSpellCheck,
+			contextIsolation: true
 		}
 	}, opt)
 
@@ -87,6 +103,9 @@ function createWindow (opt = {})
 	{
 		console.log('createWindow', opt)
 	}
+
+	//Cannot be read before app is ready
+	queryObj['appLang'] = app.getLocale();
 
 	let ourl = url.format(
 	{
@@ -104,6 +123,29 @@ function createWindow (opt = {})
 		mainWindow.webContents.openDevTools()
 	}
 
+	ipcMain.on('openDevTools', function()
+	{
+		mainWindow.webContents.openDevTools();
+	});
+
+	mainWindow.on('maximize', function()
+	{
+		mainWindow.webContents.send('maximize')
+	});
+
+	mainWindow.on('unmaximize', function()
+	{
+		mainWindow.webContents.send('unmaximize')
+	});
+
+	mainWindow.on('resize', function()
+	{
+		const size = mainWindow.getSize();
+		store.set('lastWinSize', size[0] + ',' + size[1]);
+
+		mainWindow.webContents.send('resize')
+	});
+
 	mainWindow.on('close', (event) =>
 	{
 		const win = event.sender
@@ -118,7 +160,7 @@ function createWindow (opt = {})
 
 		if (contents != null)
 		{
-			contents.executeJavaScript('if(typeof global.__emt_isModified === \'function\'){global.__emt_isModified()}', true)
+			contents.executeJavaScript('if(typeof window.__emt_isModified === \'function\'){window.__emt_isModified()}', true)
 				.then((isModified) =>
 				{
 					if (__DEV__) 
@@ -139,6 +181,8 @@ function createWindow (opt = {})
 							
 						if (choice === 1)
 						{
+							//If user chose not to save, remove the draft
+							contents.executeJavaScript('window.__emt_removeDraft()', true);
 							win.destroy()
 						}
 						else
@@ -177,28 +221,9 @@ function createWindow (opt = {})
 // Some APIs can only be used after this event occurs.
 app.on('ready', e =>
 {
-	//asynchronous
-	ipcMain.on('asynchronous-message', (event, arg) =>
+	ipcMain.on('newfile', (event, arg) =>
 	{
-		console.log(arg)  // prints "ping"
-		event.sender.send('asynchronous-reply', 'pong')
-	})
-	//synchronous
-	ipcMain.on('winman', (event, arg) =>
-	{
-		if (__DEV__) 
-		{
-			console.log('ipcMain.on winman', arg)
-		}
-		
-		if (arg.action === 'newfile')
-		{
-			event.returnValue = createWindow(arg.opt).id
-			
-			return
-		}
-		
-		event.returnValue = 'pong'
+		createWindow(arg)
 	})
 	
     let argv = process.argv
@@ -235,7 +260,9 @@ app.on('ready', e =>
 			.option('-t, --transparent',
 				'set transparent background for PNG')
 			.option('-e, --embed-diagram',
-				'includes a copy of the diagram (for PNG format only)')
+				'includes a copy of the diagram (for PNG, SVG and PDF formats only)')
+			.option('--embed-svg-images',
+				'Embed Images in SVG file (for SVG format only)')
 			.option('-b, --border <border>',
 				'sets the border width around the diagram (default: 0)', parseInt)
 			.option('-s, --scale <scale>',
@@ -262,13 +289,16 @@ app.on('ready', e =>
 		return;
 	}
 	
+	var options = program.opts();
+	
     //Start export mode?
-    if (program.export)
+    if (options.export)
 	{
     	var dummyWin = new BrowserWindow({
 			show : false,
 			webPreferences: {
-				nodeIntegration: true
+				preload: `${__dirname}/electron-preload.js`,
+				contextIsolation: true
 			}
 		});
     	
@@ -281,11 +311,11 @@ app.on('ready', e =>
 	    	var outType = null;
 	    	
 	    	//Format & Output
-	    	if (program.output)
+	    	if (options.output)
 			{
 	    		try
 	    		{
-	    			var outStat = fs.statSync(program.output);
+	    			var outStat = fs.statSync(options.output);
 	    			
 	    			if (outStat.isDirectory())
 					{
@@ -300,7 +330,7 @@ app.on('ready', e =>
 	    		{
 	    			outType = {isFile: true};
 	    			
-	    			format = path.extname(program.output).substr(1);
+	    			format = path.extname(options.output).substr(1);
 					
 					if (!validFormatRegExp.test(format))
 					{
@@ -311,34 +341,35 @@ app.on('ready', e =>
 	    	
 	    	if (format == null)
 			{
-	    		format = program.format;
+	    		format = options.format;
 			}
 	    	
 	    	var from = null, to = null;
 	    	
-	    	if (program.pageIndex != null && program.pageIndex >= 0)
+	    	if (options.pageIndex != null && options.pageIndex >= 0)
 			{
-	    		from = program.pageIndex;
+	    		from = options.pageIndex;
 			}
-	    	else if (program.pageRage && program.pageRage.length == 2)
+	    	else if (options.pageRange && options.pageRange.length == 2)
 			{
-	    		from = program.pageRage[0] >= 0 ? program.pageRage[0] : null;
-	    		to = program.pageRage[1] >= 0 ? program.pageRage[1] : null;
+	    		from = options.pageRange[0] >= 0 ? options.pageRange[0] : null;
+	    		to = options.pageRange[1] >= 0 ? options.pageRange[1] : null;
 			}
 
 			var expArgs = {
 				format: format,
-				w: program.width > 0 ? program.width : null,
-				h: program.height > 0 ? program.height : null,
-				border: program.border > 0 ? program.border : 0,
-				bg: program.transparent ? 'none' : '#ffffff',
+				w: options.width > 0 ? options.width : null,
+				h: options.height > 0 ? options.height : null,
+				border: options.border > 0 ? options.border : 0,
+				bg: options.transparent ? 'none' : '#ffffff',
 				from: from,
 				to: to,
-				allPages: format == 'pdf' && program.allPages,
-				scale: (program.crop && (program.scale == null || program.scale == 1)) ? 1.00001: (program.scale || 1), //any value other than 1 crops the pdf
-				embedXml: program.embedDiagram? '1' : '0',
-				jpegQuality: program.quality,
-				uncompressed: program.uncompressed
+				allPages: format == 'pdf' && options.allPages,
+				scale: (options.crop && (options.scale == null || options.scale == 1)) ? 1.00001: (options.scale || 1), //any value other than 1 crops the pdf
+				embedXml: options.embedDiagram? '1' : '0',
+				embedImages: options.embedSvgImages? '1' : '0',
+				jpegQuality: options.quality,
+				uncompressed: options.uncompressed
 			};
 
 			var paths = program.args;
@@ -383,7 +414,7 @@ app.on('ready', e =>
 				}
 				else if (inStat.isDirectory())
 				{
-					addDirectoryFiles(paths[0], program.recursive);
+					addDirectoryFiles(paths[0], options.recursive);
 				}
 
 				if (files.length > 0)
@@ -467,11 +498,12 @@ app.on('ready', e =>
 												{
 													if (outType.isDir)
 													{
-														outFileName = path.join(program.output, path.basename(curFile)) + '.' + format;
+														outFileName = path.join(options.output, path.basename(curFile,
+															path.extname(curFile))) + '.' + format;
 													}
 													else
 													{
-														outFileName = program.output;
+														outFileName = options.output;
 													}
 												}
 												else if (inStat.isFile())
@@ -502,7 +534,7 @@ app.on('ready', e =>
 													}
 													
 													fs.writeFileSync(realFileName, data, format == 'vsdx'? 'base64' : null, { flag: 'wx' });
-													console.log(curFile + ' -> ' + outFileName);
+													console.log(curFile + ' -> ' + realFileName);
 												}
 												catch(e)
 												{
@@ -557,6 +589,7 @@ app.on('ready', e =>
 	}
     else if (program.rawArgs.indexOf('-h') > -1 || program.rawArgs.indexOf('--help') > -1 || program.rawArgs.indexOf('-V') > -1 || program.rawArgs.indexOf('--version') > -1) //To prevent execution when help/version arg is used
 	{
+		app.quit();
     	return;
 	}
     
@@ -615,7 +648,7 @@ app.on('ready', e =>
 		if (loadEvtCount == 2)
 		{
 			//Sending entire program is not allowed in Electron 9 as it is not native JS object
-			win.webContents.send('args-obj', {args: program.args, create: program.create});
+			win.webContents.send('args-obj', {args: program.args, create: options.create});
 		}
 	}
 	
@@ -644,72 +677,54 @@ app.on('ready', e =>
 		loadFinished();
     });
 	
+	function toggleSpellCheck()
+	{
+		enableSpellCheck = !enableSpellCheck;
+		store.set('enableSpellCheck', enableSpellCheck);
+	};
+
+	ipcMain.on('toggleSpellCheck', toggleSpellCheck);
+
     let updateNoAvailAdded = false;
     
+	function checkForUpdatesFn() 
+	{ 
+		autoUpdater.checkForUpdates();
+		store.set('dontCheckUpdates', false);
+		
+		if (!updateNoAvailAdded) 
+		{
+			updateNoAvailAdded = true;
+			autoUpdater.on('update-not-available', (info) => {
+				dialog.showMessageBox(
+					{
+						type: 'info',
+						title: 'No updates found',
+						message: 'You application is up-to-date',
+					})
+			})
+		}
+	};
+	
 	let checkForUpdates = {
 		label: 'Check for updates',
-		click() 
-		{ 
-			autoUpdater.checkForUpdates();
-			store.set('dontCheckUpdates', false);
-			
-			if (!updateNoAvailAdded) 
-			{
-				updateNoAvailAdded = true;
-				autoUpdater.on('update-not-available', (info) => {
-					dialog.showMessageBox(
-						{
-							type: 'info',
-							title: 'No updates found',
-							message: 'You application is up-to-date',
-						})
-				})
-			}
-		}
+		click: checkForUpdatesFn
 	}
 
-	let template = [{
-	    label: app.name,
-	    submenu: [
-	      {
-	        label: 'Website',
-	        click() { shell.openExternal('https://about.draw.io'); }
-	      },
-	      {
-	        label: 'Support',
-	        click() { shell.openExternal('https://about.draw.io/support'); }
-		  },
-		  checkForUpdates,
-	      {
-	        type: 'separator'
-	      },
-	      {
-	        label: 'Quit',
-	        accelerator: 'CmdOrCtrl+Q',
-	        click() { 
-						cmdQPressed = true;
-						app.quit(); 
-					}
-	      }]
-	}]
-	
-	if (disableUpdate)
+	ipcMain.on('checkForUpdates', checkForUpdatesFn);
+
+	if (isMac)
 	{
-		template[0].submenu.splice(2, 1);
-	}
-	
-	if (process.platform === 'darwin')
-	{
-	    template = [{
+	    let template = [{
 	      label: app.name,
 	      submenu: [
 	        {
 	          label: 'About ' + app.name,
-	          click() { shell.openExternal('https://about.draw.io'); }
+	          click() { shell.openExternal('https://www.diagrams.net'); }
 	        },
 	        {
 	          label: 'Support',
-	          click() { shell.openExternal('https://about.draw.io/support'); }
+	          click() { shell.openExternal('https://github.com/jgraph/drawio-desktop/issues'); }
 			},
 			checkForUpdates,
 			{ type: 'separator' },
@@ -737,11 +752,15 @@ app.on('ready', e =>
 		{
 			template[0].submenu.splice(2, 1);
 		}
+		
+		const menuBar = menu.buildFromTemplate(template)
+		menu.setApplicationMenu(menuBar)
+	}
+	else //hide  menubar in win/linux
+	{
+		menu.setApplicationMenu(null)
 	}
 	
-	const menuBar = menu.buildFromTemplate(template)
-	menu.setApplicationMenu(menuBar)
-
 	autoUpdater.setFeedURL({
 		provider: 'github',
 		repo: 'drawio-desktop',
@@ -755,7 +774,7 @@ app.on('ready', e =>
 })
 
 //Quit from the dock context menu should quit the application directly
-if (process.platform === 'darwin') 
+if (isMac) 
 {
 	app.on('before-quit', function() {
 		cmdQPressed = true;
@@ -772,7 +791,7 @@ app.on('window-all-closed', function ()
 	
 	// On OS X it is common for applications and their menu bar
 	// to stay active until the user quits explicitly with Cmd + Q
-	if (cmdQPressed || process.platform !== 'darwin')
+	if (cmdQPressed || !isMac)
 	{
 		app.quit()
 	}
@@ -859,7 +878,7 @@ autoUpdater.on('update-available', (a, b) =>
 			
 			function reportUpdateError(e)
 			{
-				progressBar.detail = 'Error occured while fetching updates. ' + (e && e.message? e.message : e)
+				progressBar.detail = 'Error occurred while fetching updates. ' + (e && e.message? e.message : e)
 				progressBar._window.setClosable(true);
 			}
 
@@ -1155,6 +1174,44 @@ function exportVsdx(event, args, directFinalize)
     win.webContents.on('did-finish-load', loadFinished);
 };
 
+async function mergePdfs(pdfFiles, xml)
+{
+	//Pass throgh single files
+	if (pdfFiles.length == 1 && xml == null)
+	{
+		return pdfFiles[0];
+	}
+
+	try 
+	{
+		const pdfDoc = await PDFDocument.create();
+		pdfDoc.setCreator('diagrams.net');
+
+		if (xml != null)
+		{	
+			//Embed diagram XML as file attachment
+			await pdfDoc.attach(Buffer.from(xml).toString('base64'), 'diagram.xml', {
+				mimeType: 'application/vnd.jgraph.mxfile',
+				description: 'Diagram Content'
+			  });
+		}
+
+		for (var i = 0; i < pdfFiles.length; i++)
+		{
+			const pdfFile = await PDFDocument.load(pdfFiles[i].buffer);
+			const pages = await pdfDoc.copyPages(pdfFile, pdfFile.getPageIndices());
+			pages.forEach(p => pdfDoc.addPage(p));
+		}
+
+		const pdfBytes = await pdfDoc.save();
+        return Buffer.from(pdfBytes);
+    }
+	catch(e)
+	{
+        throw new Error('Error during PDF combination: ' + e.message);
+    }
+}
+
 //TODO Use canvas to export images if math is not used to speedup export (no capturePage). Requires change to export3.html also
 function exportDiagram(event, args, directFinalize)
 {
@@ -1170,8 +1227,9 @@ function exportDiagram(event, args, directFinalize)
 	{
 		browser = new BrowserWindow({
 			webPreferences: {
+				preload: `${__dirname}/electron-preload.js`,
 				backgroundThrottling: false,
-				nodeIntegration: true
+				contextIsolation: true
 			},
 			show : false,
 			frame: false,
@@ -1183,7 +1241,19 @@ function exportDiagram(event, args, directFinalize)
 		browser.loadURL(`file://${__dirname}/export3.html`);
 
 		const contents = browser.webContents;
+		var pageByPage = (args.format == 'pdf' && !args.print), from, pdfs;
 
+		if (pageByPage)
+		{
+			from = args.allPages? 0 : parseInt(args.from || 0);
+			to = args.allPages? 1000 : parseInt(args.to || 1000) + 1; //The 'to' will be corrected later
+			pdfs = [];
+
+			args.from = from;
+			args.to = from;
+			args.allPages = false;
+		}
+			
 		contents.on('did-finish-load', function()
 	    {
 			//Set finalize here since it is call in the reply below
@@ -1202,12 +1272,19 @@ function exportDiagram(event, args, directFinalize)
 				ipcMain.once('export-finalize', finalize);
 			}
 
-			ipcMain.once('render-finished', (evt, bounds) =>
+			function renderingFinishHandler(evt, renderInfo)
 			{
+				if (renderInfo == null)
+				{
+					event.reply('export-error');
+					return;
+				}
+
+				var pageCount = renderInfo.pageCount, bounds = null;
 				//For some reason, Electron 9 doesn't send this object as is without stringifying. Usually when variable is external to function own scope
 				try
 				{
-					bounds = JSON.parse(bounds.bounds);
+					bounds = JSON.parse(renderInfo.bounds);
 				}
 				catch(e)
 				{
@@ -1325,9 +1402,24 @@ function exportDiagram(event, args, directFinalize)
 					}
 					else
 					{
-						contents.printToPDF(pdfOptions).then((data) => 
+						contents.printToPDF(pdfOptions).then(async (data) => 
 						{
-							event.reply('export-success', data);
+							pdfs.push(data);
+							to = to > pageCount? pageCount : to;
+							from++;
+							
+							if (from < to)
+							{
+								args.from = from;
+								args.to = from;
+								ipcMain.once('render-finished', renderingFinishHandler);
+								contents.send('render', args);
+							}
+							else
+							{
+								data = await mergePdfs(pdfs, args.embedXml == '1' ? args.xml : null);
+								event.reply('export-success', data);
+							}
 						})
 						.catch((error) => 
 						{
@@ -1348,7 +1440,9 @@ function exportDiagram(event, args, directFinalize)
 				{
 					event.reply('export-error', 'Error: Unsupported format');
 				}
-			});
+			};
+			
+			ipcMain.once('render-finished', renderingFinishHandler);
 
 			if (args.format == 'xml')
 			{
@@ -1382,3 +1476,535 @@ function exportDiagram(event, args, directFinalize)
 };
 
 ipcMain.on('export', exportDiagram);
+
+//================================================================
+// Renderer Helper functions
+//================================================================
+
+const { O_SYNC, O_CREAT, O_WRONLY, O_TRUNC } = fs.constants;
+const DRAFT_PREFEX = '.$';
+const OLD_DRAFT_PREFEX = '~$';
+const DRAFT_EXT = '.dtmp';
+const BKP_PREFEX = '.$';
+const OLD_BKP_PREFEX = '~$';
+const BKP_EXT = '.bkp';
+
+function isConflict(origStat, stat)
+{
+	return stat != null && origStat != null && stat.mtimeMs != origStat.mtimeMs;
+};
+
+function getDraftFileName(fileObject)
+{
+	let filePath = fileObject.path;
+	let draftFileName = '', counter = 1, uniquePart = '';
+
+	do
+	{
+		draftFileName = path.join(path.dirname(filePath), DRAFT_PREFEX + path.basename(filePath) + uniquePart + DRAFT_EXT);
+		uniquePart = '_' + counter++;
+	} while (fs.existsSync(draftFileName));
+
+	return draftFileName;
+};
+
+async function getFileDrafts(fileObject)
+{
+	let filePath = fileObject.path;
+	let draftsPaths = [], drafts = [], draftFileName, counter = 1, uniquePart = '';
+
+	do
+	{
+		draftsPaths.push(draftFileName);
+		draftFileName = path.join(path.dirname(filePath), DRAFT_PREFEX + path.basename(filePath) + uniquePart + DRAFT_EXT);
+		uniquePart = '_' + counter++;
+	} while (fs.existsSync(draftFileName)); //TODO this assume continuous drafts names
+
+	//Port old draft files to new prefex
+	counter = 1;
+	uniquePart = '';
+	let draftExists = false;
+
+	do
+	{
+		draftFileName = path.join(path.dirname(filePath), OLD_DRAFT_PREFEX + path.basename(filePath) + uniquePart + DRAFT_EXT);
+		draftExists = fs.existsSync(draftFileName);
+		
+		if (draftExists)
+		{
+			const newDraftFileName = path.join(path.dirname(filePath), DRAFT_PREFEX + path.basename(filePath) + uniquePart + DRAFT_EXT);
+			await fsProm.rename(draftFileName, newDraftFileName);
+			draftsPaths.push(newDraftFileName);
+		}
+
+		uniquePart = '_' + counter++;
+	} while (draftExists); //TODO this assume continuous drafts names
+
+	//Skip the first null element
+	for (let i = 1; i < draftsPaths.length; i++)
+	{
+		try
+		{
+			let stat = await fsProm.lstat(draftsPaths[i]);
+			drafts.push({data: await fsProm.readFile(draftsPaths[i], 'utf8'), 
+						created: stat.ctimeMs,
+						modified: stat.mtimeMs,
+						path: draftsPaths[i]});
+		}
+		catch (e){} // Ignore
+	}
+
+	return drafts;
+};
+
+async function saveDraft(fileObject, data)
+{
+	if (data == null || data.length == 0)
+	{
+		throw new Error('empty data'); 
+	}
+	else
+	{
+		var draftFileName = fileObject.draftFileName || getDraftFileName(fileObject);
+		await fsProm.writeFile(draftFileName, data, 'utf8');
+		
+		if (isWin)
+		{
+			try
+			{
+				// Add Hidden attribute:
+				spawn("attrib", ["+h", draftFileName]);
+			} catch(e) {}
+		}
+
+		return draftFileName;
+	}
+}
+
+async function saveFile(fileObject, data, origStat, overwrite, defEnc)
+{
+	var retryCount = 0;
+	var backupCreated = false;
+	var bkpPath = path.join(path.dirname(fileObject.path), BKP_PREFEX + path.basename(fileObject.path) + BKP_EXT);
+	const oldBkpPath = path.join(path.dirname(fileObject.path), OLD_BKP_PREFEX + path.basename(fileObject.path) + BKP_EXT);
+	var writeEnc = defEnc || fileObject.encoding;
+
+	var writeFile = async function()
+	{
+		if (data == null || data.length == 0)
+		{
+			throw new Error('empty data');
+		}
+		else
+		{			
+			let fh;
+
+			try
+			{
+				// O_SYNC is for sync I/O and reduce risk of file corruption
+				fh = await fsProm.open(fileObject.path, O_SYNC | O_CREAT | O_WRONLY | O_TRUNC);
+				await fsProm.writeFile(fh, data, writeEnc);
+			}
+			finally
+			{
+				await fh?.close();
+			}
+
+			let stat2 = await fsProm.stat(fileObject.path);
+			// Workaround for possible writing errors is to check the written
+			// contents of the file and retry 3 times before showing an error
+			let writtenData = await fsProm.readFile(fileObject.path, writeEnc);
+			
+			if (data != writtenData)
+			{
+				retryCount++;
+				
+				if (retryCount < 3)
+				{
+					return await writeFile();
+				}
+				else
+				{
+					throw new Error('all saving trials failed');
+				}
+			}
+			else
+			{
+				//We'll keep the backup file in case the original file is corrupted. TODO When should we delete the backup file?
+				if (backupCreated)
+				{
+					//fs.unlink(bkpPath, (err) => {}); //Ignore errors!
+
+					//Delete old backup file with old prefix
+					if (fs.existsSync(oldBkpPath))
+					{
+						fs.unlink(oldBkpPath, (err) => {}); //Ignore errors
+					}
+				}
+
+				return stat2;
+			}
+		}
+	};
+	
+	async function doSaveFile(isNew)
+	{
+		if (!isNew)
+		{
+			//Copy file to backup file (after conflict and stat is checked)
+			let bkpFh;
+
+			try
+			{
+				//Use file read then write to open the backup file direct sync write to reduce the chance of file corruption
+				let fileContent = await fsProm.readFile(fileObject.path, writeEnc);
+				bkpFh = await fsProm.open(bkpPath, O_SYNC | O_CREAT | O_WRONLY | O_TRUNC);
+				await fsProm.writeFile(bkpFh, fileContent, writeEnc);
+				backupCreated = true;
+			}
+			catch (e) 
+			{
+				if (__DEV__)
+				{
+					console.log('Backup file writing failed', e); //Ignore
+				}
+			}
+			finally 
+			{
+				await bkpFh?.close();
+
+				if (isWin)
+				{
+					try
+					{
+						// Add Hidden attribute:
+						spawn("attrib", ["+h", bkpPath]);
+					} catch(e) {}
+				}
+			}
+		}
+
+		return await writeFile();
+	};
+	
+	if (overwrite)
+	{
+		return await doSaveFile(true);
+	}
+	else
+	{
+		let stat = fs.existsSync(fileObject.path)?
+					await fsProm.stat(fileObject.path) : null;
+
+		if (stat && isConflict(origStat, stat))
+		{
+			throw new Error('conflict');
+		}
+		else
+		{
+			return await doSaveFile(stat == null);
+		}
+	}
+};
+
+async function writeFile(path, data, enc)
+{
+	return await fsProm.writeFile(path, data, enc);
+};
+
+function getAppDataFolder()
+{
+	try
+	{
+		var appDataDir = app.getPath('appData');
+		var drawioDir = appDataDir + '/draw.io';
+		
+		if (!fs.existsSync(drawioDir)) //Usually this dir already exists
+		{
+			fs.mkdirSync(drawioDir);
+		}
+		
+		return drawioDir;
+	}
+	catch(e) {}
+	
+	return '.';
+};
+
+function getDocumentsFolder()
+{
+	//On windows, misconfigured Documents folder cause an exception
+	try
+	{
+		return app.getPath('documents');
+	}
+	catch(e) {}
+	
+	return '.';
+};
+
+function checkFileExists(pathParts)
+{
+	let filePath = path.join(...pathParts);
+	return {exists: fs.existsSync(filePath), path: filePath};
+};
+
+async function showOpenDialog(defaultPath, filters, properties)
+{
+	return dialog.showOpenDialogSync({
+		defaultPath: defaultPath,
+		filters: filters,
+		properties: properties
+	});
+};
+
+async function showSaveDialog(defaultPath, filters)
+{
+	return dialog.showSaveDialogSync({
+		defaultPath: defaultPath,
+		filters: filters
+	});
+};
+
+async function installPlugin(filePath)
+{
+	var pluginsDir = path.join(getAppDataFolder(), '/plugins');
+	
+	if (!fs.existsSync(pluginsDir))
+	{
+		fs.mkdirSync(pluginsDir);
+	}
+	
+	var pluginName = path.basename(filePath);
+	var dstFile = path.join(pluginsDir, pluginName);
+	
+	if (fs.existsSync(dstFile))
+	{
+		throw new Error('fileExists');
+	}
+	else
+	{
+		await fsProm.copyFile(filePath, dstFile);
+	}
+
+	return {pluginName: pluginName, selDir: path.dirname(filePath)};
+}
+
+function uninstallPlugin(plugin)
+{
+	var pluginsFile = path.join(getAppDataFolder(), '/plugins', plugin);
+	        	
+	if (fs.existsSync(pluginsFile))
+	{
+		fs.unlinkSync(pluginsFile);
+	}
+}
+
+function dirname(path_p)
+{
+	return path.dirname(path_p);
+}
+
+async function readFile(filename, encoding)
+{
+	return await fsProm.readFile(filename, encoding);
+}
+
+async function fileStat(file)
+{
+	return await fsProm.stat(file);
+}
+
+async function isFileWritable(file)
+{
+	try 
+	{
+		await fsProm.access(file, fs.constants.W_OK);
+		return true;
+	}
+	catch (e)
+	{
+		return false;
+	}
+}
+
+function clipboardAction(method, data)
+{
+	if (method == 'writeText')
+	{
+		clipboard.writeText(data);
+	}
+	else if (method == 'readText')
+	{
+		return clipboard.readText();
+	}
+	else if (method == 'writeImage')
+	{
+		clipboard.write({image: 
+			nativeImage.createFromDataURL(data.dataUrl), html: '<img src="' +
+			data.dataUrl + '" width="' + data.w + '" height="' + data.h + '">'});
+	}
+}
+
+async function deleteFile(file) 
+{
+	await fsProm.unlink(file);
+}
+
+function windowAction(method)
+{
+	let win = BrowserWindow.getFocusedWindow();
+
+	if (win)
+	{
+		if (method == 'minimize')
+		{
+			win.minimize();
+		}
+		else if (method == 'maximize')
+		{
+			win.maximize();
+		}
+		else if (method == 'unmaximize')
+		{
+			win.unmaximize();
+		}
+		else if (method == 'close')
+		{
+			win.close();
+		}
+		else if (method == 'isMaximized')
+		{
+			return win.isMaximized();
+		}
+		else if (method == 'removeAllListeners')
+		{
+			win.removeAllListeners();
+		}
+	}
+}
+
+const allowedUrls = /^(?:https?|mailto|tel|callto):/i;
+
+function openExternal(url)
+{
+	//Only open http(s), mailto, tel, and callto links
+	if (allowedUrls.test(url))
+	{
+		shell.openExternal(url);
+	}
+}
+
+function watchFile(path)
+{
+	let win = BrowserWindow.getFocusedWindow();
+
+	if (win)
+	{
+		fs.watchFile(path, (curr, prev) => {
+			try
+			{
+				win.webContents.send('fileChanged', {
+					path: path,
+					curr: curr,
+					prev: prev
+				});
+			}
+			catch (e) {} // Ignore
+		});
+	}
+}
+
+function unwatchFile(path)
+{
+	fs.unwatchFile(path);
+}
+
+function getCurDir()
+{
+	return __dirname;
+}
+
+ipcMain.on("rendererReq", async (event, args) => 
+{
+	try
+	{
+		let ret = null;
+
+		switch(args.action)
+		{
+		case 'saveFile':
+			ret = await saveFile(args.fileObject, args.data, args.origStat, args.overwrite, args.defEnc);
+			break;
+		case 'writeFile':
+			ret = await writeFile(args.path, args.data, args.enc);
+			break;
+		case 'saveDraft':
+			ret = await saveDraft(args.fileObject, args.data);
+			break;
+		case 'getFileDrafts':
+			ret = await getFileDrafts(args.fileObject);
+			break;
+		case 'getAppDataFolder':
+			ret = await getAppDataFolder();
+			break;
+		case 'getDocumentsFolder':
+			ret = await getDocumentsFolder();
+			break;
+		case 'checkFileExists':
+			ret = await checkFileExists(args.pathParts);
+			break;
+		case 'showOpenDialog':
+			ret = await showOpenDialog(args.defaultPath, args.filters, args.properties);
+			break;
+		case 'showSaveDialog':
+			ret = await showSaveDialog(args.defaultPath, args.filters);
+			break;
+		case 'installPlugin':
+			ret = await installPlugin(args.filePath);
+			break;
+		case 'uninstallPlugin':
+			ret = await uninstallPlugin(args.plugin);
+			break;
+		case 'dirname':
+			ret = await dirname(args.path);
+			break;
+		case 'readFile':
+			ret = await readFile(args.filename, args.encoding);
+			break;
+		case 'clipboardAction':
+			ret = await clipboardAction(args.method, args.data);
+			break;
+		case 'deleteFile':
+			ret = await deleteFile(args.file);
+			break;
+		case 'fileStat':
+			ret = await fileStat(args.file);
+			break;
+		case 'isFileWritable':
+			ret = await isFileWritable(args.file);
+			break;
+		case 'windowAction':
+			ret = await windowAction(args.method);
+			break;
+		case 'openExternal':
+			ret = await openExternal(args.url);
+			break;
+		case 'watchFile':
+			ret = await watchFile(args.path);
+			break;
+		case 'unwatchFile':	
+			ret = await unwatchFile(args.path);
+			break;
+		case 'getCurDir':
+			ret = await getCurDir();
+			break;
+		};
+
+		event.reply('mainResp', {success: true, data: ret, reqId: args.reqId});
+	}
+	catch (e)
+	{
+		event.reply('mainResp', {error: true, msg: e.message, e: e, reqId: args.reqId});
+	}
+});

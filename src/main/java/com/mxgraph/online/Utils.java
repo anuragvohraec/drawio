@@ -13,12 +13,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.SecureRandom;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
-
-import com.mxgraph.model.mxGeometry;
-import com.mxgraph.util.mxPoint;
 
 /**
  * 
@@ -36,6 +34,8 @@ public class Utils
 		private static final long serialVersionUID = 1239597891574347740L;
 	}
 
+	private static SecureRandom randomSecure = new SecureRandom();
+	
 	/**
 	 * 
 	 */
@@ -60,8 +60,8 @@ public class Utils
 
 		for (int i = 0; i < length; i++)
 		{
-			rtn.append(TOKEN_ALPHABET.charAt(
-					(int) Math.floor(Math.random() * TOKEN_ALPHABET.length())));
+			int offset = randomSecure.nextInt(TOKEN_ALPHABET.length());
+			rtn.append(TOKEN_ALPHABET.substring(offset,offset+1));
 		}
 
 		return rtn.toString();
@@ -214,25 +214,6 @@ public class Utils
 
 			return result;
 		}
-	}
-
-	/**
-	 * Rotates the given geometry (in place) by the given rotation (in degrees).
-	 */
-	public static void rotatedGeometry(mxGeometry geo, double rotation,
-			double cx, double cy)
-	{
-		rotation = Math.toRadians(rotation);
-		double cos = Math.cos(rotation), sin = Math.sin(rotation);
-
-		double x = geo.getCenterX() - cx;
-		double y = geo.getCenterY() - cy;
-
-		double x1 = x * cos - y * sin;
-		double y1 = y * cos + x * sin;
-
-		geo.setX(Math.round(x1 + cx - geo.getWidth() / 2));
-		geo.setY(Math.round(y1 + cy - geo.getHeight() / 2));
 	}
 
 	/**
@@ -488,4 +469,16 @@ public class Utils
 		return head;
 	}
 
+	public static boolean isNumeric (String str)
+	{ 
+		try
+		{  
+			Double.parseDouble(str);  
+			return true;
+		}
+		catch(NumberFormatException e)
+		{  
+			return false;  
+		}  
+	}
 }

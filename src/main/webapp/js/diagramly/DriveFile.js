@@ -13,12 +13,6 @@ DriveFile = function(ui, data, desc)
 mxUtils.extend(DriveFile, DrawioFile);
 
 /**
- * Workaround for changing etag after save is higher autosave delay to allow
- * for preflight etag update and decrease possible conflicts on file save.
- */
-//DriveFile.prototype.autosaveDelay = 2500;
-
-/**
  * Delay for last save in ms.
  */
 DriveFile.prototype.saveDelay = 0;
@@ -190,6 +184,11 @@ DriveFile.prototype.saveFile = function(title, revision, success, error, unloadi
 					try
 					{
 						var lastDesc = this.desc;
+						
+						if (this.sync != null)
+						{
+							this.sync.fileSaving();
+						}
 	
 						this.ui.drive.saveFile(this, realRevision, mxUtils.bind(this, function(resp, savedData)
 						{
@@ -423,7 +422,7 @@ DriveFile.prototype.saveAs = function(filename, success, error)
  */
 DriveFile.prototype.rename = function(title, success, error)
 {
-	var etag = this.getCurrentEtag();
+	var rev = this.getCurrentRevisionId();
 	
 	this.ui.drive.renameFile(this.getId(), title, mxUtils.bind(this, function(desc)
 	{
@@ -433,7 +432,7 @@ DriveFile.prototype.rename = function(title, success, error)
 
 			if (this.sync != null)
 			{
-				this.sync.descriptorChanged(etag);
+				this.sync.descriptorChanged(rev);
 			}
 			
 			this.save(true, success, error);
@@ -445,7 +444,7 @@ DriveFile.prototype.rename = function(title, success, error)
 			
 			if (this.sync != null)
 			{
-				this.sync.descriptorChanged(etag);
+				this.sync.descriptorChanged(rev);
 			}
 			
 			if (success != null)
@@ -538,6 +537,73 @@ DriveFile.prototype.isEditable = function()
 DriveFile.prototype.isSyncSupported = function()
 {
 	return true;
+};
+
+/**
+ * Hook for subclassers.
+ */
+DriveFile.prototype.isRealtimeSupported = function()
+{
+	return true;
+};
+
+/**
+ * Returns true if all changes should be sent out immediately.
+ */
+DriveFile.prototype.isRealtimeOptional = function()
+{
+	return this.sync != null && this.sync.isConnected();
+};
+
+/**
+ * Returns true if all changes should be sent out immediately.
+ */
+DriveFile.prototype.setRealtimeEnabled = function(value, success, error)
+{
+	if (this.sync != null)
+	{
+		this.ui.drive.executeRequest({
+			'url': '/files/' + this.getId() + '/properties?alt=json&supportsAllDrives=true',
+			'method': 'POST',
+			'contentType': 'application/json; charset=UTF-8',
+			'params': {
+				'key': 'collaboration',
+				'value': (value) ? 'enabled' :
+					((urlParams['fast-sync'] != '0') ?
+						'disabled' : '')
+			}
+		}, mxUtils.bind(this, function()
+		{
+			this.loadDescriptor(mxUtils.bind(this, function(desc)
+			{
+				if (desc != null)
+				{
+					this.sync.descriptorChanged(this.getCurrentEtag());
+					this.sync.updateDescriptor(desc);
+					success();
+				}
+				else
+				{
+					error();
+				}
+			}), error);
+		}), error);
+	}
+	else
+	{
+		error();
+	}
+};
+
+/**
+ * Returns true if all changes should be sent out immediately.
+ */
+DriveFile.prototype.isRealtimeEnabled = function()
+{
+	var collab = this.ui.drive.getCustomProperty(this.desc, 'collaboration');
+
+	return (DrawioFile.prototype.isRealtimeEnabled.apply(this, arguments) &&
+		collab != 'disabled') || collab == 'enabled';
 };
 
 /**
@@ -703,10 +769,10 @@ DriveFile.prototype.loadPatchDescriptor = function(success, error)
  */
 DriveFile.prototype.patchDescriptor = function(desc, patch)
 {
-	DrawioFile.prototype.patchDescriptor.apply(this, arguments);
-	
 	desc.headRevisionId = patch.headRevisionId;
 	desc.modifiedDate = patch.modifiedDate;
+	
+	DrawioFile.prototype.patchDescriptor.apply(this, arguments);
 };
 
 /**

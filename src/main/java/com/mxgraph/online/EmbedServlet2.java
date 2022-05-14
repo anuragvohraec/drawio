@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import com.google.appengine.api.utils.SystemProperty;
 
@@ -271,7 +271,7 @@ public class EmbedServlet2 extends HttpServlet
 				{
 					if (names[i].equals("*"))
 					{
-						js.append(readXmlFile("/js/shapes.min.js", false));
+						js.append(readXmlFile("/js/shapes-14-6-5.min.js", false));
 						result.append(
 								"'" + readXmlFile("/stencils.xml", true) + "'");
 					}
