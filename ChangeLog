@@ -1,3 +1,185 @@
+21-AUG-2022: 20.2.6
+
+- Updates to latest GCP icon set [DS-898]
+- Changes language menu icon to SVG [DS-897]
+- Use relative URL for service worker [2740]
+
+18-AUG-2022: 20.2.5
+
+- [conf cloud] Adds support for anon users by using display name instead of email [DS-895]
+- [conf cloud] Adds private repository support to embed diagram github option  [DID-5931]
+- [conf cloud] Fixes hi res preview setting in viewer [DID-5978]
+
+15-AUG-2022: 20.2.4
+
+- [conf cloud] Adds support for legacy diagramly macros [DID-5823]
+
+03-AUG-2022: 20.2.3
+
+- [conf cloud] Fixes adding diagrams to unsaved global templates [DID-5761]
+
+26-JUL-2022: 20.2.2
+
+- Uses proxy for loading from template URL [DND-629]
+- [conf cloud] Fixes issue in page update of pageIDs import [DID-5641]
+
+26-JUL-2022: 20.2.1
+
+- Adds statistics to realtime CF worker
+- Adds checksums for merge(File) error logging
+
+22-JUL-2022: 20.2.0
+
+- Changes real-time collaboration CF worker to use the same DO for multiple files
+
+21-JUL-2022: 20.1.4
+
+- Fixes dark mode switch overlaps embed buttons
+- Fixes embed button styles in dark mode
+- Uses proxy for CSV descriptor URL if CSP is used
+
+20-JUL-2022: 20.1.3
+
+- Fixes curved/rounded checkbox in diagram style tab
+- Restores update of default curved/rounded style
+- Adds border width and type for color scheme [2924]
+- Fixes ignored expand style for image change [2921]
+
+19-JUL-2022: 20.1.2
+
+- Update mermaid to v9.1.3
+- Removes Advanced PDF export when printPdfExport is true
+- Adds A/S/D/F/X/C, moves Ctrl+(Shift)+K/X shortcuts
+- Fixes page background if ui URL parameter is used
+- Adds label in dialog/tooltip if diagram translated
+- Uses default browser language for online app
+
+12-JUL-2022: 20.1.1
+
+- Closes secret manager resources
+
+11-JUL-2022: 20.1.0
+
+- [conf cloud] Trial to add archived spaces support to Gliffy mass import
+- Improves performance for CSV parsing (RFC 4180)
+- Uses gcloud secret manager
+- [conf cloud] Changed page IDs export name to draw.io Export
+- [conf cloud] Using Page IDs import/export in cloud/server
+- [conf cloud] Added archived spaces support to Gliffy mass import
+- Changes  pusher.properties to pusher_properties
+
+29-JUN-2022: 20.0.4
+
+- [conf cloud] Adds tags to viewer/lightbox toolbar
+- Adds initial miro import (non-production)
+- Disables math typesetting for plain text [2899]
+
+22-JUN-2022: 20.0.3
+
+- Fixes ignored error codes for loading templates
+- Fixes new tab for insert from template URL [2891]
+- Validates dialog size after window resize [2883]
+- Fixes page tabs overflow after format panel toggle
+- Adds Lithuanian and Latvian translations
+
+21-JUN-2022: 20.0.2
+
+- Fixes autosize and text editor with spacing [2732]
+- Fixes embed mode with math typesetting [2879]
+- Fixes math rendering in embed code for html files
+
+12-JUN-2022: 20.0.1
+
+- Fixes bold math in print output for Chrome [2873]
+- Disables MathJax for Internet Explorer
+- Adds MathJax callback, fixes math in PDF export
+- Fixes style changes override default style [2164]
+
+11-JUN-2022: 20.0.0
+
+- Fixes font style button state before typing [2398]
+- Fixes overwritten style for new cell in CSV import
+- Updates to MathJax 3
+
+08-JUN-2022: 19.0.3
+
+- Adds allowlist for allowed constructors in mxCodec
+- Fixes possible NPE with no local storage [2850]
+- Handles service worker permission error in promise
+- Adds fixedWidth to limit autosize to height [2732]
+
+07-JUN-2022: 19.0.2
+
+- Fixes isNode check, handling of HTML in node names
+- Fixes cell value Element type check in mxCellCodec
+- Changes mxStylesheetCodec.allowEval to false
+
+06-JUN-2022: 19.0.1
+
+- Fixes handling of cell ID in CSV import [DID-5225]
+
+03-JUN-2022: 19.0.0
+
+- Removes IE 11 support
+- Updates mermaid.js to 9.1.1
+- Fixes updating existing cells in CSV import [2796]
+
+02-JUN-2022: 18.2.1
+
+- Updates JSZip to 3.10.0
+- Ignores only cells with hidden state in layouts
+- Fixes reset of document overflow in viewer [2822]
+- Adds support for orgchart layouts in CSV import
+- Updates AWS
+
+31-MAY-2022: 18.2.0
+
+- Fixes inconsistent menus in sketch theme
+- Fixes ignored XML data for importing embedded SVG
+- Fixes ignored double arrow marker selection [2839]
+- Fixes NPE with regex in find/replace dialog [2833]
+- Fixes link icons in dark mode
+- Fixes main button hover state in conf sketch macro
+
+26-MAY-2022: 18.1.3
+
+- Adds spacing dialog for parallels layout
+- Adds allowlist for layout constructor names
+- Adds JSON values for childLayout styles
+- Adds size check for fetched connection data
+- Allows custom protocols in links
+
+23-MAY-2022: 18.1.2
+
+- Limits export proxy URL
+
+20-MAY-2022: 18.1.1
+
+- [VSDX import] Fixes case when theme index is incorrect
+- Checks stencil name parameter in embed servlet
+- Adds DOM_PURIFY_CONFIG global variable
+- Check env var is set in ExportProxy
+
+19-MAY-2022: 18.0.8
+
+- Deletes unused ExportProxyServlet
+
+17-MAY-2022: 18.0.7
+
+- Sets setInstanceFollowRedirects(false) in proxyservlet
+- Fixes issue in state redirect of AbsAuth
+- Changes regex for CORS check
+
+16-MAY-2022: 18.0.6
+
+- Moves sanitize URL to Utils, adds extra IPv6 check
+- Adds additional checks for hyperlinks
+
+15-MAY-2022: 18.0.5
+
+- Adds isLinkLocalAddress() to address checks
+- Limits well known servlet to serving single file
+
 14-MAY-2022: 18.0.4
 
 - Fixes type error for diffsync with overlays [2808]
